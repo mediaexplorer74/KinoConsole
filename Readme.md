@@ -16,7 +16,7 @@ Sadly, its W10M developing stopped... No new features. I am interesting in KinoC
 
 ## Result
 - Draft / Damaged
-- No more time finish this work... but I'm still trying to complete my hard way ))
+- I haven't much time... but I'm still trying to complete my strang "KinoConsole reburn" idea ))
 
 ## References / License
 - https://www.windowscentral.com/kinoconsole-review KinoConsole review: Stream and play PC games on your Windows Phone :: By Paul Acevedo last updated August 02, 2014
