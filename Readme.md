@@ -12,11 +12,11 @@ Sadly, its W10M developing stopped... No new features. I am interesting in KinoC
 ## My 2 cents
 - Appx Decomp.
 - Fast code/architecture research
-- WP8 -> W10M code "rebase" ("refactor.") - 5 % only  
+- WP8 -> W10M code "rebase" ("refactor.") - 5 % ready  
 
 ## Result
 - Draft / Damaged
-- I haven't much time... but I'm still trying to complete my strang "KinoConsole reburn" idea ))
+- I haven't much time... but I'm still trying to complete my strange "KinoConsole reburn" idea
 
 ## References / License
 - https://www.windowscentral.com/kinoconsole-review KinoConsole review: Stream and play PC games on your Windows Phone :: By Paul Acevedo last updated August 02, 2014
