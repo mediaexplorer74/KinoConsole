@@ -1,12 +1,12 @@
 ﻿// Decompiled with JetBrains decompiler
-// Type: RateMyApp.LocalizedStrings
-// Assembly: RateMyApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 24764F99-C481-4414-9E6E-223BAD44A77B
-// Assembly location: C:\Users\Admin\Desktop\re\KC\RateMyApp.dll
+// Type: KinoConsole.LocalizedStrings
+// Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
+// Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
 
-using RateMyApp.Resources;
+using KinoConsole.Resources;
 
-namespace RateMyApp
+namespace KinoConsole
 {
   public class LocalizedStrings
   {

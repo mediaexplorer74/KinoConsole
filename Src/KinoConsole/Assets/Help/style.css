@@ -1,0 +1,46 @@
+body {
+  background-color: white;
+  color: #333333;
+  font-family: Segoe UI;
+  font-size: 14pt;
+}
+ul.touchable li {
+  padding-top:8px;
+  padding-bottom:8px;
+}
+#navigointi a { 
+	background-image: url(grafiikka/gradient30px.gif);
+	background-repeat: repeat-x
+	background-position: left bottom; 
+}
+#navigointi a:hover { 
+	background-position: left top; 
+} 
+#navigointi ul li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+#navigointi {
+	/* muista varata tyhj‰‰ tilaa leveyssuunnassa koska
+	k‰ytt‰j‰ saattaa suurentaa fonttia */
+	width: 200px; 
+	/* rivin vaihtuminen voidaan est‰‰ fonttia suurennettaessa */
+	white-space: nowrap;
+}
+#navigointi li { 
+	display: inline; /* ulottuvuudet m‰‰ritell‰‰n a-elementille */
+}
+#navigointi li a, #navigointi li a:hover { 
+	display: block; /* ulottuvuudet m‰‰ritell‰‰n a-elementille */
+	margin: 0; 
+	padding: 2px 7px; 
+	width: 50%;
+}
+
+#navigointi li a {
+	background: #000;
+}
+#navigointi li a:hover { 
+	background: #ccc;
+}

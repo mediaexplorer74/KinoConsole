@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<kinoconsole>
+  <app>
+    <name>Next Car Game</name>
+    <buttonList>
+      <button name="buttonLT" visible="true" top="0" left="40" width="100" height="100" opacity="1" />
+      <button name="buttonRT" visible="true" top="0" left="650" width="100" height="100" opacity="1" />
+      <button name="buttonJoystick" visible="false" top="250" left="20" width="200" height="200" opacity="1" enableGyroscope="true" joystickSensitivity="0" />
+    </buttonList>
+  </app>
+  <app>
+    <name>Hearthstone</name>
+    <buttonList>
+      <button name="buttonRT" visible="true" top="0" left="650" width="100" height="100" opacity="1" />
+    </buttonList>
+  </app>
+  <app>
+    <name>Ridge Racer™ Unbounded Demo</name>
+    <buttonList>
+      <button name="buttonLT" visible="true" top="0" left="40" width="100" height="100" opacity="1" />
+      <button name="buttonRT" visible="true" top="0" left="650" width="100" height="100" opacity="1" />
+      <button name="buttonJoystick" visible="false" top="250" left="20" width="200" height="200" opacity="1" enableGyroscope="true" joystickSensitivity="0" />
+    </buttonList>
+  </app>
+  <app>
+    <name>Diablo III</name>
+    <buttonList>
+      <button name="buttonLT" visible="true" top="0" left="40" width="100" height="100" opacity="1" />
+      <button name="buttonRT" visible="true" top="0" left="650" width="100" height="100" opacity="1" />
+      <button name="buttonJoystick" visible="false" top="250" left="20" width="200" height="200" opacity="1" enableGyroscope="true" joystickSensitivity="0" />
+    </buttonList>
+  </app>
+  <app>
+    <name>DiRT Showdown Demo</name>
+    <buttonList>
+      <button name="buttonA" visible="true" top="347.57388305664062" left="730.20050048828125" width="100" height="100" opacity="1" />
+      <button name="buttonLT" visible="true" top="157.29428100585937" left="737.73260498046875" width="100" height="100" opacity="1" />
+      <button name="buttonRT" visible="true" top="34.612518310546875" left="736.89434814453125" width="100" height="100" opacity="1" />
+      <button name="buttonJoystick" visible="true" top="263" left="42" width="150" height="150" opacity="1" enableGyroscope="false" joystickSensitivity="1" />
+    </buttonList>
+  </app>
+  <app>
+    <name>Braid Demo</name>
+    <buttonList>
+      <button name="buttonA" visible="true" top="145" left="680" width="100" height="100" opacity="0.7" />
+      <button name="buttonB" visible="true" top="78" left="744" width="100" height="100" opacity="0.7" />
+      <button name="buttonX" visible="true" top="78" left="612" width="100" height="100" opacity="0.7" />
+      <button name="buttonY" visible="true" top="12" left="680" width="100" height="100" opacity="0.7" />
+      <button name="buttonJoystick" visible="true" top="116" left="37" width="150" height="150" opacity="0.8" enableGyroscope="false" joystickSensitivity="1" />
+    </buttonList>
+  </app>
+  <app>
+    <name>Braid</name>
+    <buttonList>
+      <button name="buttonA" visible="true" top="145" left="680" width="100" height="100" opacity="0.7" />
+      <button name="buttonB" visible="true" top="78" left="744" width="100" height="100" opacity="0.7" />
+      <button name="buttonX" visible="true" top="78" left="612" width="100" height="100" opacity="0.7" />
+      <button name="buttonY" visible="true" top="12" left="680" width="100" height="100" opacity="0.7" />
+      <button name="buttonJoystick" visible="true" top="116" left="37" width="150" height="150" opacity="0.8" enableGyroscope="false" joystickSensitivity="1" />
+    </buttonList>
+  </app>
+</kinoconsole>
