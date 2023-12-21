@@ -116,6 +116,7 @@ namespace NativeLib
 
     public extern event FlurryErrorHandler FlurryError;
 
+
     [MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     public extern void Close();
   }

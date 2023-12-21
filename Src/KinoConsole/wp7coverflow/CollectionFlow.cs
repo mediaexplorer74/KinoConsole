@@ -1,8 +1,6 @@
 ﻿// Decompiled with JetBrains decompiler
 // Type: wp7coverflow.CollectionFlow
-// Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
-// Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
+
 
 using System.ComponentModel;
 using System.Windows;
@@ -38,11 +36,13 @@ namespace wp7coverflow
       DependencyPropertyChangedEventArgs e)
     {
       CollectionFlow collectionFlow = (CollectionFlow) sender;
-      if (collectionFlow.Panel == null || collectionFlow.Panel.FocusedItemIndex == collectionFlow.SelectedItemIndex || ((PresentationFrameworkCollection<object>) collectionFlow.Items).Count <= collectionFlow.SelectedItemIndex)
+      if (collectionFlow.Panel == null 
+                || collectionFlow.Panel.FocusedItemIndex == collectionFlow.SelectedItemIndex 
+                || (collectionFlow.Items).Count <= collectionFlow.SelectedItemIndex)
         return;
+
       collectionFlow.Panel.FocusedItemIndex = (int) e.NewValue;
 
-      //(PresentationFrameworkCollection<object>) 
       collectionFlow.SelectedItem = (collectionFlow.Items)[collectionFlow.SelectedItemIndex];
     }
 
@@ -52,7 +52,6 @@ namespace wp7coverflow
       {
         this.Panel.FocusedItemIndex = this.SelectedItemIndex;
 
-                //(PresentationFrameworkCollection<object>) 
         this.SelectedItem = (this.Items)[this.SelectedItemIndex];
       }
       return base.GetContainerForItemOverride();

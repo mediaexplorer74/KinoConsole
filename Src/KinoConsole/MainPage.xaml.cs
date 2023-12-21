@@ -1,8 +1,6 @@
 ﻿// Decompiled with JetBrains decompiler
 // Type: KinoConsole.MainPage
-// Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
-// Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
+
 
 using FlurryWP8SDK;
 using FlurryWP8SDK.Models;
@@ -32,6 +30,11 @@ using System.Windows;
 using Windows.ApplicationModel.Store;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using wp7coverflow;
 
 
@@ -41,33 +44,33 @@ namespace KinoConsole
     {
         private List<MainPage.AppInfo> appList = new List<MainPage.AppInfo>();
         private List<string> imageList = new List<string>();
-        private bool ignoreTap = Environment.DeviceType == 1;
+        private bool ignoreTap = false;//Environment.DeviceType == 1;
         private DispatcherTimer searchTimer = new DispatcherTimer();
         private DispatcherTimer splashTimer = new DispatcherTimer();
         private DispatcherTimer testTimer = new DispatcherTimer();
         private bool splashDelay = true;
         private string mSSID;
         private bool mShowHelp;
-        private AdControl adControl;
+        //private AdControl adControl;
         private IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
         private int namePrefixNum;
         private double deltaX;
         private static readonly string InAppProductKey = "kinoconsole.pro";
-        internal Grid LayoutRoot;
-        internal TextBlock gamesLibrary;
-        internal StackPanel collection;
-        internal CollectionFlow ImageList;
-        internal StackPanel searchInfo;
-        internal TextBlock searchText0;
-        internal TextBlock searchText1;
-        internal TextBlock searchText2;
-        internal ProgressBar searchBar;
-        internal StackPanel appInfo;
-        internal TextBlock appName;
-        internal TextBlock appServer;
-        internal TextBlock appDetail;
-        internal AdView admob;
-        private bool _contentLoaded;
+        //internal Grid LayoutRoot;
+        //internal TextBlock gamesLibrary;
+        //internal StackPanel collection;
+        //internal CollectionFlow ImageList;
+        //internal StackPanel searchInfo;
+        //internal TextBlock searchText0;
+        //internal TextBlock searchText1;
+        //internal TextBlock searchText2;
+        //internal ProgressBar searchBar;
+        //internal StackPanel appInfo;
+        //internal TextBlock appName;
+        //internal TextBlock appServer;
+        //internal TextBlock appDetail;
+        //internal AdView admob;
+        //private bool _contentLoaded;
 
         public MainPage()
         {
@@ -525,7 +528,7 @@ namespace KinoConsole
                     storeForApplication.DeleteFile(str);
                 using (IsolatedStorageFileStream file = storeForApplication.CreateFile(str))
                 {
-                    WriteableBitmap writeableBitmap1 = new WriteableBitmap((BitmapSource)bitmap);
+                    WriteableBitmap writeableBitmap1 = new WriteableBitmap(32,32);//((BitmapSource)bitmap);
                     Image image = new Image();
                     ((FrameworkElement)image).Height = (double)((BitmapSource)bitmap).PixelWidth;
                     ((FrameworkElement)image).Width = (double)((BitmapSource)bitmap).PixelHeight;
@@ -574,24 +577,25 @@ namespace KinoConsole
             }
         }
 
-        private void adControl_ErrorOccurred(object sender, Microsoft.Advertising.AdErrorEventArgs e)
-        {
-            ((UIElement)this.adControl).Visibility = (Visibility)1;
-            ((UIElement)this.admob).Visibility = (Visibility)0;
-        }
+        //private void adControl_ErrorOccurred(object sender, Microsoft.Advertising.AdErrorEventArgs e)
+        //{
+        //    ((UIElement)this.adControl).Visibility = (Visibility)1;
+        //    ((UIElement)this.admob).Visibility = (Visibility)0;
+        //}
 
-        private void adControl_AdRefreshed(object sender, EventArgs e)
-        {
-        }
+        //private void adControl_AdRefreshed(object sender, EventArgs e)
+        //{
+        //}
 
-        private void AdmobReceived(object sender, AdEventArgs e)
-        {
-        }
+        //private void AdmobReceived(object sender, AdEventArgs e)
+        //{
+        //}
 
-        private void AdmobFailed(object sender, GoogleAds.AdErrorEventArgs errorCode)
-        {
-        }
+        //private void AdmobFailed(object sender, GoogleAds.AdErrorEventArgs errorCode)
+        //{
+        //}
 
+        /*
         [DebuggerNonUserCode]
         public void InitializeComponent()
         {
@@ -614,6 +618,7 @@ namespace KinoConsole
             this.appDetail = (TextBlock)((FrameworkElement)this).FindName("appDetail");
             this.admob = (AdView)((FrameworkElement)this).FindName("admob");
         }
+        */
 
         private class AppInfo
         {

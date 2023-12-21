@@ -1,8 +1,6 @@
 ﻿// Decompiled with JetBrains decompiler
 // Type: KinoConsole.RemotePage
-// Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
-// Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
+
 
 using FlurryWP8SDK;
 //using GoogleAds;
@@ -30,15 +28,18 @@ using System.Windows;
 //using System.Windows.Shapes;
 //using System.Windows.Threading;
 using System.Xml.Linq;
+using Windows.Foundation;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace KinoConsole
 {
-    public sealed partial class RemotePage : Page
+    // sealed
+    public partial class RemotePage : Page
     {
         private const int EVENT_ID_JOYSTICK_LEFT_X = 9;
         private const int EVENT_ID_JOYSTICK_LEFT_Y = 10;
@@ -86,9 +87,7 @@ namespace KinoConsole
         private bool enableGyroscope;
         private double joystickSensitivity;
 
-        //private InterstitialAd interstitialAd;
-        //private AdRequest adRequest;
-        
+            
         private DispatcherTimer adTimer = new DispatcherTimer();
         private DispatcherTimer closeTimer = new DispatcherTimer();
         private DispatcherTimer editModeTimer = new DispatcherTimer();
@@ -145,8 +144,8 @@ namespace KinoConsole
         public RemotePage()
         {
             this.InitializeComponent();
-            TiltEffect.TiltableItems.Add(typeof(StackPanel));
-            if (Application.Current.Host.Content.ScaleFactor == 100)
+            //TiltEffect.TiltableItems.Add(typeof(StackPanel));
+            if (1==0)//(Application.Current.Host.Content.ScaleFactor == 100)
             {
                 this.screenWidth = 800;
                 this.screenHeight = 480;
@@ -182,11 +181,13 @@ namespace KinoConsole
             {
                 Rotation = 90.0
             };
+
             ((ButtonBase)backDialog.btnKeyboard).Click += (RoutedEventHandler)((s, args) =>
             {
                 this.popup.IsOpen = false;
                 ((Control)this.textBox1).Focus();
             });
+
             ((ButtonBase)backDialog.btnEdit).Click += (RoutedEventHandler)((s, args) =>
             {
                 this.mEditMode = true;
@@ -229,11 +230,12 @@ namespace KinoConsole
             ((UIElement)this.textBox1).KeyDown += new KeyEventHandler(this.textBox1_KeyDown);
             ((UIElement)this.textBox1).KeyUp += new KeyEventHandler(this.textBox1_KeyUp);
             this.textBox1.TextChanged += new TextChangedEventHandler(this.textBox1_TextChanged);
-            this.interstitialAd = new InterstitialAd("ca-app-pub-1676199826219622/5550273195");
-            this.interstitialAd.ReceivedAd += new EventHandler<AdEventArgs>(this.OnAdReceived);
-            this.interstitialAd.FailedToReceiveAd += new EventHandler<AdErrorEventArgs>(this.OnFailedToReceiveAd);
-            this.interstitialAd.DismissingOverlay += new EventHandler<AdEventArgs>(this.OnDismissingOverlay);
-            this.adRequest = new AdRequest();
+
+            //this.interstitialAd = new InterstitialAd("ca-app-pub-1676199826219622/5550273195");
+            //this.interstitialAd.ReceivedAd += new EventHandler<AdEventArgs>(this.OnAdReceived);
+            //this.interstitialAd.FailedToReceiveAd += new EventHandler<AdErrorEventArgs>(this.OnFailedToReceiveAd);
+            //this.interstitialAd.DismissingOverlay += new EventHandler<AdEventArgs>(this.OnDismissingOverlay);
+            //this.adRequest = new AdRequest();
         }
 
         protected virtual void OnBackKeyPress(CancelEventArgs e)
@@ -285,13 +287,18 @@ namespace KinoConsole
 
         private void myMediaElement_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
+            //
         }
 
         private void myMediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
+            //
         }
 
-        private void myMediaElement_Tap(object sender, GestureEventArgs e) => ((UIElement)this.slider).Visibility = (Visibility)1;
+        private void myMediaElement_Tap(object sender, GestureEventArgs e)
+        {
+            ((UIElement)this.slider).Visibility = (Visibility)1;
+        }
 
         private void myMediaElement_Hold(object sender, GestureEventArgs e)
         {
@@ -433,7 +440,8 @@ namespace KinoConsole
                 XDocument xdocument;
                 try
                 {
-                    storageFileStream1 = new IsolatedStorageFileStream("appconfig.xml", FileMode.Open, storeForApplication);
+                    storageFileStream1 = new IsolatedStorageFileStream("appconfig.xml", 
+                        FileMode.Open, storeForApplication);
                     xdocument = XDocument.Load((Stream)storageFileStream1);
                 }
                 catch (Exception ex)
@@ -467,6 +475,7 @@ namespace KinoConsole
                         content2.Add((object)content3);
                     }
                 }
+
                 content1.Add((object)content2);
                 bool flag = false;
                 foreach (XElement element in xelement1.Elements((XName)"app"))
@@ -481,7 +490,8 @@ namespace KinoConsole
                 }
                 if (!flag)
                     xelement1.Add((object)content1);
-                IsolatedStorageFileStream storageFileStream2 = new IsolatedStorageFileStream("appconfig.xml", FileMode.Create, storeForApplication);
+                IsolatedStorageFileStream storageFileStream2 = new IsolatedStorageFileStream("appconfig.xml",
+                    FileMode.Create, storeForApplication);
                 xdocument.Save((Stream)storageFileStream2);
                 storageFileStream2.Close();
             }
@@ -636,7 +646,9 @@ namespace KinoConsole
             {
                 this.motion = new Motion();
                 ((SensorBase<MotionReading>)this.motion).TimeBetweenUpdates = TimeSpan.FromMilliseconds(20.0);
-                ((SensorBase<MotionReading>)this.motion).CurrentValueChanged += new EventHandler<SensorReadingEventArgs<MotionReading>>(this.motion_CurrentValueChanged);
+
+                ((SensorBase<MotionReading>)this.motion).CurrentValueChanged += 
+                    new EventHandler<SensorReadingEventArgs<MotionReading>>(this.motion_CurrentValueChanged);
             }
             try
             {
@@ -662,19 +674,22 @@ namespace KinoConsole
             }
         }
 
-        private void motion_CurrentValueChanged(object sender, SensorReadingEventArgs<MotionReading> e) => ((DependencyObject)this).Dispatcher.BeginInvoke((Action)(() => this.CurrentValueChanged(e.SensorReading)));
+        private void motion_CurrentValueChanged(object sender, SensorReadingEventArgs<MotionReading> e)
+        {
+            ((DependencyObject)this).Dispatcher.BeginInvoke((Action)(() => this.CurrentValueChanged(e.SensorReading)));
+        }
 
         private void CurrentValueChanged(MotionReading e)
         {
             if (!((SensorBase<MotionReading>)this.motion).IsDataValid)
                 return;
-            AttitudeReading attitude1 = ((MotionReading)ref e).Attitude;
-            float x = (float)((double)((AttitudeReading)ref attitude1).Roll * 180.0 / 3.1400001049041748);
-            AttitudeReading attitude2 = ((MotionReading)ref e).Attitude;
-            float y = (float)((double)((AttitudeReading)ref attitude2).Pitch * 180.0 / 3.1400001049041748);
-            AttitudeReading attitude3 = ((MotionReading)ref e).Attitude;
-            float z = (float)((double)((AttitudeReading)ref attitude3).Yaw * 180.0 / 3.1400001049041748);
-            if (this.Orientation == 34)
+            AttitudeReading attitude1 = e.Attitude;
+            float x = (float)((double)attitude1.Roll * 180.0 / 3.1400001049041748);
+            AttitudeReading attitude2 = e.Attitude;
+            float y = (float)((double)attitude2.Pitch * 180.0 / 3.1400001049041748);
+            AttitudeReading attitude3 = e.Attitude;
+            float z = (float)((double)(attitude3).Yaw * 180.0 / 3.1400001049041748);
+            if (1==0)//(this.Orientation == 34)
             {
                 x = -x;
                 y = -y;
@@ -960,13 +975,13 @@ namespace KinoConsole
         private void OnAdTimerTick(object sender, EventArgs args)
         {
             this.adTimer.Stop();
-            this.interstitialAd.LoadAd(this.adRequest);
+            //this.interstitialAd.LoadAd(this.adRequest);
         }
 
         private void OnCloseTimerTick(object sender, EventArgs e)
         {
             this.closeTimer.Stop();
-            ((Page)this).NavigationService.GoBack();
+            //((Page)this).NavigationService.GoBack();
         }
 
         private void OnAdReceived(object sender, AdEventArgs e) => this.mAdAvailable = true;
@@ -1075,11 +1090,26 @@ namespace KinoConsole
                 menuItem.Header = (object)"enable gyroscope";
         }
 
-        private void joystickGyroscope_Click(object sender, RoutedEventArgs e) => this.enableGyroscope = !this.enableGyroscope;
+        private void joystickGyroscope_Click(object sender, RoutedEventArgs e)
+        {
+            this.enableGyroscope = !this.enableGyroscope;
+        }
 
         private void LayoutRoot_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
         {
-            if (((RoutedEventArgs)e).OriginalSource == this.buttonA || ((RoutedEventArgs)e).OriginalSource == this.buttonB || ((RoutedEventArgs)e).OriginalSource == this.buttonX || ((RoutedEventArgs)e).OriginalSource == this.buttonY || ((RoutedEventArgs)e).OriginalSource == this.buttonLB || ((RoutedEventArgs)e).OriginalSource == this.buttonRB || ((RoutedEventArgs)e).OriginalSource == this.buttonStart || ((RoutedEventArgs)e).OriginalSource == this.buttonBack || ((RoutedEventArgs)e).OriginalSource == this.buttonLT || ((RoutedEventArgs)e).OriginalSource == this.buttonRT || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick2 || ((RoutedEventArgs)e).OriginalSource == this.buttonDpad)
+            if (((RoutedEventArgs)e).OriginalSource == this.buttonA 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonB 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonX 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonY 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonLB 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonRB 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonStart 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonBack 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonLT 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonRT 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick2 
+                || ((RoutedEventArgs)e).OriginalSource == this.buttonDpad)
                 this.currentImage = (Image)((RoutedEventArgs)e).OriginalSource;
             else
                 this.currentImage = (Image)null;
@@ -1104,17 +1134,23 @@ namespace KinoConsole
         {
             if (this.currentImage == null)
                 return;
-            for (int index = 0; index < ((IEnumerable<RemotePage.Button>)this.buttons).Count<RemotePage.Button>(); ++index)
+            for (int index = 0; 
+                index < ((IEnumerable<RemotePage.Button>)this.buttons).Count<RemotePage.Button>();
+                ++index)
             {
                 if (this.buttons[index].name.Equals(((FrameworkElement)this.currentImage).Name))
                 {
-                    this.buttons[index].rect = new Rect(new Point(((FrameworkElement)this.currentImage).Margin.Left, ((FrameworkElement)this.currentImage).Margin.Top), new Size(((FrameworkElement)this.currentImage).Width, ((FrameworkElement)this.currentImage).Height));
+                    this.buttons[index].rect = new Rect(new Point(((FrameworkElement)this.currentImage).Margin.Left, 
+                        ((FrameworkElement)this.currentImage).Margin.Top),
+                        new Size(((FrameworkElement)this.currentImage).Width,
+                        ((FrameworkElement)this.currentImage).Height));
                     this.buttons[index].visible = true;
                     break;
                 }
             }
         }
 
+        /*
         [DebuggerNonUserCode]
         public void InitializeComponent()
         {
@@ -1151,6 +1187,7 @@ namespace KinoConsole
             this.NoMoreButtons = (StackPanel)((FrameworkElement)this).FindName("NoMoreButtons");
             this.textBox1 = (TextBox)((FrameworkElement)this).FindName("textBox1");
         }
+        */
 
         private enum SliderType
         {

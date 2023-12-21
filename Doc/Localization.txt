@@ -1,0 +1,5 @@
+AppBarButtonText	add
+AppBarMenuItemText	Menu Item
+ApplicationTitle	MY APPLICATION
+ResourceFlowDirection	LeftToRight
+ResourceLanguage	en-US

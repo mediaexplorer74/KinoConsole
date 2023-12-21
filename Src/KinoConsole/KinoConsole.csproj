@@ -152,11 +152,6 @@
       <DependentUpon>RemotePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\AppResources.cs" />
-    <Compile Include="Resources\AppResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="SplashScreenControl.xaml.cs">
       <DependentUpon>SplashScreenControl.xaml</DependentUpon>
     </Compile>
@@ -364,13 +359,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\AppResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-      <DependentUpon>AppResources.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlurryWP8SDK\FlurryWP8SDK.csproj">

@@ -1,12 +1,7 @@
 ﻿// Decompiled with JetBrains decompiler
 // Type: RateMyApp.Controls.FeedbackOverlay
-// Assembly: RateMyApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 24764F99-C481-4414-9E6E-223BAD44A77B
-// Assembly location: C:\Users\Admin\Desktop\re\KC\RateMyApp.dll
 
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Info;
-using Microsoft.Phone.Tasks;
+
 using RateMyApp.Helpers;
 using RateMyApp.Resources;
 using System;
@@ -16,10 +11,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 namespace RateMyApp.Controls
 {
