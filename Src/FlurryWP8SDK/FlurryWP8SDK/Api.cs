@@ -52,7 +52,7 @@ namespace FlurryWP8SDK
       }
       catch (Exception ex)
       {
-        //c0eedad679329102b62413fc8c290b84c.c34588af9bde560a978d0896c53ec9b3c(c0eedad679329102b62413fc8c290b84c.cca4714a970780d2e29afa49bef28ec2b.cb15365dfb831dc2795d621d01a91b204, c397cf7157a3d1655bf9279acb3de20e4.c3fd479d16aeaa3d5fd20f1dd6077b90e(120) + ex.StackTrace);
+         Debug.WriteLine("[ex] Message: " + ex.Message + ", StackTrace: " + ex.StackTrace);
       }
     }
 
@@ -62,11 +62,13 @@ namespace FlurryWP8SDK
       {
                 //c0eedad679329102b62413fc8c290b84c.c34588af9bde560a978d0896c53ec9b3c(c397cf7157a3d1655bf9279acb3de20e4.c3fd479d16aeaa3d5fd20f1dd6077b90e(151));
                 //c05bcb705ab12e341951af1679338c785.c5e1c6cb2f06a32fc65cbbb01e58c918c.c876dfd925f63c01bb79fc5baa9b735ba();
-                int num = 1;//cf6b5f813521381fc076195d5a5f3d0e4.ca4422eecbf70c13a8a15feca91a073d9 ? 1 : 0;
+                int num = 1;
+                num = 1 == 0 ? 1 :1;//cf6b5f813521381fc076195d5a5f3d0e4.ca4422eecbf70c13a8a15feca91a073d9 ? 1 : 0;
+                Debug.WriteLine("[i] num=", num);
       }
       catch (Exception ex)
       {
-        //c0eedad679329102b62413fc8c290b84c.c34588af9bde560a978d0896c53ec9b3c(c0eedad679329102b62413fc8c290b84c.cca4714a970780d2e29afa49bef28ec2b.cb15365dfb831dc2795d621d01a91b204, c397cf7157a3d1655bf9279acb3de20e4.c3fd479d16aeaa3d5fd20f1dd6077b90e(120) + ex.StackTrace);
+        Debug.WriteLine("[ex] " + ex.Message + " | " + ex.StackTrace);
       }
     }
 
@@ -91,6 +93,7 @@ namespace FlurryWP8SDK
       }
       catch (Exception ex)
       {
+        Debug.WriteLine("[ex] " + ex.Message);
         //c0eedad679329102b62413fc8c290b84c.c34588af9bde560a978d0896c53ec9b3c(c0eedad679329102b62413fc8c290b84c.cca4714a970780d2e29afa49bef28ec2b.cb15365dfb831dc2795d621d01a91b204, c397cf7157a3d1655bf9279acb3de20e4.c3fd479d16aeaa3d5fd20f1dd6077b90e(120) + ex.StackTrace);
       }
     }
