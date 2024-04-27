@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34804.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rdconfig", "rdconfig\rdconfig.csproj", "{F474AC60-BD85-416F-83DD-E2DC5826EE3A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Debug|x86.ActiveCfg = Debug|x86
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Debug|x86.Build.0 = Debug|x86
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Release|x86.ActiveCfg = Release|x86
+		{F474AC60-BD85-416F-83DD-E2DC5826EE3A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13C5D842-A36C-4CC1-B2C9-3C705EFB1E25}
+	EndGlobalSection
+EndGlobal

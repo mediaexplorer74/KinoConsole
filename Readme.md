@@ -13,10 +13,11 @@ Sadly, Kinoni, makers of the KinoniConsole 1.4, cancelled its KinoConsole UWP ap
 ![Remote screen, or Remote page](Images/screenshot03.png)
 
 ## My 2 cents
-- Appx Decomp.
+- KinoConsole Client & RdConfig Server RnD
 - Fast code/architecture research
 - WP8 -> W10M code "rebase" ("refactor.") - 7 % ready 
-- Min. compatible Win SDK version is set to 15063 at now (not at 10240). 
+- Min. compatible Win SDK version is set to 16299 at now (not at 10240 or 15063 yet).
+- RdConfig Server: .NET 4.8 Compatibility added (for Modern Win 10 / Win 11 without .NET 2/ .NET 3)  
 
 ## Result
 - Draft / Not fully ported to uwp yet... but compile ok.
