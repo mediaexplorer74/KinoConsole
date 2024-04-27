@@ -2,8 +2,6 @@
     x:Class="KinoConsole.HelpPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource ContentControlThemeFontFamily}"
@@ -11,6 +9,25 @@
     Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"
     mc:Ignorable="d"
     >
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Home"
+                   Label="home" 
+                   Click="ApplicationBarIconButton_Click_Home"/>
+                <AppBarButton Icon="Setting" 
+                       Label="settings" 
+                       Click="ApplicationBarIconButton_Click_Settings"/>
+                <AppBarButton Icon="Switch" 
+                       Label="pro" 
+                       Click="ApplicationBarIconButton_Click_Pro"/>
+                <AppBarButton Icon="ContactInfo" 
+                       Label="about"
+                       Click="ApplicationBarIconButton_Click_About"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource TextBoxBackgroundThemeBrush}">
@@ -23,8 +40,7 @@
         <ScrollViewer x:Name="ContentPanel" Margin="20,10,20,0" Grid.Row="1" >
 
             <!--Source="/Assets/NewFolder3/index.html"-->
-            <WebView x:Name="webBrowser" Source="/Assets/NewFolder3/index.html" 
-                              Loaded="WebBrowser_Loaded"/>
+            <WebView x:Name="webBrowser" Loaded="WebBrowser_Loaded"/>
         </ScrollViewer>
 
     </Grid>

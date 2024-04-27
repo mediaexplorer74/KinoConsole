@@ -49,10 +49,10 @@ namespace KinoConsole
         private bool ignoreTap = true;// Environment.DeviceType == 1;
         private DispatcherTimer searchTimer = new DispatcherTimer();
         private DispatcherTimer splashTimer = new DispatcherTimer();
-        private DispatcherTimer testTimer = new DispatcherTimer();
+        private DispatcherTimer timer = new DispatcherTimer();
         private bool splashDelay = true;
         private string mSSID;
-        private bool mShowHelp;
+        private bool mShowHelp = false;
         //private AdControl adControl;
         private IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
         private int namePrefixNum;
@@ -60,39 +60,26 @@ namespace KinoConsole
         private static readonly string InAppProductKey = "kinoconsole.pro";
 
         public CollectionFlow ImageList; //TEMP
-        /*
-        internal Grid LayoutRoot;
-        internal TextBlock gamesLibrary;
-        internal StackPanel collection;
-        internal CollectionFlow ImageList;
-        internal StackPanel searchInfo;
-        internal TextBlock searchText0;
-        internal TextBlock searchText1;
-        internal TextBlock searchText2;
-        internal ProgressBar searchBar;
-        internal StackPanel appInfo;
-        internal TextBlock appName;
-        internal TextBlock appServer;
-        internal TextBlock appDetail;
-        internal AdView admob;
-        private bool _contentLoaded;
-        */
+       
 
         public MainPage()
         {
             this.InitializeComponent();
             this.SetDefaultControls();
             this.searchTimer.Interval = TimeSpan.FromMilliseconds(10000.0);
-            //this.searchTimer.Tick += new EventHandler(this.OnSearchTimerTick);
+            this.searchTimer.Tick += OnSearchTimerTick;
             this.splashTimer.Interval = TimeSpan.FromMilliseconds(3000.0);
-            //this.splashTimer.Tick += new EventHandler(this.OnSplashTimerTick);
+            this.splashTimer.Tick += OnSplashTimerTick;
             this.splashTimer.Start();
+            
+            //TODO: settings and Show Help on start
             //if (!this.settings.Contains(nameof(mShowHelp)))
             //{
-                this.mShowHelp = true;
-                this.searchTimer.Interval = TimeSpan.FromMilliseconds(9000.0);
-                this.searchTimer.Start();
+            //    this.mShowHelp = true;
+            //    this.searchTimer.Interval = TimeSpan.FromMilliseconds(9000.0);
+            //    this.searchTimer.Start();
             //}
+
             //if (!this.settings.Contains("ret0"))
             //{
             //    Api.LogEvent("ret0");
@@ -115,13 +102,59 @@ namespace KinoConsole
             //    this.settings["ret7"] = (object)DateTime.Now.ToBinary();
             //    this.settings.Save();
             //}
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
 
-        protected /*virtual*/ void OnNavigatedTo(NavigationEventArgs e)
+        private void Timer_Tick(object sender, object e)
+        {
+            //DEBUG/TEST
+            if (1 == 1)
+            {
+                if (this.appList.Count <= 0)
+                    return;
+
+                int index = new Random().Next(0, this.appList.Count);
+
+                if (this.appList[index].appName == null || this.appList[index].appName.Length < 1
+                    || !this.appList[index].serverName.Equals("wkasi"))
+                    return;
+
+                this.timer.Stop();
+                RemotePage.serverUid = this.appList[index].serverUid;
+                RemotePage.appPath = this.appList[index].appPath;
+                RemotePage.appName = this.appList[index].appName;
+
+                Frame.Navigate(typeof(RemotePage));
+            }
+            else
+            {
+                int index = new Random().Next(0, 1);
+                this.timer.Stop();
+
+                try
+                {
+                    RemotePage.serverUid = this.appList[index].serverUid;
+                    RemotePage.appPath = this.appList[index].appPath;
+                    RemotePage.appName = this.appList[index].appName;
+                }
+                catch
+                {
+                    RemotePage.serverUid = default;
+                    RemotePage.appPath = default;
+                    RemotePage.appName = "defaultTestAppName";
+                }
+
+                Frame.Navigate(typeof(RemotePage));
+            }
+        }
+
+        // срабатывает, когда осуществляется переход на текущую страницу
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //((Page)this).OnNavigatedTo(e);
             this.UpdateProInfo();
-            this.mSSID = this.GetSSIDName();
+            this.mSSID = "SSIDTEST";//this.GetSSIDName();
             CNativeLib nativeLib = (Application.Current as App).nativeLib;
 
             WindowsRuntimeMarshal.AddEventHandler<ListUpdatedHandler>(
@@ -148,21 +181,24 @@ namespace KinoConsole
             //((UIElement)this.ImageList).Tap += new EventHandler<GestureEventArgs>(this.ImageList_Tap);
         }
 
-        protected /*virtual*/ void OnNavigatingFrom(NavigatingCancelEventArgs e)
+
+        // срабатывает при начале перехода с текущей страницы
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             //((Page)this).OnNavigatingFrom(e);
             //((UIElement)this.ImageList).Tap -= new EventHandler<GestureEventArgs>(this.ImageList_Tap);
             //((UIElement)this.ImageList).ManipulationStarted -= new EventHandler<ManipulationStartedEventArgs>(this.ImageList_ManipulationStarted);
             //((UIElement)this.ImageList).ManipulationDelta -= new EventHandler<ManipulationDeltaEventArgs>(this.ImageList_ManipulationDelta);
             this.searchTimer.Stop();
-            this.testTimer.Stop();
+            this.timer.Stop(); 
             (Application.Current as App).nativeLib.StopSearch();
             WindowsRuntimeMarshal.RemoveEventHandler<ListUpdatedHandler>(
                 new Action<EventRegistrationToken>((Application.Current as App).nativeLib.remove_ListUpdated), 
                 new ListUpdatedHandler(this.nativeLib_ListUpdated));
         }
 
-        private void OnSearchTimerTick(object sender, EventArgs args)
+        // on search timer handler
+        private void OnSearchTimerTick(object sender, object e)
         {
             this.searchTimer.Stop();
             if (this.mShowHelp && this.appList.Count == 0)
@@ -177,20 +213,7 @@ namespace KinoConsole
                 this.UpdateUI();
         }
 
-        private void OnTestTimerTick(object sender, EventArgs args)
-        {
-            if (this.appList.Count <= 0)
-                return;
-            int index = new Random().Next(0, this.appList.Count);
-            if (this.appList[index].appName == null || this.appList[index].appName.Length < 1 || !this.appList[index].serverName.Equals("wkasi"))
-                return;
-            this.testTimer.Stop();
-            RemotePage.serverUid = this.appList[index].serverUid;
-            RemotePage.appPath = this.appList[index].appPath;
-            RemotePage.appName = this.appList[index].appName;
-            //((Page)this).NavigationService.Navigate(new Uri("/RemotePage.xaml", UriKind.Relative));
-            Frame.Navigate(typeof(RemotePage));
-        }
+        
 
         private void FeedbackOverlay_VisibilityChanged(object sender, EventArgs e)
         {
@@ -234,7 +257,10 @@ namespace KinoConsole
                 ((UIElement)this.appInfo).Visibility = (Visibility)1;
                 ((UIElement)this.searchText0).Visibility = (Visibility)0;
                 ((UIElement)this.searchInfo).Visibility = (Visibility)0;
-                string ssidName = this.GetSSIDName();
+
+                //TESTING
+                string ssidName = "MYTESTSSID";//this.GetSSIDName();
+                
                 if (ssidName != null)
                 {
                     this.searchText1.Text = "No computers found from your local network (" + ssidName + ").";
@@ -265,7 +291,7 @@ namespace KinoConsole
             return (string)null;
         }
 
-        private void OnSplashTimerTick(object sender, EventArgs args)
+        private void OnSplashTimerTick(object sender, object e)
         {
             if (this.splashDelay)
             {
@@ -492,7 +518,7 @@ namespace KinoConsole
 
         private async void UpdateProInfo()
         {
-            if (1==0)//(this.settings.Contains("proVersion"))
+            if (1==1)//(this.settings.Contains("proVersion"))
             {
                 //if (this.ApplicationBar.Buttons.Count > 3)
                 //    this.ApplicationBar.Buttons.Remove((object)(this.ApplicationBar.Buttons[2] 
@@ -693,20 +719,4 @@ namespace KinoConsole
     }
 }
 
-/*
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-...
-*/
+

@@ -12,8 +12,7 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <CommandBar.PrimaryCommands>
-        <!--AppBar IsVisible="False"-->
+          <CommandBar.PrimaryCommands>
             <AppBarButton Icon="Setting" 
                           Label="settings" 
                           Click="ApplicationBarIconButton_Click_Settings"/>
@@ -26,7 +25,6 @@
             <AppBarButton Icon="ContactInfo" 
                           Label="about"
                           Click="ApplicationBarIconButton_Click_About"/>
-        <!--/AppBar-->
           </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

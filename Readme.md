@@ -10,6 +10,7 @@ Sadly, its W10M developing stopped... No new features. I am interesting in KinoC
 ## Screenshots
 ![Main screen, or MainPage](Images/screenshot01.png)
 ![Settings, or AddServer page](Images/screenshot02.png)
+![Remote screen, or Remote page](Images/screenshot03.png)
 
 ## My 2 cents
 - Appx Decomp.

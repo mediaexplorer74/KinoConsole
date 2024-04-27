@@ -13,12 +13,12 @@ namespace KinoConsole
     {
         IEnumerator<NetworkInterfaceInfo> IEnumerable<NetworkInterfaceInfo>.GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            return default;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            return default;
         }
     }
 }

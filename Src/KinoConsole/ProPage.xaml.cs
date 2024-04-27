@@ -73,6 +73,7 @@ namespace KinoConsole
           ((UIElement)this.errorPanel).Visibility = (Visibility)0;
         }
 
+        /*
         private async void purchaseButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.productListing == null)
@@ -87,24 +88,42 @@ namespace KinoConsole
             }
 
             ProductLicense productLicense = (ProductLicense)null;
-            if (!CurrentApp.LicenseInformation.ProductLicenses.TryGetValue(ProPage.InAppProductKey, out productLicense) || !productLicense.IsActive)
-                ;
+            if (!CurrentApp.LicenseInformation.ProductLicenses.TryGetValue(
+                ProPage.InAppProductKey, out productLicense) || !productLicense.IsActive)
+            {
+                //
+            }
+        }*/
+
+        private void ApplicationBarIconButton_Click_Home(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative)); 
+            Frame.Navigate(typeof(MainPage));
         }
 
-        /*
-        [DebuggerNonUserCode]
-        public void InitializeComponent()
+        private void ApplicationBarIconButton_Click_Settings(object sender, RoutedEventArgs e)
         {
-            if (this._contentLoaded)
-                return;
-            this._contentLoaded = true;
-            Application.LoadComponent((object)this, new Uri("/KinoConsole;component/ProPage.xaml", UriKind.Relative));
-            this.LayoutRoot = (Grid)((FrameworkElement)this).FindName("LayoutRoot");
-            this.purchasePanel = (StackPanel)((FrameworkElement)this).FindName("purchasePanel");
-            this.thankYouPanel = (StackPanel)((FrameworkElement)this).FindName("thankYouPanel");
-            this.errorPanel = (StackPanel)((FrameworkElement)this).FindName("errorPanel");
+            //((Page)this).NavigationService.Navigate(new Uri("/AddServerPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(AddServerPage));
         }
-        */
+
+        private void ApplicationBarIconButton_Click_Pro(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/ProPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(ProPage));
+        }
+
+        private void ApplicationBarIconButton_Click_About(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/AboutPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(AboutPage));
+        }
+
+        private void promodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+            Frame.Navigate(typeof(MainPage));
+        }
     }
 }
 

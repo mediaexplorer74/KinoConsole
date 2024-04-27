@@ -39,6 +39,30 @@ namespace KinoConsole
                 UriKind.Absolute));
         }
 
+        private void ApplicationBarIconButton_Click_Home(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative)); 
+            Frame.Navigate(typeof(MainPage));
+        }
+
+        private void ApplicationBarIconButton_Click_Settings(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/AddServerPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(AddServerPage));
+        }
+
+        private void ApplicationBarIconButton_Click_Pro(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/ProPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(ProPage));
+        }
+
+        private void ApplicationBarIconButton_Click_About(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/AboutPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(AboutPage));
+        }
+
         private void SaveFilesToIsoStore()
         {
             string[] strArray = new string[5]
