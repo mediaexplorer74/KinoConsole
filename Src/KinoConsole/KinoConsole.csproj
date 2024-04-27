@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KinoConsole</RootNamespace>
     <AssemblyName>KinoConsole</AssemblyName>
-    <DefaultLanguage>ru-RU</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
@@ -190,7 +190,7 @@
     <Compile Include="RefactorIt\RoutedPropertyChangedEventArgs.cs" />
     <Compile Include="RefactorIt\SensorBase.cs" />
     <Compile Include="RefactorIt\SensorReadingEventArgs.cs" />
-    <Compile Include="SplashScreenControl.xaml.cs">
+    <Compile Include="Controls\SplashScreenControl.xaml.cs">
       <DependentUpon>SplashScreenControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="RefactorIt\StreamResourceInfo.cs" />
@@ -420,7 +420,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SplashScreenControl.xaml">
+    <Page Include="Controls\SplashScreenControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

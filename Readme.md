@@ -7,8 +7,9 @@ KinoConsole 1.4 WP 8.1 R.E. / RnD
 KinoConsole is the (a) famous "Video Screen streaming service". 
 Sadly, its W10M developing stopped... No new features. I am interesting in KinoConsole tech. :)
 
-## Screenshot
-![](Images/screenshot.png)
+## Screenshots
+![Main screen, or MainPage](Images/screenshot01.png)
+![Settings, or AddServer page](Images/screenshot02.png)
 
 ## My 2 cents
 - Appx Decomp.

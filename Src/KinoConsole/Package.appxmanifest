@@ -17,7 +17,7 @@
   <mp:PhoneIdentity PhoneProductId="09fc5c55-bdac-4057-bbb3-bf1ee49acc90" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>KinoConsole</DisplayName>
+    <DisplayName>KinoConsole v2.0a</DisplayName>
     <PublisherDisplayName>mediaexplorer</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -35,10 +35,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="KinoConsole.App">
       <uap:VisualElements
-        DisplayName="KinoConsole"
+        DisplayName="KinoConsole v2.0-pre-pre-pre-alpha"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="KinoConsole"
+        Description="KinoConsole v2.0a eeeeeeeeeerly bird (draft)"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
