@@ -4,7 +4,7 @@
 // MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
 // Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
 
-using NativeLib;
+//using NativeLib;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,8 +13,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Windows;
-using System.Windows.Media;
+//using System.Windows.Media;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml;
 
 namespace KinoConsole
 {
@@ -29,7 +30,8 @@ namespace KinoConsole
     private ManualResetEvent shutdownEvent;
     private int _outstandingGetVideoSampleCount;
     private MediaStreamDescription _videoDesc;
-    private Dictionary<MediaSampleAttributeKeys, string> _emptySampleDict = new Dictionary<MediaSampleAttributeKeys, string>();
+    private Dictionary<MediaSampleAttributeKeys, string> _emptySampleDict 
+            = new Dictionary<MediaSampleAttributeKeys, string>();
 
     public VideoMediaStreamSource(int frameWidth, int frameHeight)
     {
@@ -38,15 +40,20 @@ namespace KinoConsole
       this.shutdownEvent = new ManualResetEvent(false);
       this._sampleQueue = new Queue<VideoMediaStreamSource.VideoSample>(30);
       this._outstandingGetVideoSampleCount = 0;
-      CNativeLib nativeLib = (Application.Current as App).nativeLib;
-      WindowsRuntimeMarshal.AddEventHandler<VideoDataHandler>(new Func<VideoDataHandler, EventRegistrationToken>(nativeLib.add_VideoData), new Action<EventRegistrationToken>(nativeLib.remove_VideoData), new VideoDataHandler(this.nativeLib_VideoData));
+      CNativeLib nativeLib = default;//(Application.Current as App).nativeLib;
+      WindowsRuntimeMarshal.AddEventHandler<VideoDataHandler>(
+          new Func<VideoDataHandler, EventRegistrationToken>(nativeLib.add_VideoData), 
+          new Action<EventRegistrationToken>(nativeLib.remove_VideoData), 
+          new VideoDataHandler(this.nativeLib_VideoData));
     }
 
     public void Dispose()
     {
       if (!this.isDisposed)
       {
-        WindowsRuntimeMarshal.RemoveEventHandler<VideoDataHandler>(new Action<EventRegistrationToken>((Application.Current as App).nativeLib.remove_VideoData), new VideoDataHandler(this.nativeLib_VideoData));
+        WindowsRuntimeMarshal.RemoveEventHandler<VideoDataHandler>(
+            new Action<EventRegistrationToken>((Application.Current as App).nativeLib.remove_VideoData), 
+            new VideoDataHandler(this.nativeLib_VideoData));
         this.isDisposed = true;
       }
       GC.SuppressFinalize((object) this);
@@ -64,7 +71,12 @@ namespace KinoConsole
       }
     }
 
-    private void nativeLib_VideoData(IBuffer ibuffer, uint userData)
+        private void ReportGetSampleCompleted(MediaStreamSample mediaStreamSample)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void nativeLib_VideoData(IBuffer ibuffer, uint userData)
     {
       lock (this.lockObj)
       {
@@ -85,7 +97,9 @@ namespace KinoConsole
       }
     }
 
-    private void PrepareVideo() => this._videoDesc = new MediaStreamDescription((MediaStreamType) 1, (IDictionary<MediaStreamAttributeKeys, string>) new Dictionary<MediaStreamAttributeKeys, string>()
+    private void PrepareVideo() => this._videoDesc = 
+            new MediaStreamDescription((MediaStreamType) 1,
+        (IDictionary<MediaStreamAttributeKeys, string>) new Dictionary<MediaStreamAttributeKeys, string>()
     {
       [(MediaStreamAttributeKeys) 1] = "H264",
       [(MediaStreamAttributeKeys) 3] = this._frameHeight.ToString(),
@@ -98,7 +112,8 @@ namespace KinoConsole
 
     protected virtual void OpenMediaAsync()
     {
-      Dictionary<MediaSourceAttributesKeys, string> dictionary = new Dictionary<MediaSourceAttributesKeys, string>();
+      Dictionary<MediaSourceAttributesKeys, string> dictionary = 
+                new Dictionary<MediaSourceAttributesKeys, string>();
       List<MediaStreamDescription> streamDescriptionList = new List<MediaStreamDescription>();
       this.PrepareVideo();
       streamDescriptionList.Add(this._videoDesc);
@@ -107,10 +122,15 @@ namespace KinoConsole
       this.ReportOpenMediaCompleted((IDictionary<MediaSourceAttributesKeys, string>) dictionary, (IEnumerable<MediaStreamDescription>) streamDescriptionList);
     }
 
-    protected virtual void GetSampleAsync(MediaStreamType mediaStreamType)
+    private void ReportOpenMediaCompleted(IDictionary<MediaSourceAttributesKeys, string> dictionary, IEnumerable<MediaStreamDescription> streamDescriptionList)
     {
-      if (mediaStreamType != 1)
-        return;
+        throw new NotImplementedException();
+    }
+
+    public /*virtual*/ void GetSampleAsync(MediaStreamType mediaStreamType)
+    {
+      //if (mediaStreamType != (MediaStreamType)1)
+      //  return;
       lock (this.lockObj)
       {
         ++this._outstandingGetVideoSampleCount;
@@ -122,13 +142,27 @@ namespace KinoConsole
     {
     }
 
-    protected virtual void GetDiagnosticAsync(MediaStreamSourceDiagnosticKind diagnosticKind) => throw new NotImplementedException();
+        protected virtual void GetDiagnosticAsync(MediaStreamSourceDiagnosticKind diagnosticKind)
+        {
+            throw new NotImplementedException();
+        }
 
-    protected virtual void SwitchMediaStreamAsync(MediaStreamDescription mediaStreamDescription) => throw new NotImplementedException();
+        protected virtual void SwitchMediaStreamAsync(MediaStreamDescription mediaStreamDescription)
+        {
+            throw new NotImplementedException();
+        }
 
-    protected virtual void SeekAsync(long seekToTime) => this.ReportSeekCompleted(seekToTime);
+        protected virtual void SeekAsync(long seekToTime)
+        {
+            this.ReportSeekCompleted(seekToTime);
+        }
 
-    public class VideoSample
+        private void ReportSeekCompleted(long seekToTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public class VideoSample
     {
       public IBuffer buffer;
       public long hnsPresentationTime;

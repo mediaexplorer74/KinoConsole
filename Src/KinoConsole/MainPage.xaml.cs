@@ -4,15 +4,15 @@
 // MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
 // Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
 
-using FlurryWP8SDK;
-using FlurryWP8SDK.Models;
+//using FlurryWP8SDK;
+//using FlurryWP8SDK.Models;
 //using GoogleAds;
 //using Microsoft.Advertising.Mobile.UI;
 //using Microsoft.Devices;
 //using Microsoft.Phone.Controls;
 //using Microsoft.Phone.Net.NetworkInformation;
 //using Microsoft.Phone.Shell;
-using NativeLib;
+//using NativeLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,13 +30,16 @@ using System.Windows;
 //using System.Windows.Resources;
 //using System.Windows.Threading;
 using Windows.ApplicationModel.Store;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 using wp7coverflow;
 
 
@@ -46,18 +49,21 @@ namespace KinoConsole
     {
         private List<MainPage.AppInfo> appList = new List<MainPage.AppInfo>();
         private List<string> imageList = new List<string>();
-        private bool ignoreTap = Environment.DeviceType == 1;
+        private bool ignoreTap = true;// Environment.DeviceType == 1;
         private DispatcherTimer searchTimer = new DispatcherTimer();
         private DispatcherTimer splashTimer = new DispatcherTimer();
         private DispatcherTimer testTimer = new DispatcherTimer();
         private bool splashDelay = true;
         private string mSSID;
         private bool mShowHelp;
-        private AdControl adControl;
+        //private AdControl adControl;
         private IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
         private int namePrefixNum;
         private double deltaX;
         private static readonly string InAppProductKey = "kinoconsole.pro";
+
+        public CollectionFlow ImageList; //TEMP
+        /*
         internal Grid LayoutRoot;
         internal TextBlock gamesLibrary;
         internal StackPanel collection;
@@ -73,53 +79,59 @@ namespace KinoConsole
         internal TextBlock appDetail;
         internal AdView admob;
         private bool _contentLoaded;
+        */
 
         public MainPage()
         {
             this.InitializeComponent();
             this.SetDefaultControls();
             this.searchTimer.Interval = TimeSpan.FromMilliseconds(10000.0);
-            this.searchTimer.Tick += new EventHandler(this.OnSearchTimerTick);
+            //this.searchTimer.Tick += new EventHandler(this.OnSearchTimerTick);
             this.splashTimer.Interval = TimeSpan.FromMilliseconds(3000.0);
-            this.splashTimer.Tick += new EventHandler(this.OnSplashTimerTick);
+            //this.splashTimer.Tick += new EventHandler(this.OnSplashTimerTick);
             this.splashTimer.Start();
-            if (!this.settings.Contains(nameof(mShowHelp)))
-            {
+            //if (!this.settings.Contains(nameof(mShowHelp)))
+            //{
                 this.mShowHelp = true;
                 this.searchTimer.Interval = TimeSpan.FromMilliseconds(9000.0);
                 this.searchTimer.Start();
-            }
-            if (!this.settings.Contains("ret0"))
-            {
-                Api.LogEvent("ret0");
-                this.settings["ret0"] = (object)DateTime.Now.ToBinary();
-                this.settings.Save();
-            }
-            else
-            {
-                DateTime dateTime = DateTime.FromBinary((long)this.settings["ret0"]);
-                DateTime now = DateTime.Now;
-                if (!this.settings.Contains("ret1") && now.CompareTo(dateTime.AddDays(1.0)) > 0)
-                {
-                    Api.LogEvent("ret1");
-                    this.settings["ret1"] = (object)DateTime.Now.ToBinary();
-                    this.settings.Save();
-                }
-                if (this.settings.Contains("ret7") || DateTime.Now.CompareTo(dateTime.AddDays(7.0)) <= 0)
-                    return;
-                Api.LogEvent("ret7");
-                this.settings["ret7"] = (object)DateTime.Now.ToBinary();
-                this.settings.Save();
-            }
+            //}
+            //if (!this.settings.Contains("ret0"))
+            //{
+            //    Api.LogEvent("ret0");
+            //    this.settings["ret0"] = (object)DateTime.Now.ToBinary();
+            //    this.settings.Save();
+            //}
+            //else
+            //{
+            //    DateTime dateTime = DateTime.FromBinary((long)this.settings["ret0"]);
+            //    DateTime now = DateTime.Now;
+            //    if (!this.settings.Contains("ret1") && now.CompareTo(dateTime.AddDays(1.0)) > 0)
+            //    {
+            //        Api.LogEvent("ret1");
+            //        this.settings["ret1"] = (object)DateTime.Now.ToBinary();
+            //        this.settings.Save();
+            //    }
+            //    if (this.settings.Contains("ret7") || DateTime.Now.CompareTo(dateTime.AddDays(7.0)) <= 0)
+            //        return;
+            //    Api.LogEvent("ret7");
+            //    this.settings["ret7"] = (object)DateTime.Now.ToBinary();
+            //    this.settings.Save();
+            //}
         }
 
-        protected virtual void OnNavigatedTo(NavigationEventArgs e)
+        protected /*virtual*/ void OnNavigatedTo(NavigationEventArgs e)
         {
-            ((Page)this).OnNavigatedTo(e);
+            //((Page)this).OnNavigatedTo(e);
             this.UpdateProInfo();
             this.mSSID = this.GetSSIDName();
             CNativeLib nativeLib = (Application.Current as App).nativeLib;
-            WindowsRuntimeMarshal.AddEventHandler<ListUpdatedHandler>(new Func<ListUpdatedHandler, EventRegistrationToken>(nativeLib.add_ListUpdated), new Action<EventRegistrationToken>(nativeLib.remove_ListUpdated), new ListUpdatedHandler(this.nativeLib_ListUpdated));
+
+            WindowsRuntimeMarshal.AddEventHandler<ListUpdatedHandler>(
+                new Func<ListUpdatedHandler, EventRegistrationToken>(nativeLib.add_ListUpdated), 
+                new Action<EventRegistrationToken>(nativeLib.remove_ListUpdated), 
+                new ListUpdatedHandler(this.nativeLib_ListUpdated));
+
             if (this.mSSID == null)
             {
                 this.UpdateUI();
@@ -129,21 +141,28 @@ namespace KinoConsole
                 (Application.Current as App).nativeLib.StartSearch();
                 this.searchTimer.Start();
             }
-          ((UIElement)this.ImageList).ManipulationStarted += new EventHandler<ManipulationStartedEventArgs>(this.ImageList_ManipulationStarted);
-            ((UIElement)this.ImageList).ManipulationDelta += new EventHandler<ManipulationDeltaEventArgs>(this.ImageList_ManipulationDelta);
-            ((UIElement)this.ImageList).Tap += new EventHandler<GestureEventArgs>(this.ImageList_Tap);
+
+            //((UIElement)this.ImageList).ManipulationStarted +=
+            //    new EventHandler<ManipulationStartedEventArgs>(this.ImageList_ManipulationStarted);
+
+            //((UIElement)this.ImageList).ManipulationDelta += 
+            //    new EventHandler<ManipulationDeltaEventArgs>(this.ImageList_ManipulationDelta);
+
+            //((UIElement)this.ImageList).Tap += new EventHandler<GestureEventArgs>(this.ImageList_Tap);
         }
 
-        protected virtual void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected /*virtual*/ void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            ((Page)this).OnNavigatingFrom(e);
-            ((UIElement)this.ImageList).Tap -= new EventHandler<GestureEventArgs>(this.ImageList_Tap);
-            ((UIElement)this.ImageList).ManipulationStarted -= new EventHandler<ManipulationStartedEventArgs>(this.ImageList_ManipulationStarted);
-            ((UIElement)this.ImageList).ManipulationDelta -= new EventHandler<ManipulationDeltaEventArgs>(this.ImageList_ManipulationDelta);
+            //((Page)this).OnNavigatingFrom(e);
+            //((UIElement)this.ImageList).Tap -= new EventHandler<GestureEventArgs>(this.ImageList_Tap);
+            //((UIElement)this.ImageList).ManipulationStarted -= new EventHandler<ManipulationStartedEventArgs>(this.ImageList_ManipulationStarted);
+            //((UIElement)this.ImageList).ManipulationDelta -= new EventHandler<ManipulationDeltaEventArgs>(this.ImageList_ManipulationDelta);
             this.searchTimer.Stop();
             this.testTimer.Stop();
             (Application.Current as App).nativeLib.StopSearch();
-            WindowsRuntimeMarshal.RemoveEventHandler<ListUpdatedHandler>(new Action<EventRegistrationToken>((Application.Current as App).nativeLib.remove_ListUpdated), new ListUpdatedHandler(this.nativeLib_ListUpdated));
+            WindowsRuntimeMarshal.RemoveEventHandler<ListUpdatedHandler>(
+                new Action<EventRegistrationToken>((Application.Current as App).nativeLib.remove_ListUpdated), 
+                new ListUpdatedHandler(this.nativeLib_ListUpdated));
         }
 
         private void OnSearchTimerTick(object sender, EventArgs args)
@@ -152,9 +171,9 @@ namespace KinoConsole
             if (this.mShowHelp && this.appList.Count == 0)
             {
                 this.mShowHelp = false;
-                this.settings["mShowHelp"] = (object)false;
-                this.settings.Save();
-                ((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative));
+                //this.settings["mShowHelp"] = (object)false;
+                //this.settings.Save();
+                //((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative));
             }
             else
                 this.UpdateUI();
@@ -171,7 +190,7 @@ namespace KinoConsole
             RemotePage.serverUid = this.appList[index].serverUid;
             RemotePage.appPath = this.appList[index].appPath;
             RemotePage.appName = this.appList[index].appName;
-            ((Page)this).NavigationService.Navigate(new Uri("/RemotePage.xaml", UriKind.Relative));
+            //((Page)this).NavigationService.Navigate(new Uri("/RemotePage.xaml", UriKind.Relative));
         }
 
         private void FeedbackOverlay_VisibilityChanged(object sender, EventArgs e)
@@ -189,13 +208,13 @@ namespace KinoConsole
                     this.appName.Text = this.appList[0].appName;
                     this.appServer.Text = "on " + this.appList[0].serverName;
                     ((UIElement)this.appServer).Visibility = (Visibility)0;
-                    if (this.settings.Contains("peli:" + this.appList[0].appName))
-                    {
-                        this.appDetail.Text = "last played " + this.settings["peli:" + this.appList[0].appName];
+                    //if (this.settings.Contains("peli:" + this.appList[0].appName))
+                    //{
+                    this.appDetail.Text = "last played ";// + this.settings["peli:" + this.appList[0].appName];
                         ((UIElement)this.appDetail).Visibility = (Visibility)0;
-                    }
-                    else
-                        ((UIElement)this.appDetail).Visibility = (Visibility)1;
+                    //}
+                    //else
+                    //    ((UIElement)this.appDetail).Visibility = (Visibility)1;
                 }
                 else
                 {
@@ -207,7 +226,7 @@ namespace KinoConsole
                 ((UIElement)this.gamesLibrary).Visibility = (Visibility)0;
                 ((UIElement)this.collection).Visibility = (Visibility)0;
                 ((UIElement)this.appInfo).Visibility = (Visibility)0;
-                Api.LogEvent("ServerFound");
+                Debug.WriteLine("[i] ServerFound");
             }
             else
             {
@@ -224,14 +243,14 @@ namespace KinoConsole
                     this.searchText2.Text = "Please check that you have installed Kinoni Windows Server in your PC and that it is connected to the same network as your Windows Phone device.";
                     this.searchText2.Text += "\nAlso check that bluetooth is switched off. It can sometimes disturb WiFi connections.";
                     ((UIElement)this.searchText2).Visibility = (Visibility)0;
-                    Api.LogEvent("NoServersFound");
+                    Debug.WriteLine("[i] NoServersFound");
                 }
                 else
                 {
                     this.searchText1.Text = "It seems that your device is not connected to the network.\nPlease check your network settings.";
                     ((FrameworkElement)this.searchText1).HorizontalAlignment = (HorizontalAlignment)0;
                     ((UIElement)this.searchText2).Visibility = (Visibility)1;
-                    Api.LogEvent("NoNetwork");
+                    Debug.WriteLine("[i] NoNetwork");
                 }
             }
         }
@@ -240,7 +259,8 @@ namespace KinoConsole
         {
             foreach (NetworkInterfaceInfo networkInterfaceInfo in new NetworkInterfaceList())
             {
-                if ((networkInterfaceInfo.InterfaceType == 71 || Environment.DeviceType == 1) && networkInterfaceInfo.InterfaceState == 1)
+                if ((networkInterfaceInfo.InterfaceType == 71 /*|| Environment.DeviceType == 1*/) 
+                    && networkInterfaceInfo.InterfaceState == 1)
                     return networkInterfaceInfo.InterfaceName;
             }
             return (string)null;
@@ -263,79 +283,93 @@ namespace KinoConsole
             {
                 this.splashTimer.Stop();
                 (Application.Current as App).splashPopup.IsOpen = false;
-                SystemTray.IsVisible = true;
-                this.ApplicationBar.IsVisible = true;
+                //SystemTray.IsVisible = true;
+                //this.ApplicationBar.IsVisible = true;
+                BottomAppBar.IsOpen = false;//true;
             }
         }
 
-        private void nativeLib_ListUpdated() => ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() =>
+        private void nativeLib_ListUpdated()
         {
-            string str = this.namePrefixNum++.ToString();
-            this.appList = new List<MainPage.AppInfo>();
-            this.imageList = new List<string>();
-            IsolatedStorageFile.GetUserStoreForApplication();
-            try
+            //((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() =>
             {
-                using (IsolatedStorageFile storeForApplication = IsolatedStorageFile.GetUserStoreForApplication())
+                string str = this.namePrefixNum++.ToString();
+                this.appList = new List<MainPage.AppInfo>();
+                this.imageList = new List<string>();
+                IsolatedStorageFile.GetUserStoreForApplication();
+                try
                 {
-                    string path1 = ApplicationData.Current.LocalFolder.Path + "\\";
-                    foreach (string fileName in storeForApplication.GetFileNames(Path.Combine(path1, "CoverFile*.png")))
-                        storeForApplication.DeleteFile(Path.Combine(path1, fileName));
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-            for (int idx = 0; idx < 1000; ++idx)
-            {
-                MainPage.AppInfo appInfo = new MainPage.AppInfo();
-                IBuffer listServerUid = (Application.Current as App).nativeLib.GetListServerUid(idx);
-                if (listServerUid != null)
-                {
-                    appInfo.serverUid = listServerUid;
-                    appInfo.serverName = (Application.Current as App).nativeLib.GetListServerName(idx);
-                    appInfo.appPath = (Application.Current as App).nativeLib.GetListAppPath(idx);
-                    appInfo.appName = (Application.Current as App).nativeLib.GetListAppName(idx);
-                    appInfo.status = (MainPage.AppInfo.Status)(Application.Current as App).nativeLib.GetListStatus(idx);
-                    IBuffer listAppIcon = (Application.Current as App).nativeLib.GetListAppIcon(idx);
-                    if (listAppIcon != null)
+                    using (IsolatedStorageFile storeForApplication 
+                    = IsolatedStorageFile.GetUserStoreForApplication())
                     {
-                        string path = ApplicationData.Current.LocalFolder.Path + "\\CoverFile" + str + idx.ToString() + ".png";
-                        try
+                        string path1 = ApplicationData.Current.LocalFolder.Path + "\\";
+                        foreach (string fileName in storeForApplication.GetFileNames(Path.Combine(path1, 
+                            "CoverFile*.png")))
+                            storeForApplication.DeleteFile(Path.Combine(path1, fileName));
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+                for (int idx = 0; idx < 1000; ++idx)
+                {
+                    MainPage.AppInfo appInfo = new MainPage.AppInfo();
+                    IBuffer listServerUid = (Application.Current as App).nativeLib.GetListServerUid(idx);
+                    if (listServerUid != null)
+                    {
+                        appInfo.serverUid = listServerUid;
+                        appInfo.serverName = (Application.Current as App).nativeLib.GetListServerName(idx);
+                        appInfo.appPath = (Application.Current as App).nativeLib.GetListAppPath(idx);
+                        appInfo.appName = (Application.Current as App).nativeLib.GetListAppName(idx);
+                        appInfo.status = default;
+                           // (MainPage.AppInfo.Status)(Application.Current as App).nativeLib.GetListStatus(idx);
+
+                        IBuffer listAppIcon = (Application.Current as App).nativeLib.GetListAppIcon(idx);
+                        if (listAppIcon != null)
                         {
-                            using (IsolatedStorageFile storeForApplication = IsolatedStorageFile.GetUserStoreForApplication())
+                            string path = ApplicationData.Current.LocalFolder.Path + "\\CoverFile" 
+                                + str + idx.ToString() + ".png";
+                            try
                             {
-                                using (IsolatedStorageFileStream file = storeForApplication.CreateFile(path))
+                                using (IsolatedStorageFile storeForApplication 
+                                    = IsolatedStorageFile.GetUserStoreForApplication())
                                 {
-                                    using (BinaryWriter binaryWriter = new BinaryWriter((Stream)file))
-                                        binaryWriter.Write(listAppIcon.ToArray());
-                                    file.Close();
+                                    using (IsolatedStorageFileStream file = storeForApplication.CreateFile(path))
+                                    {
+                                        using (BinaryWriter binaryWriter = new BinaryWriter((Stream)file))
+                                            binaryWriter.Write(listAppIcon.ToArray());
+                                        file.Close();
+                                    }
                                 }
                             }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine("[ex] ListUpdated bug: " + ex.Message);
+                                return;
+                            }
+                            this.imageList.Add(path);
                         }
-                        catch (Exception ex)
-                        {
-                            Api.LogError("ListUpdated", ex);
-                            return;
-                        }
-                        this.imageList.Add(path);
+                        else if (appInfo.status == MainPage.AppInfo.Status.EPasswordMissing)
+                            this.imageList.Add("Assets/serverlocked.png");
+                        else
+                            this.imageList.Add("Assets/server.png");
+                        this.appList.Add(appInfo);
                     }
-                    else if (appInfo.status == MainPage.AppInfo.Status.EPasswordMissing)
-                        this.imageList.Add("Assets/serverlocked.png");
                     else
-                        this.imageList.Add("Assets/server.png");
-                    this.appList.Add(appInfo);
+                        break;
                 }
-                else
-                    break;
-            }
-            int selectedItemIndex = this.ImageList.SelectedItemIndex;
-            this.ImageList.ItemsSource = (IEnumerable)this.imageList;
-            this.ImageList.SelectedItemIndex = selectedItemIndex < 0 || selectedItemIndex >= this.imageList.Count ? 0 : selectedItemIndex;
-            this.UpdateUI();
-        }));
+                int selectedItemIndex = this.ImageList.SelectedItemIndex;
+                this.ImageList.ItemsSource = (IEnumerable)this.imageList;
+                this.ImageList.SelectedItemIndex = selectedItemIndex < 0 
+                || selectedItemIndex >= this.imageList.Count ? 0 : selectedItemIndex;
+                this.UpdateUI();
+            }//));
+        }
 
-        private void ImageList_ManipulationStarted(object sender, ManipulationStartedEventArgs e) => this.deltaX = 0.0;
+        private void ImageList_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            this.deltaX = 0.0;
+        }
 
         private void ImageList_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
@@ -357,13 +391,15 @@ namespace KinoConsole
                 this.appName.Text = this.appList[this.ImageList.SelectedItemIndex].appName;
                 this.appServer.Text = "on " + this.appList[this.ImageList.SelectedItemIndex].serverName;
                 ((UIElement)this.appServer).Visibility = (Visibility)0;
-                if (this.settings.Contains("peli:" + this.appList[this.ImageList.SelectedItemIndex].appName))
+                //if (this.settings.Contains("peli:" + this.appList[this.ImageList.SelectedItemIndex].appName))
+                //{
+                //    this.appDetail.Text = "last played " + this.settings["peli:" + this.appList[this.ImageList.SelectedItemIndex].appName];
+                //    ((UIElement)this.appDetail).Visibility = (Visibility)0;
+                //}
+                //else
                 {
-                    this.appDetail.Text = "last played " + this.settings["peli:" + this.appList[this.ImageList.SelectedItemIndex].appName];
-                    ((UIElement)this.appDetail).Visibility = (Visibility)0;
-                }
-                else
                     ((UIElement)this.appDetail).Visibility = (Visibility)1;
+                }
             }
             else
             {
@@ -390,12 +426,12 @@ namespace KinoConsole
                 if (this.appList[this.ImageList.SelectedItemIndex].status == MainPage.AppInfo.Status.EPasswordMissing)
                 {
                     PasswordPage.serverUid = this.appList[this.ImageList.SelectedItemIndex].serverUid;
-                    ((Page)this).NavigationService.Navigate(new Uri("/PasswordPage.xaml", UriKind.Relative));
+                    //((Page)this).NavigationService.Navigate(new Uri("/PasswordPage.xaml", UriKind.Relative));
                 }
                 else
                 {
                     this.UpdateTile();
-                    this.settings["peli:" + this.appList[this.ImageList.SelectedItemIndex].appName] = (object)DateTime.Now.ToString();
+                    //this.settings["peli:" + this.appList[this.ImageList.SelectedItemIndex].appName] = (object)DateTime.Now.ToString();
                     List<IBuffer> ibufferList = new List<IBuffer>();
                     int num = 0;
                     for (int index1 = 0; index1 < this.appList.Count; ++index1)
@@ -411,27 +447,43 @@ namespace KinoConsole
                         if (this.appList[index1].appName != null && this.appList[index1].appName.Length > 0)
                             ++num;
                     }
-                    Api.LogEvent("peli", new List<Parameter>()
-          {
-            new Parameter("nimi", this.appList[this.ImageList.SelectedItemIndex].appName),
-            new Parameter("svrCount", ibufferList.Count.ToString()),
-            new Parameter("appCount", num.ToString())
-          });
+                    Debug.WriteLine
+                    ("[i] peli: ", 
+                          new List<Parameter>()
+                            {
+                            new Parameter("nimi", this.appList[this.ImageList.SelectedItemIndex].appName),
+                            new Parameter("svrCount", ibufferList.Count.ToString()),
+                            new Parameter("appCount", num.ToString())
+                            }
+                    );
                     RemotePage.serverUid = this.appList[this.ImageList.SelectedItemIndex].serverUid;
                     RemotePage.appPath = this.appList[this.ImageList.SelectedItemIndex].appPath;
                     RemotePage.appName = this.appList[this.ImageList.SelectedItemIndex].appName;
-                    ((Page)this).NavigationService.Navigate(new Uri("/RemotePage.xaml", UriKind.Relative));
+                    //((Page)this).NavigationService.Navigate(new Uri("/RemotePage.xaml", UriKind.Relative));
                 }
             }
         }
 
-        private void ApplicationBarIconButton_Click_Settings(object sender, EventArgs e) => ((Page)this).NavigationService.Navigate(new Uri("/AddServerPage.xaml", UriKind.Relative));
 
-        private void ApplicationBarIconButton_Click_Help(object sender, EventArgs e) => ((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative));
+        private void ApplicationBarIconButton_Click_Settings(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/AddServerPage.xaml", UriKind.Relative));
+        }
 
-        private void ApplicationBarIconButton_Click_Buy(object sender, EventArgs e) => ((Page)this).NavigationService.Navigate(new Uri("/ProPage.xaml", UriKind.Relative));
+        private void ApplicationBarIconButton_Click_Help(object sender, RoutedEventArgs e)
+        { 
+            //((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative)); 
+        }
 
-        private void ApplicationBarIconButton_Click_About(object sender, EventArgs e) => ((Page)this).NavigationService.Navigate(new Uri("/AboutPage.xaml", UriKind.Relative));
+        private void ApplicationBarIconButton_Click_Buy(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/ProPage.xaml", UriKind.Relative));
+        }
+
+        private void ApplicationBarIconButton_Click_About(object sender, RoutedEventArgs e)
+        {
+            //((Page)this).NavigationService.Navigate(new Uri("/AboutPage.xaml", UriKind.Relative));
+        }
 
         private async void UpdateProInfo()
         {
@@ -458,42 +510,52 @@ namespace KinoConsole
                 //}
                 try
                 {
-                    ListingInformation products = await CurrentApp.LoadListingInformationByProductIdsAsync((IEnumerable<string>)new string[1]
+                    ListingInformation products = 
+                        await CurrentApp.LoadListingInformationByProductIdsAsync(
+                            (IEnumerable<string>)new string[1]
                     {
             MainPage.InAppProductKey
                     });
                     ProductListing productListing = (ProductListing)null;
+
                     if (products.ProductListings.TryGetValue(MainPage.InAppProductKey, out productListing))
                     {
                         ProductLicense productLicense = (ProductLicense)null;
-                        if (!CurrentApp.LicenseInformation.ProductLicenses.TryGetValue(MainPage.InAppProductKey, out productLicense) || !productLicense.IsActive)
+                        if (!CurrentApp.LicenseInformation.ProductLicenses.TryGetValue(MainPage.InAppProductKey, 
+                            out productLicense) || !productLicense.IsActive)
                             return;
+                        
                         //this.settings["proVersion"] = (object)true;
                         //this.settings.Save();
-                        if (this.adControl != null)
-                            ((UIElement)this.adControl).Visibility = (Visibility)1;
-                        ((UIElement)this.admob).Visibility = (Visibility)1;
+
+                        //if (this.adControl != null)
+                        //    ((UIElement)this.adControl).Visibility = (Visibility)1;
+                        //((UIElement)this.admob).Visibility = (Visibility)1;
                     }
                     else
-                        Debug.WriteLine("[ex] noProductInfo error: " + ex.Message);
+                        Debug.WriteLine("[ex] noProductInfo error: no product license key");
                 }
                 catch (Exception ex)
                 {
-                    Api.LogError("ProductList", ex);
+                    Debug.WriteLine("[ex] ProductList bug:" + ex.Message);
                 }
-                if (this.ApplicationBar.Buttons.Count <= 3)
-                    return;
-                this.ApplicationBar.Buttons.Remove((object)(this.ApplicationBar.Buttons[2] as ApplicationBarIconButton));
+
+                //if (this.ApplicationBar.Buttons.Count <= 3)
+                //    return;
+                //this.ApplicationBar.Buttons.Remove((object)(this.ApplicationBar.Buttons[2]
+                //    as ApplicationBarIconButton));
             }
         }
 
         private void UpdateTile()
         {
-            ShellTile shellTile = ShellTile.ActiveTiles.First<ShellTile>();
-            if (shellTile == null)
-                return;
+
+            //ShellTile shellTile = ShellTile.ActiveTiles.First<ShellTile>();
+            //if (shellTile == null)
+            //    return;
             try
             {
+                /*
                 FlipTileData flipTileData = new FlipTileData();
                 byte[] buffer;
                 using (IsolatedStorageFile storeForApplication = IsolatedStorageFile.GetUserStoreForApplication())
@@ -516,10 +578,11 @@ namespace KinoConsole
                 flipTileData.SmallBackgroundImage = new Uri("isostore:/Shared/ShellContent/back159x159.jpg", UriKind.Absolute);
                 ((StandardTileData)flipTileData).BackBackgroundImage = new Uri("isostore:/Shared/ShellContent/back336x336.jpg", UriKind.Absolute);
                 shellTile.Update((ShellTileData)flipTileData);
+                */
             }
             catch (Exception ex)
             {
-                Api.LogError(nameof(UpdateTile), ex);
+                Debug.WriteLine("[ex] UpdateTile bug: " + nameof(UpdateTile) + " " +  ex.Message);
             }
         }
 
@@ -644,6 +707,7 @@ namespace KinoConsole
                 ENoAppsConfigured,
             }
         }
+
     }
 }
 

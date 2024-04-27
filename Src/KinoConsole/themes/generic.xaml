@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d">
 
-    <Style TargetType="local:CollectionFlow">
+    <!--Style TargetType="local:CollectionFlow">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CollectionFlow">
@@ -37,5 +37,5 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style-->
 </ResourceDictionary>

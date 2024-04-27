@@ -4,7 +4,7 @@
 // MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
 // Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
 
-using Microsoft.Phone.Controls;
+//using Microsoft.Phone.Controls;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -55,14 +55,14 @@ namespace KinoConsole
             IsolatedStorageFile.GetUserStoreForApplication();
             foreach (string fileName in strArray)
             {
-                StreamResourceInfo resourceStream = Application.GetResourceStream(
-                    new Uri("Assets/Help/" + fileName, UriKind.Relative));
+                //StreamResourceInfo resourceStream = Application.GetResourceStream(
+                //    new Uri("Assets/Help/" + fileName, UriKind.Relative));
 
-                using (BinaryReader binaryReader = new BinaryReader(resourceStream.Stream))
-                {
-                    byte[] data = binaryReader.ReadBytes((int)resourceStream.Stream.Length);
-                    this.SaveToIsoStore(fileName, data);
-                }
+                //using (BinaryReader binaryReader = new BinaryReader(resourceStream.Stream))
+                //{
+                //    byte[] data = binaryReader.ReadBytes((int)resourceStream.Stream.Length);
+                //    this.SaveToIsoStore(fileName, data);
+                //}
             }
         }
 

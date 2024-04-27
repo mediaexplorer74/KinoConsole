@@ -17,7 +17,9 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>50FFBE5076E43CACAC2BA1036D1CBA0B9CC8CC89</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>KinoConsole_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -119,41 +121,58 @@
     <Compile Include="AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ActivatedEventArgs.cs" />
     <Compile Include="AddServerPage.xaml.cs">
       <DependentUpon>AddServerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AttitudeReading.cs" />
+    <Compile Include="ApplicationUnhandledExceptionEventArgs.cs" />
+    <Compile Include="ClosingEventArgs.cs" />
+    <Compile Include="DeactivatedEventArgs.cs" />
+    <Compile Include="LaunchingEventArgs.cs" />
+    <Compile Include="ListUpdatedHandler.cs" />
+    <Compile Include="NetworkInterfaceInfo.cs" />
+    <Compile Include="NetworkInterfaceList.cs" />
+    <Compile Include="Parameter.cs" />
+    <Compile Include="RefactorIt\AttitudeReading.cs" />
     <Compile Include="BackDialog.xaml.cs">
       <DependentUpon>BackDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ButtonDialog.xaml.cs">
       <DependentUpon>ButtonDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CNativeLib.cs" />
-    <Compile Include="ConnectedHandler.cs" />
-    <Compile Include="ErrorHandler.cs" />
-    <Compile Include="GameControllerStateHandler.cs" />
-    <Compile Include="GestureEventArgs.cs" />
+    <Compile Include="RefactorIt\CNativeLib.cs" />
+    <Compile Include="RefactorIt\ConnectedHandler.cs" />
+    <Compile Include="RefactorIt\ErrorHandler.cs" />
+    <Compile Include="RefactorIt\GameControllerStateHandler.cs" />
+    <Compile Include="RefactorIt\GestureEventArgs.cs" />
     <Compile Include="HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IsolatedStorageSettings.cs" />
-    <Compile Include="Key.cs" />
-    <Compile Include="Keyboard.cs" />
-    <Compile Include="KeyEventArgs.cs" />
+    <Compile Include="RefactorIt\IsolatedStorageSettings.cs" />
+    <Compile Include="RefactorIt\Key.cs" />
+    <Compile Include="RefactorIt\Keyboard.cs" />
+    <Compile Include="RefactorIt\KeyEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManipulationDeltaEventArgs.cs" />
-    <Compile Include="MediaStreamer.cs" />
-    <Compile Include="MediaStreamerFactory.cs" />
-    <Compile Include="MenuItem.cs" />
-    <Compile Include="ModifierKeys.cs" />
-    <Compile Include="Motion.cs" />
-    <Compile Include="MotionReading.cs" />
+    <Compile Include="RefactorIt\ManipulationDeltaEventArgs.cs" />
+    <Compile Include="RefactorIt\MediaSampleAttributeKeys.cs" />
+    <Compile Include="RefactorIt\MediaSourceAttributesKeys.cs" />
+    <Compile Include="RefactorIt\MediaStreamAttributeKeys.cs" />
+    <Compile Include="RefactorIt\MediaStreamDescription.cs" />
+    <Compile Include="RefactorIt\MediaStreamer.cs" />
+    <Compile Include="RefactorIt\MediaStreamerFactory.cs" />
+    <Compile Include="RefactorIt\MediaStreamSample.cs" />
+    <Compile Include="RefactorIt\MediaStreamSource.cs" />
+    <Compile Include="RefactorIt\MediaStreamSourceDiagnosticKind.cs" />
+    <Compile Include="RefactorIt\MediaStreamType.cs" />
+    <Compile Include="RefactorIt\MenuItem.cs" />
+    <Compile Include="RefactorIt\ModifierKeys.cs" />
+    <Compile Include="RefactorIt\Motion.cs" />
+    <Compile Include="RefactorIt\MotionReading.cs" />
     <Compile Include="PasswordPage.xaml.cs">
       <DependentUpon>PasswordPage.xaml</DependentUpon>
     </Compile>
@@ -161,25 +180,27 @@
       <DependentUpon>ProPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="RefactorIt\LocalizedStrings.cs" />
+    <Compile Include="RefactorIt\Status.cs" />
+    <Compile Include="RefactorIt\VideoDataHandler.cs" />
     <Compile Include="RemotePage.xaml.cs">
       <DependentUpon>RemotePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\AppResources.cs" />
-    <Compile Include="RoutedPropertyChangedEventArgs.cs" />
-    <Compile Include="SensorBase.cs" />
-    <Compile Include="SensorReadingEventArgs.cs" />
+    <Compile Include="RefactorIt\RoutedPropertyChangedEventArgs.cs" />
+    <Compile Include="RefactorIt\SensorBase.cs" />
+    <Compile Include="RefactorIt\SensorReadingEventArgs.cs" />
     <Compile Include="SplashScreenControl.xaml.cs">
       <DependentUpon>SplashScreenControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StreamResourceInfo.cs" />
-    <Compile Include="Touch.cs" />
-    <Compile Include="TouchFrameEventArgs.cs" />
-    <Compile Include="TouchFrameEventHandler.cs" />
-    <Compile Include="TouchPoint.cs" />
-    <Compile Include="TouchPointCollection.cs" />
-    <Compile Include="VideoMediaStreamSource.cs" />
-    <Compile Include="VirtualButton.cs" />
+    <Compile Include="RefactorIt\StreamResourceInfo.cs" />
+    <Compile Include="RefactorIt\Touch.cs" />
+    <Compile Include="RefactorIt\TouchFrameEventArgs.cs" />
+    <Compile Include="RefactorIt\TouchFrameEventHandler.cs" />
+    <Compile Include="RefactorIt\TouchPoint.cs" />
+    <Compile Include="RefactorIt\TouchPointCollection.cs" />
+    <Compile Include="RefactorIt\VideoMediaStreamSource.cs" />
+    <Compile Include="RefactorIt\VirtualButton.cs" />
     <Compile Include="wp7coverflow\CollectionFlow.cs" />
     <Compile Include="wp7coverflow\CollectionFlowPanel.cs" />
     <Compile Include="wp7coverflow\IEasingFunction.cs" />
@@ -289,13 +310,31 @@
     <Content Include="Assets\imgForward.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\LargeTile.scale-100.png" />
+    <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\server.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\serverlocked.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\SplashScreenImage.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
     <Content Include="Assets\Tiles\kinoconsole159x159.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -305,29 +344,15 @@
     <Content Include="Assets\transparent.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Add.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolkit.Content\ApplicationBar.Check.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolkit.Content\ApplicationBar.Delete.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolkit.Content\ApplicationBar.Select.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -374,7 +399,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="themes\generic.xaml">
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -385,7 +410,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Resources.resw" />
+    <PRIResource Include="Resources\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="KinoConsole_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

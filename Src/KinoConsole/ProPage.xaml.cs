@@ -33,9 +33,9 @@ namespace KinoConsole
             this.InitializeComponent();
         }
 
-        protected virtual void OnNavigatedTo(NavigationEventArgs e)
+        protected /*virtual*/ void OnNavigatedTo(NavigationEventArgs e)
         {
-            ((Page)this).OnNavigatedTo(e);
+           // ((Page)this).OnNavigatedTo(e); ProPage
             this.UpdatePage();
         }
 

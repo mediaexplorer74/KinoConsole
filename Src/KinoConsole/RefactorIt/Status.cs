@@ -3,8 +3,7 @@
 
 namespace KinoConsole
 {
-    internal class ManipulationDeltaEventArgs
+    public class Status
     {
-        internal object DeltaManipulation;
     }
 }

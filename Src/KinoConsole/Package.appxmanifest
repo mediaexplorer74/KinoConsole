@@ -4,12 +4,15 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+  xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+  IgnorableNamespaces="uap mp uap3 iot uap4">
 
   <Identity
-    Name="09fc5c55-bdac-4057-bbb3-bf1ee49acc90"
+    Name="ME.KinoConsoleV2"
     Publisher="CN=Admin"
-    Version="1.0.0.0" />
+    Version="2.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="09fc5c55-bdac-4057-bbb3-bf1ee49acc90" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -37,13 +40,31 @@
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="KinoConsole"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/>
+          <uap:Rotation Preference="portrait"/>
+          <uap:Rotation Preference="landscapeFlipped"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <uap3:Capability Name="remoteSystem"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <uap:Capability Name="picturesLibrary"/>
+    <Capability Name="internetClientServer"/>
+    <uap3:Capability Name="backgroundMediaPlayback"/>
+    <uap:Capability Name="musicLibrary"/>
+    <uap:Capability Name="removableStorage"/>
+    <uap:Capability Name="voipCall"/>
+    <iot:Capability Name="systemManagement"/>
+    <uap4:Capability Name="userDataTasks"/>
+    <uap3:Capability Name="userNotificationListener"/>
+    <DeviceCapability Name="proximity"/>
+    <DeviceCapability Name="pointOfService"/>
+    <DeviceCapability Name="bluetooth"/>
   </Capabilities>
 </Package>

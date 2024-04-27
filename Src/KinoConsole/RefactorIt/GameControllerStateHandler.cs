@@ -5,7 +5,7 @@ using System;
 
 namespace KinoConsole
 {
-    internal class GameControllerStateHandler
+    public class GameControllerStateHandler
     {
         private Action<bool> nativeLib_GameControllerState;
 

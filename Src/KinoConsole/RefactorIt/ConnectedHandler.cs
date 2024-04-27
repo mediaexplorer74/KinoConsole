@@ -5,7 +5,7 @@ using System;
 
 namespace KinoConsole
 {
-    internal class ConnectedHandler
+    public class ConnectedHandler
     {
         private Action nativeLib_Connected;
 

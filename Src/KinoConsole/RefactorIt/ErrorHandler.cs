@@ -5,7 +5,7 @@ using System;
 
 namespace KinoConsole
 {
-    internal class ErrorHandler
+    public class ErrorHandler
     {
         private Action<int> nativeLib_Error;
 

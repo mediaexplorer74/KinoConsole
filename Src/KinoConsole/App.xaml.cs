@@ -1,7 +1,7 @@
-﻿using FlurryWP8SDK;
-using FlurryWP8SDK.Models;
+﻿//using FlurryWP8SDK;
+//using FlurryWP8SDK.Models;
 using KinoConsole.Resources;
-using NativeLib;
+//using NativeLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,64 +20,83 @@ using Windows.UI.Xaml;
 
 namespace KinoConsole
 {
-    public class App : Application
+    public partial class App : Application
     {
         public Popup splashPopup = new Popup();
         public CNativeLib nativeLib;
         private string FlurryKey = "BTH69V8X5HNPW8BM7K9P";
         private bool phoneApplicationInitialized;
-        private bool _contentLoaded;
+        //private bool _contentLoaded;
 
-        public static PhoneApplicationFrame RootFrame { get; private set; }
+        public static Frame RootFrame { get; private set; }
 
         public App()
         {
-            this.UnhandledException += new EventHandler<ApplicationUnhandledExceptionEventArgs>(this.Application_UnhandledException);
+            //this.UnhandledException += new EventHandler<ApplicationUnhandledExceptionEventArgs>(
+            //    this.Application_UnhandledException);
             this.InitializeComponent();
             this.InitializePhoneApplication();
             this.InitializeLanguage();
             SplashScreenControl splashScreenControl = new SplashScreenControl();
-            ((FrameworkElement)splashScreenControl).Height = Application.Current.Host.Content.ActualHeight;
+            ((FrameworkElement)splashScreenControl).Height = 400;//Application.Current.Host.Content.ActualHeight;
             this.splashPopup = new Popup();
             this.splashPopup.Child = (UIElement)splashScreenControl;
             this.splashPopup.IsOpen = true;
             this.nativeLib = new CNativeLib();
             CNativeLib nativeLib1 = this.nativeLib;
-            WindowsRuntimeMarshal.AddEventHandler<FlurryEventHandler>(new Func<FlurryEventHandler, EventRegistrationToken>(nativeLib1.add_FlurryEvent), new Action<EventRegistrationToken>(nativeLib1.remove_FlurryEvent), new FlurryEventHandler(this.nativeLib_FlurryEvent));
+            //WindowsRuntimeMarshal.AddEventHandler<FlurryEventHandler>(new Func<FlurryEventHandler, EventRegistrationToken>(nativeLib1.add_FlurryEvent), new Action<EventRegistrationToken>(nativeLib1.remove_FlurryEvent), new FlurryEventHandler(this.nativeLib_FlurryEvent));
             CNativeLib nativeLib2 = this.nativeLib;
-            WindowsRuntimeMarshal.AddEventHandler<FlurryEventWithParamHandler>(new Func<FlurryEventWithParamHandler, EventRegistrationToken>(nativeLib2.add_FlurryEventWithParam), new Action<EventRegistrationToken>(nativeLib2.remove_FlurryEventWithParam), new FlurryEventWithParamHandler(this.nativeLib_FlurryEventWithParam));
+            //WindowsRuntimeMarshal.AddEventHandler<FlurryEventWithParamHandler>(new Func<FlurryEventWithParamHandler, EventRegistrationToken>(nativeLib2.add_FlurryEventWithParam), new Action<EventRegistrationToken>(nativeLib2.remove_FlurryEventWithParam), new FlurryEventWithParamHandler(this.nativeLib_FlurryEventWithParam));
             CNativeLib nativeLib3 = this.nativeLib;
-            WindowsRuntimeMarshal.AddEventHandler<FlurryErrorHandler>(new Func<FlurryErrorHandler, EventRegistrationToken>(nativeLib3.add_FlurryError), new Action<EventRegistrationToken>(nativeLib3.remove_FlurryError), new FlurryErrorHandler(this.nativeLib_FlurryError));
+            //WindowsRuntimeMarshal.AddEventHandler<FlurryErrorHandler>(new Func<FlurryErrorHandler, EventRegistrationToken>(nativeLib3.add_FlurryError), new Action<EventRegistrationToken>(nativeLib3.remove_FlurryError), new FlurryErrorHandler(this.nativeLib_FlurryError));
             if (!Debugger.IsAttached)
                 return;
-            Application.Current.Host.Settings.EnableFrameRateCounter = false;
-            PhoneApplicationService.Current.UserIdleDetectionMode = (IdleDetectionMode)1;
+            //Application.Current.Host.Settings.EnableFrameRateCounter = false;
+            //PhoneApplicationService.Current.UserIdleDetectionMode = (IdleDetectionMode)1;
         }
 
-        private void nativeLib_FlurryEvent(string eventName) => Api.LogEvent(eventName);
+        private void nativeLib_FlurryEvent(string eventName)
+        {
+            Debug.WriteLine("[i] " + eventName); 
+        }
 
-        private void nativeLib_FlurryEventWithParam(string eventName, string param, string value) => Api.LogEvent(eventName, new List<Parameter>()
-    {
-      new Parameter(param, value)
-    });
+        private void nativeLib_FlurryEventWithParam(string eventName, string param, string value)
+        {
+            Debug.WriteLine
+            (
+              "[i] " + eventName, new List<Parameter>()
+                {
+                  new Parameter(param, value)
+                }
+             );
+        }
 
-        private void nativeLib_FlurryError(string text) => Api.LogError(text, new Exception());
+        private void nativeLib_FlurryError(string text) 
+        { 
+          Debug.WriteLine("[ex] text: " + text);
+        }
 
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            Api.StartSession(this.FlurryKey);
-            this.nativeLib.Start(IsolatedStorageSettings.ApplicationSettings.Contains("proVersion"));
+            //Api.StartSession(this.FlurryKey);
+            this.nativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/default);
         }
 
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            Api.StartSession(this.FlurryKey);
-            this.nativeLib.Start(IsolatedStorageSettings.ApplicationSettings.Contains("proVersion"));
+            //Api.StartSession(this.FlurryKey);
+            this.nativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/default);
         }
 
-        private void Application_Deactivated(object sender, DeactivatedEventArgs e) => this.nativeLib.Stop();
+        private void Application_Deactivated(object sender, DeactivatedEventArgs e)
+        { 
+            this.nativeLib.Stop();
+        }
 
-        private void Application_Closing(object sender, ClosingEventArgs e) => this.nativeLib.Stop();
+        private void Application_Closing(object sender, ClosingEventArgs e)
+        { 
+            this.nativeLib.Stop(); 
+        }
 
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
@@ -99,7 +118,8 @@ namespace KinoConsole
         {
             if (this.phoneApplicationInitialized)
                 return;
-            App.RootFrame = new PhoneApplicationFrame();
+            App.RootFrame = new Frame();
+
             ((Frame)App.RootFrame).Navigated += new NavigatedEventHandler(this.CompleteInitializePhoneApplication);
             ((Frame)App.RootFrame).NavigationFailed += new NavigationFailedEventHandler(this.RootFrame_NavigationFailed);
             ((Frame)App.RootFrame).Navigated += new NavigatedEventHandler(this.CheckForResetNavigation);
@@ -108,33 +128,33 @@ namespace KinoConsole
 
         private void CompleteInitializePhoneApplication(object sender, NavigationEventArgs e)
         {
-            if (this.RootVisual != App.RootFrame)
-                this.RootVisual = (UIElement)App.RootFrame;
+            //if (this.RootVisual != App.RootFrame)
+            //    this.RootVisual = (UIElement)App.RootFrame;
             ((Frame)App.RootFrame).Navigated -= new NavigatedEventHandler(this.CompleteInitializePhoneApplication);
         }
 
         private void CheckForResetNavigation(object sender, NavigationEventArgs e)
         {
-            if (e.NavigationMode != 4)
-                return;
+            //if (e.NavigationMode != 4)
+            //    return;
             ((Frame)App.RootFrame).Navigated += new NavigatedEventHandler(this.ClearBackStackAfterReset);
         }
 
         private void ClearBackStackAfterReset(object sender, NavigationEventArgs e)
         {
             ((Frame)App.RootFrame).Navigated -= new NavigatedEventHandler(this.ClearBackStackAfterReset);
-            if (e.NavigationMode != null && e.NavigationMode != 3)
+            if (e.NavigationMode != null/* && e.NavigationMode != 3*/)
                 return;
-            do
-                ;
-            while (App.RootFrame.RemoveBackEntry() != null);
+            //do
+            //{; }
+            //while (App.RootFrame.RemoveBackEntry() != null);
         }
 
         private void InitializeLanguage()
         {
             try
             {
-                ((FrameworkElement)App.RootFrame).Language = XmlLanguage.GetLanguage(AppResources.ResourceLanguage);
+                ((FrameworkElement)App.RootFrame).Language = default;//XmlLanguage.GetLanguage(AppResources.ResourceLanguage);
                 ((FrameworkElement)App.RootFrame).FlowDirection = (FlowDirection)Enum.Parse(typeof(FlowDirection), AppResources.ResourceFlowDirection);
             }
             catch
@@ -145,6 +165,7 @@ namespace KinoConsole
             }
         }
 
+        /*
         [DebuggerNonUserCode]
         public void InitializeComponent()
         {
@@ -153,6 +174,7 @@ namespace KinoConsole
             this._contentLoaded = true;
             Application.LoadComponent((object)this, new Uri("/KinoConsole;component/App.xaml", UriKind.Relative));
         }
+        */
     }
 }
 

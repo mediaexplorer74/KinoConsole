@@ -645,7 +645,9 @@ namespace KinoConsole
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex]" + ex.Message);
             }
+
             if ((Application.Current as App).nativeLib.GetGameControllerState())
             {
                 foreach (RemotePage.Button button in this.buttons)
@@ -1050,12 +1052,7 @@ namespace KinoConsole
         }
         */
 
-        private void button_Hold(object sender, GestureEventArgs e)
-        {
-            if (this.mEditMode)
-                return;
-            e.Handled = true;
-        }
+      
 
         private void ButtonVisibilityClick(object sender, RoutedEventArgs e)
         {
@@ -1096,32 +1093,6 @@ namespace KinoConsole
             ((UIElement)this.slider).Visibility = (Visibility)0;
         }
 
-        private void sliderValue_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            double newValue = e.NewValue;
-            if (this.sliderButton == null || this.sliderType == RemotePage.SliderType.None)
-                return;
-            if (this.sliderType == RemotePage.SliderType.Opacity)
-            {
-                ((UIElement)this.sliderButton).Opacity = newValue;
-                ((UIElement)this.buttonJoystickBack).Opacity = ((UIElement)this.buttonJoystick).Opacity / 3.0;
-                ((UIElement)this.buttonJoystick2Back).Opacity = ((UIElement)this.buttonJoystick2).Opacity / 3.0;
-                ((UIElement)this.buttonDpadBack).Opacity = ((UIElement)this.buttonDpad).Opacity / 3.0;
-            }
-            else if (this.sliderType == RemotePage.SliderType.Size)
-            {
-                ((FrameworkElement)this.sliderButton).Height = ((FrameworkElement)this.sliderButton).Width = newValue;
-                ((FrameworkElement)this.buttonJoystickBack).Width = ((FrameworkElement)this.buttonJoystickBack).Height = ((FrameworkElement)this.buttonJoystick).Width;
-                ((FrameworkElement)this.buttonJoystick2Back).Width = ((FrameworkElement)this.buttonJoystick2Back).Height = ((FrameworkElement)this.buttonJoystick2).Width;
-                ((FrameworkElement)this.buttonDpadBack).Width = ((FrameworkElement)this.buttonDpadBack).Height = ((FrameworkElement)this.buttonDpad).Width;
-            }
-            else
-            {
-                if (this.sliderType != RemotePage.SliderType.Sensitivity)
-                    return;
-                this.joystickSensitivity = newValue;
-            }
-        }
 
         private void joystickSensivity_Click(object sender, RoutedEventArgs e)
         {
@@ -1257,6 +1228,40 @@ namespace KinoConsole
             public bool visible;
             public int keyCode;
             public int joystickEvent;
+        }
+
+        private void button_Hold(object sender, DragEventArgs e)
+        {
+            if (this.mEditMode)
+                return;
+            e.Handled = true;
+        }
+
+        private void sliderValue_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            double newValue = e.NewValue;
+            if (this.sliderButton == null || this.sliderType == RemotePage.SliderType.None)
+                return;
+            if (this.sliderType == RemotePage.SliderType.Opacity)
+            {
+                ((UIElement)this.sliderButton).Opacity = newValue;
+                ((UIElement)this.buttonJoystickBack).Opacity = ((UIElement)this.buttonJoystick).Opacity / 3.0;
+                ((UIElement)this.buttonJoystick2Back).Opacity = ((UIElement)this.buttonJoystick2).Opacity / 3.0;
+                ((UIElement)this.buttonDpadBack).Opacity = ((UIElement)this.buttonDpad).Opacity / 3.0;
+            }
+            else if (this.sliderType == RemotePage.SliderType.Size)
+            {
+                ((FrameworkElement)this.sliderButton).Height = ((FrameworkElement)this.sliderButton).Width = newValue;
+                ((FrameworkElement)this.buttonJoystickBack).Width = ((FrameworkElement)this.buttonJoystickBack).Height = ((FrameworkElement)this.buttonJoystick).Width;
+                ((FrameworkElement)this.buttonJoystick2Back).Width = ((FrameworkElement)this.buttonJoystick2Back).Height = ((FrameworkElement)this.buttonJoystick2).Width;
+                ((FrameworkElement)this.buttonDpadBack).Width = ((FrameworkElement)this.buttonDpadBack).Height = ((FrameworkElement)this.buttonDpad).Width;
+            }
+            else
+            {
+                if (this.sliderType != RemotePage.SliderType.Sensitivity)
+                    return;
+                this.joystickSensitivity = newValue;
+            }
         }
     }
 }
