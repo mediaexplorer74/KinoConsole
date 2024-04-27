@@ -3,8 +3,8 @@
 
 namespace KinoConsole
 {
-    internal class Motion
+    internal class RoutedPropertyChangedEventArgs<T>
     {
-        internal static bool IsSupported;
+        public double NewValue { get; internal set; }
     }
 }

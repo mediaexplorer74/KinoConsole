@@ -3,8 +3,8 @@
 
 namespace KinoConsole
 {
-    internal class Motion
+    internal enum Key
     {
-        internal static bool IsSupported;
+       
     }
 }

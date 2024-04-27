@@ -3,8 +3,8 @@
 
 namespace KinoConsole
 {
-    internal class Motion
+    internal class Touch
     {
-        internal static bool IsSupported;
+        internal static TouchFrameEventHandler FrameReported;
     }
 }

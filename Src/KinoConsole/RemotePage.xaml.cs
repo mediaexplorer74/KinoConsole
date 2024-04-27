@@ -1,14 +1,13 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: KinoConsole.RemotePage
+﻿// Type: KinoConsole.RemotePage
+// Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
 
-
-using FlurryWP8SDK;
+//using FlurryWP8SDK;
 //using GoogleAds;
 //using Microsoft.Devices.Sensors;
 //using Microsoft.Phone.Controls;
 //using Microsoft.Phone.Info;
 //using Microsoft.Phone.Media;
-using NativeLib;
+//using NativeLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,17 +28,21 @@ using System.Windows;
 //using System.Windows.Threading;
 using System.Xml.Linq;
 using Windows.Foundation;
+using Windows.Media.Core;
 using Windows.Storage.Streams;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
 
 namespace KinoConsole
 {
-    // sealed
-    public partial class RemotePage : Page
+    public sealed partial class RemotePage : Page
     {
         private const int EVENT_ID_JOYSTICK_LEFT_X = 9;
         private const int EVENT_ID_JOYSTICK_LEFT_Y = 10;
@@ -87,7 +90,9 @@ namespace KinoConsole
         private bool enableGyroscope;
         private double joystickSensitivity;
 
-            
+        //private InterstitialAd interstitialAd;
+        //private AdRequest adRequest;
+        
         private DispatcherTimer adTimer = new DispatcherTimer();
         private DispatcherTimer closeTimer = new DispatcherTimer();
         private DispatcherTimer editModeTimer = new DispatcherTimer();
@@ -110,7 +115,8 @@ namespace KinoConsole
         private static Uri streamUri = new Uri("ms-media-stream-id:MediaStreamer-4567");
         private bool touch0Pressed;
         private bool touch1Pressed;
-        
+        private int Orientation;
+
         //internal Grid LayoutRoot;
         //internal Grid ContentPanel;
         //internal MediaElement myMediaElement;
@@ -145,7 +151,8 @@ namespace KinoConsole
         {
             this.InitializeComponent();
             //TiltEffect.TiltableItems.Add(typeof(StackPanel));
-            if (1==0)//(Application.Current.Host.Content.ScaleFactor == 100)
+            /*
+            if (Application.Current.Host.Content.ScaleFactor == 100)
             {
                 this.screenWidth = 800;
                 this.screenHeight = 480;
@@ -160,16 +167,18 @@ namespace KinoConsole
                 this.screenWidth = 1280;
                 this.screenHeight = 720;
             }
+            */
+
             double dpi;
-            try
-            {
-                dpi = (double)DeviceExtendedProperties.GetValue("RawDpiX");
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    dpi = (double)DeviceExtendedProperties.GetValue("RawDpiX");
+            //}
+            //catch (Exception ex)
+            //{
                 dpi = 160.0;
-            }
-          (Application.Current as App).nativeLib.SetScreenSize(this.screenWidth, this.screenHeight, (int)dpi);
+            //}
+            //(Application.Current as App).nativeLib.SetScreenSize(this.screenWidth, this.screenHeight, (int)dpi);
             ((FrameworkElement)this.popup).Height = 800.0;
             ((FrameworkElement)this.popup).Width = 480.0;
             this.popup.VerticalOffset = 0.0;
@@ -181,54 +190,63 @@ namespace KinoConsole
             {
                 Rotation = 90.0
             };
+            
+            //((ButtonBase)backDialog.btnKeyboard).Click += (RoutedEventHandler)((s, args) =>
+            //{
+            //    this.popup.IsOpen = false;
+            //    ((Control)this.textBox1).Focus();
+            //});
+           
+            //((ButtonBase)backDialog.btnEdit).Click += (RoutedEventHandler)((s, args) =>
+            //{
+            //    this.mEditMode = true;
+            //    ((UIElement)this.EditModeText).Visibility = ((UIElement)this.EditModeRect).Visibility = (Visibility)0;
+            //    ((UIElement)this.LayoutRoot).ManipulationStarted += new EventHandler<ManipulationStartedEventArgs>(this.LayoutRoot_ManipulationStarted);
+            //    ((UIElement)this.LayoutRoot).ManipulationDelta += new EventHandler<ManipulationDeltaEventArgs>(this.LayoutRoot_ManipulationDelta);
+            //    ((UIElement)this.LayoutRoot).ManipulationCompleted += new EventHandler<ManipulationCompletedEventArgs>(this.LayoutRoot_ManipulationCompleted);
+            //    ((UIElement)this.myMediaElement).Hold += new EventHandler<GestureEventArgs>(this.myMediaElement_Hold);
+            //    ((UIElement)this.myMediaElement).Tap += new EventHandler<GestureEventArgs>(this.myMediaElement_Tap);
+            //    ((UIElement)this.PressToAdd).Visibility = (Visibility)0;
+            //    this.editModeTimer.Interval = TimeSpan.FromSeconds(4.0);
+            //    this.editModeTimer.Tick += (EventHandler)((s2, args2) => ((UIElement)this.PressToAdd).Visibility = (Visibility)1);
+            //    this.editModeTimer.Start();
+            //    this.popup.IsOpen = false;
+            //});
 
-            ((ButtonBase)backDialog.btnKeyboard).Click += (RoutedEventHandler)((s, args) =>
-            {
-                this.popup.IsOpen = false;
-                ((Control)this.textBox1).Focus();
-            });
+            //((ButtonBase)backDialog.btnDisconnect).Click += (RoutedEventHandler)((s, args) =>
+            //{
+            //    this.popup.IsOpen = false;
+            //    if (this.mAdAvailable)
+            //    {
+            //        this.settings["lastAd"] = (object)DateTime.Now.ToBinary();
+            //        this.settings.Save();
+            //        this.interstitialAd.ShowAd();
+            //    }
+            //    else
+            //        ((Page)this).NavigationService.GoBack();
+            //});
 
-            ((ButtonBase)backDialog.btnEdit).Click += (RoutedEventHandler)((s, args) =>
-            {
-                this.mEditMode = true;
-                ((UIElement)this.EditModeText).Visibility = ((UIElement)this.EditModeRect).Visibility = (Visibility)0;
-                ((UIElement)this.LayoutRoot).ManipulationStarted += new EventHandler<ManipulationStartedEventArgs>(this.LayoutRoot_ManipulationStarted);
-                ((UIElement)this.LayoutRoot).ManipulationDelta += new EventHandler<ManipulationDeltaEventArgs>(this.LayoutRoot_ManipulationDelta);
-                ((UIElement)this.LayoutRoot).ManipulationCompleted += new EventHandler<ManipulationCompletedEventArgs>(this.LayoutRoot_ManipulationCompleted);
-                ((UIElement)this.myMediaElement).Hold += new EventHandler<GestureEventArgs>(this.myMediaElement_Hold);
-                ((UIElement)this.myMediaElement).Tap += new EventHandler<GestureEventArgs>(this.myMediaElement_Tap);
-                ((UIElement)this.PressToAdd).Visibility = (Visibility)0;
-                this.editModeTimer.Interval = TimeSpan.FromSeconds(4.0);
-                this.editModeTimer.Tick += (EventHandler)((s2, args2) => ((UIElement)this.PressToAdd).Visibility = (Visibility)1);
-                this.editModeTimer.Start();
-                this.popup.IsOpen = false;
-            });
-            ((ButtonBase)backDialog.btnDisconnect).Click += (RoutedEventHandler)((s, args) =>
-            {
-                this.popup.IsOpen = false;
-                if (this.mAdAvailable)
-                {
-                    this.settings["lastAd"] = (object)DateTime.Now.ToBinary();
-                    this.settings.Save();
-                    this.interstitialAd.ShowAd();
-                }
-                else
-                    ((Page)this).NavigationService.GoBack();
-            });
             this.myMediaElement.MediaOpened += new RoutedEventHandler(this.myMediaElement_MediaOpened);
             this.myMediaElement.MediaEnded += new RoutedEventHandler(this.myMediaElement_MediaEnded);
             this.myMediaElement.CurrentStateChanged += new RoutedEventHandler(this.myMediaElement_CurrentStateChanged);
-            this.myMediaElement.MediaFailed += new EventHandler<ExceptionRoutedEventArgs>(this.myMediaElement_MediaFailed);
+            //this.myMediaElement.MediaFailed += new EventHandler<ExceptionRoutedEventArgs>(this.myMediaElement_MediaFailed);
             CNativeLib nativeLib1 = (Application.Current as App).nativeLib;
-            WindowsRuntimeMarshal.AddEventHandler<ConnectedHandler>(new Func<ConnectedHandler, EventRegistrationToken>(nativeLib1.add_Connected), new Action<EventRegistrationToken>(nativeLib1.remove_Connected), new ConnectedHandler(this.nativeLib_Connected));
+
+            WindowsRuntimeMarshal.AddEventHandler<ConnectedHandler>(
+                new Func<ConnectedHandler, EventRegistrationToken>(nativeLib1.add_Connected), 
+                new Action<EventRegistrationToken>(nativeLib1.remove_Connected), 
+                new ConnectedHandler(this.nativeLib_Connected));
+
             CNativeLib nativeLib2 = (Application.Current as App).nativeLib;
-            WindowsRuntimeMarshal.AddEventHandler<ErrorHandler>(new Func<ErrorHandler, EventRegistrationToken>(nativeLib2.add_Error), new Action<EventRegistrationToken>(nativeLib2.remove_Error), new ErrorHandler(this.nativeLib_Error));
+            WindowsRuntimeMarshal.AddEventHandler<ErrorHandler>(
+                new Func<ErrorHandler, EventRegistrationToken>(nativeLib2.add_Error), 
+                new Action<EventRegistrationToken>(nativeLib2.remove_Error), new ErrorHandler(this.nativeLib_Error));
             this.touchTbl = new RemotePage.TouchTbl[2];
             this.touchTbl[0] = new RemotePage.TouchTbl();
             this.touchTbl[1] = new RemotePage.TouchTbl();
             this.textBox1.Text = "";
-            ((UIElement)this.textBox1).KeyDown += new KeyEventHandler(this.textBox1_KeyDown);
-            ((UIElement)this.textBox1).KeyUp += new KeyEventHandler(this.textBox1_KeyUp);
+            //((UIElement)this.textBox1).KeyDown += new KeyEventHandler(this.textBox1_KeyDown);
+            //((UIElement)this.textBox1).KeyUp += new KeyEventHandler(this.textBox1_KeyUp);
             this.textBox1.TextChanged += new TextChangedEventHandler(this.textBox1_TextChanged);
 
             //this.interstitialAd = new InterstitialAd("ca-app-pub-1676199826219622/5550273195");
@@ -238,6 +256,7 @@ namespace KinoConsole
             //this.adRequest = new AdRequest();
         }
 
+        /*
         protected virtual void OnBackKeyPress(CancelEventArgs e)
         {
             base.OnBackKeyPress(e);
@@ -260,24 +279,39 @@ namespace KinoConsole
             else
                 this.popup.IsOpen = !this.popup.IsOpen;
         }
+        */
 
         private void OnTestTimerTick(object sender, EventArgs args)
         {
             this.testTimer.Stop();
             this.popup.IsOpen = false;
-            ((Page)this).NavigationService.GoBack();
+            //((Page)this).NavigationService.GoBack();
         }
 
-        private void nativeLib_Connected() => ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() => (Application.Current as App).nativeLib.SetMouseMode(true)));
-
-        private void nativeLib_Error(int error) => ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() =>
+        private void nativeLib_Connected()
         {
-            if (error == 1)
-                MessageBox.Show("Connection failed");
-            ((Page)this).NavigationService.GoBack();
-        }));
+            //((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke(
+            //    (Action)(() => (Application.Current as App).nativeLib.SetMouseMode(true)));
+        }
 
-        private void myMediaElement_MediaEnded(object sender, RoutedEventArgs e) => this.myMediaElement.Stop();
+        private void nativeLib_Error(int error)
+        {
+          /*  ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() =>
+          {
+            if (error == 1)
+            {
+                MessageBox.Show("Connection failed");
+                Debug.WriteLine("Connection failed");
+            }
+
+            //((Page)this).NavigationService.GoBack();
+          }));*/
+        }
+
+        private void myMediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        { 
+            this.myMediaElement.Stop(); 
+        }
 
         private void myMediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
@@ -287,12 +321,10 @@ namespace KinoConsole
 
         private void myMediaElement_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
-            //
         }
 
         private void myMediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            //
         }
 
         private void myMediaElement_Tap(object sender, GestureEventArgs e)
@@ -313,7 +345,8 @@ namespace KinoConsole
             {
                 ((UIElement)this.NoMoreButtons).Visibility = (Visibility)0;
                 this.editModeTimer.Interval = TimeSpan.FromSeconds(3.0);
-                this.editModeTimer.Tick += (EventHandler)((s, args) => ((UIElement)this.NoMoreButtons).Visibility = (Visibility)1);
+                //this.editModeTimer.Tick += (EventHandler)(
+                //    (s, args) => ((UIElement)this.NoMoreButtons).Visibility = (Visibility)1);
                 this.editModeTimer.Start();
             }
             else
@@ -329,9 +362,10 @@ namespace KinoConsole
                 {
                     Rotation = 90.0
                 };
-                ((ButtonBase)control.btnDlgCancel).Click += (RoutedEventHandler)((s, args) => this.buttonPopup.IsOpen = false);
-                ((ItemsControl)control.buttonPicker).ItemsSource = (IEnumerable)virtualButtonList;
-                ((Selector)control.buttonPicker).SelectionChanged += (SelectionChangedEventHandler)((s, args) =>
+                //((ButtonBase)control.btnDlgCancel).Click += (RoutedEventHandler)((s, args) => this.buttonPopup.IsOpen = false);
+                //((ItemsControl)control.buttonPicker).ItemsSource = (IEnumerable)virtualButtonList;
+                
+                /*((Selector)control.buttonPicker).SelectionChanged += (SelectionChangedEventHandler)((s, args) =>
                 {
                     VirtualButton selectedItem = ((Selector)control.buttonPicker).SelectedItem as VirtualButton;
                     Image name = (Image)((FrameworkElement)this).FindName(selectedItem.name);
@@ -364,54 +398,71 @@ namespace KinoConsole
                     }
                     this.buttonPopup.IsOpen = false;
                 });
+                */
             }
         }
 
-        protected virtual void OnNavigatedTo(NavigationEventArgs e)
+        protected /*virtual*/ void OnNavigatedTo(NavigationEventArgs e)
         {
-            ((Page)this).OnNavigatedTo(e);
+            //((Page)this).OnNavigatedTo(e);
             this.touchTbl[0].id = -1;
             this.touchTbl[1].id = -1;
             ((UIElement)this.progressBar).Visibility = (Visibility)0;
             this.mediaStreamer = MediaStreamerFactory.CreateMediaStreamer(4567);
             this.mediaStreamSource = new VideoMediaStreamSource(this.screenWidth, this.screenHeight);
-            this.mediaStreamer.SetSource((MediaStreamSource)this.mediaStreamSource);
+            //this.mediaStreamer.SetSource((MediaStreamSource)this.mediaStreamSource);
             this.myMediaElement.Source = RemotePage.streamUri;
             this.LoadGameControls();
-            if (this.settings.Contains("proVersion"))
+
+            //if (this.settings.Contains("proVersion"))
                 this.proVersion = true;
-            if (!(Application.Current as App).nativeLib.Connect(RemotePage.serverUid, RemotePage.appPath, this.enableGyroscope))
+            
+            if (!(Application.Current as App).nativeLib.Connect(RemotePage.serverUid, RemotePage.appPath,
+                this.enableGyroscope))
             {
-                ((Page)this).NavigationService.GoBack();
+                //((Page)this).NavigationService.GoBack();
             }
             else
             {
                 this.mAdAvailable = false;
+
                 if (!this.proVersion)
                 {
                     DateTime now = DateTime.Now;
-                    if (!this.settings.Contains("lastAd") || now.CompareTo(DateTime.FromBinary((long)this.settings["lastAd"]).AddHours(2.0)) > 0)
-                    {
-                        this.adTimer.Interval = TimeSpan.FromSeconds(30.0);
-                        this.adTimer.Tick += new EventHandler(this.OnAdTimerTick);
-                        this.adTimer.Start();
-                    }
+                    //if (!this.settings.Contains("lastAd") || now.CompareTo(DateTime.FromBinary((long)this.settings["lastAd"]).AddHours(2.0)) > 0)
+                    //{
+                    //    this.adTimer.Interval = TimeSpan.FromSeconds(30.0);
+                    //    this.adTimer.Tick += new EventHandler(this.OnAdTimerTick);
+                    //    this.adTimer.Start();
+                    //}
                 }
-                Touch.FrameReported += new TouchFrameEventHandler(this.Touch_FrameReported);
+
+                //Touch.FrameReported += new TouchFrameEventHandler(this.Touch_FrameReported);
                 CNativeLib nativeLib = (Application.Current as App).nativeLib;
-                WindowsRuntimeMarshal.AddEventHandler<GameControllerStateHandler>(new Func<GameControllerStateHandler, EventRegistrationToken>(nativeLib.add_GameControllerState), new Action<EventRegistrationToken>(nativeLib.remove_GameControllerState), new GameControllerStateHandler(this.nativeLib_GameControllerState));
+                WindowsRuntimeMarshal.AddEventHandler<GameControllerStateHandler>(
+                    new Func<GameControllerStateHandler, EventRegistrationToken>(
+                        nativeLib.add_GameControllerState), 
+                    new Action<EventRegistrationToken>(nativeLib.remove_GameControllerState), 
+                    new GameControllerStateHandler(this.nativeLib_GameControllerState));
                 this.StartRotation();
             }
         }
 
-        private void nativeLib_GameControllerState(bool connected) => ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() => this.LoadGameControls()));
-
-        protected virtual void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        private void nativeLib_GameControllerState(bool connected)
         {
-            ((Page)this).OnNavigatingFrom(e);
+            //((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke(
+            //    (Action)(() => this.LoadGameControls()));
+        }
+
+        protected /*virtual*/ void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            //((Page)this).OnNavigatingFrom(e);
             this.StopRotation();
-            WindowsRuntimeMarshal.RemoveEventHandler<GameControllerStateHandler>(new Action<EventRegistrationToken>((Application.Current as App).nativeLib.remove_GameControllerState), new GameControllerStateHandler(this.nativeLib_GameControllerState));
-            Touch.FrameReported -= new TouchFrameEventHandler(this.Touch_FrameReported);
+            WindowsRuntimeMarshal.RemoveEventHandler<GameControllerStateHandler>(
+                new Action<EventRegistrationToken>(
+                    (Application.Current as App).nativeLib.remove_GameControllerState), 
+                new GameControllerStateHandler(this.nativeLib_GameControllerState));
+            //Touch.FrameReported -= new TouchFrameEventHandler(this.Touch_FrameReported);
             this.adTimer.Stop();
             this.closeTimer.Stop();
             this.testTimer.Stop();
@@ -440,8 +491,8 @@ namespace KinoConsole
                 XDocument xdocument;
                 try
                 {
-                    storageFileStream1 = new IsolatedStorageFileStream("appconfig.xml", 
-                        FileMode.Open, storeForApplication);
+                    storageFileStream1 = new IsolatedStorageFileStream("appconfig.xml", FileMode.Open, 
+                        storeForApplication);
                     xdocument = XDocument.Load((Stream)storageFileStream1);
                 }
                 catch (Exception ex)
@@ -475,7 +526,6 @@ namespace KinoConsole
                         content2.Add((object)content3);
                     }
                 }
-
                 content1.Add((object)content2);
                 bool flag = false;
                 foreach (XElement element in xelement1.Elements((XName)"app"))
@@ -490,8 +540,10 @@ namespace KinoConsole
                 }
                 if (!flag)
                     xelement1.Add((object)content1);
-                IsolatedStorageFileStream storageFileStream2 = new IsolatedStorageFileStream("appconfig.xml",
-                    FileMode.Create, storeForApplication);
+
+                IsolatedStorageFileStream storageFileStream2 = new IsolatedStorageFileStream(
+                    "appconfig.xml", FileMode.Create, storeForApplication);
+
                 xdocument.Save((Stream)storageFileStream2);
                 storageFileStream2.Close();
             }
@@ -646,9 +698,7 @@ namespace KinoConsole
             {
                 this.motion = new Motion();
                 ((SensorBase<MotionReading>)this.motion).TimeBetweenUpdates = TimeSpan.FromMilliseconds(20.0);
-
-                ((SensorBase<MotionReading>)this.motion).CurrentValueChanged += 
-                    new EventHandler<SensorReadingEventArgs<MotionReading>>(this.motion_CurrentValueChanged);
+                ((SensorBase<MotionReading>)this.motion).CurrentValueChanged += new EventHandler<SensorReadingEventArgs<MotionReading>>(this.motion_CurrentValueChanged);
             }
             try
             {
@@ -656,7 +706,7 @@ namespace KinoConsole
             }
             catch (Exception ex)
             {
-                Api.LogError("motionStart", new Exception());
+                Debug.WriteLine("[ex] motionStart error: "+ ex.Message);
             }
         }
 
@@ -670,26 +720,27 @@ namespace KinoConsole
             }
             catch (Exception ex)
             {
-                Api.LogError("motionStop", new Exception());
+                Debug.WriteLine("[ex] motionStop error: " + ex.Message);
             }
         }
 
         private void motion_CurrentValueChanged(object sender, SensorReadingEventArgs<MotionReading> e)
         {
-            ((DependencyObject)this).Dispatcher.BeginInvoke((Action)(() => this.CurrentValueChanged(e.SensorReading)));
+            //((DependencyObject)this).Dispatcher.BeginInvoke((Action)(()
+            //    => this.CurrentValueChanged(e.SensorReading)));
         }
 
         private void CurrentValueChanged(MotionReading e)
         {
             if (!((SensorBase<MotionReading>)this.motion).IsDataValid)
                 return;
-            AttitudeReading attitude1 = e.Attitude;
-            float x = (float)((double)attitude1.Roll * 180.0 / 3.1400001049041748);
-            AttitudeReading attitude2 = e.Attitude;
-            float y = (float)((double)attitude2.Pitch * 180.0 / 3.1400001049041748);
-            AttitudeReading attitude3 = e.Attitude;
-            float z = (float)((double)(attitude3).Yaw * 180.0 / 3.1400001049041748);
-            if (1==0)//(this.Orientation == 34)
+            AttitudeReading attitude1 = ((MotionReading)e).Attitude;
+            float x = (float)((double)((AttitudeReading)attitude1).Roll * 180.0 / 3.1400001049041748);
+            AttitudeReading attitude2 = ((MotionReading)e).Attitude;
+            float y = (float)((double)((AttitudeReading)attitude2).Pitch * 180.0 / 3.1400001049041748);
+            AttitudeReading attitude3 = ((MotionReading)e).Attitude;
+            float z = (float)((double)((AttitudeReading)attitude3).Yaw * 180.0 / 3.1400001049041748);
+            if (this.Orientation == 34)
             {
                 x = -x;
                 y = -y;
@@ -718,12 +769,12 @@ namespace KinoConsole
         {
             ModifierKeys modifiers = Keyboard.Modifiers;
             Key key1 = e.Key;
-            if (e.Key == 1)
+            if (e.Key == (Key)1)
             {
                 (Application.Current as App).nativeLib.KeyboardEvent(true, 8);
                 (Application.Current as App).nativeLib.KeyboardEvent(false, 8);
             }
-            else if (e.Key == 3)
+            else if (e.Key == (Key)3)
             {
                 (Application.Current as App).nativeLib.KeyboardEvent(true, 13);
                 (Application.Current as App).nativeLib.KeyboardEvent(false, 13);
@@ -771,7 +822,7 @@ namespace KinoConsole
             for (int index1 = 0; index1 < ((IEnumerable<TouchPoint>)touchPoints).Count<TouchPoint>(); ++index1)
             {
                 bool flag = false;
-                TouchPoint touchPoint = ((PresentationFrameworkCollection<TouchPoint>)touchPoints)[index1];
+                TouchPoint touchPoint = default;// ((PresentationFrameworkCollection<TouchPoint>)touchPoints)[index1];
                 if (touchPoint.Action == 1)
                 {
                     for (int index2 = 0; index2 < ((IEnumerable<RemotePage.Button>)this.buttons).Count<RemotePage.Button>(); ++index2)
@@ -972,16 +1023,17 @@ namespace KinoConsole
             ((UIElement)this.buttonDpad).Projection = (Projection)projection;
         }
 
+        /*
         private void OnAdTimerTick(object sender, EventArgs args)
         {
             this.adTimer.Stop();
-            //this.interstitialAd.LoadAd(this.adRequest);
+            this.interstitialAd.LoadAd(this.adRequest);
         }
 
         private void OnCloseTimerTick(object sender, EventArgs e)
         {
             this.closeTimer.Stop();
-            //((Page)this).NavigationService.GoBack();
+            ((Page)this).NavigationService.GoBack();
         }
 
         private void OnAdReceived(object sender, AdEventArgs e) => this.mAdAvailable = true;
@@ -996,6 +1048,7 @@ namespace KinoConsole
         private void OnFailedToReceiveAd(object sender, AdErrorEventArgs errorCode)
         {
         }
+        */
 
         private void button_Hold(object sender, GestureEventArgs e)
         {
@@ -1006,7 +1059,7 @@ namespace KinoConsole
 
         private void ButtonVisibilityClick(object sender, RoutedEventArgs e)
         {
-            Image name = (Image)((FrameworkElement)this).FindName(((FrameworkElement)(sender as MenuItem)).Tag.ToString());
+            Image name = default;//(Image)((FrameworkElement)this).FindName(((FrameworkElement)(sender as MenuItem)).Tag.ToString());
             if (name == null)
                 return;
             ((UIElement)name).Visibility = (Visibility)1;
@@ -1017,7 +1070,7 @@ namespace KinoConsole
 
         private void ButtonOpacityClick(object sender, RoutedEventArgs e)
         {
-            Image name = (Image)((FrameworkElement)this).FindName(((FrameworkElement)(sender as MenuItem)).Tag.ToString());
+            Image name = default;//(Image)((FrameworkElement)this).FindName(((FrameworkElement)(sender as MenuItem)).Tag.ToString());
             if (name == null)
                 return;
             this.sliderType = RemotePage.SliderType.Opacity;
@@ -1031,7 +1084,7 @@ namespace KinoConsole
 
         private void ButtonSizeClick(object sender, RoutedEventArgs e)
         {
-            Image name = (Image)((FrameworkElement)this).FindName(((FrameworkElement)(sender as MenuItem)).Tag.ToString());
+            Image name = default;//(Image)((FrameworkElement)this).FindName(((FrameworkElement)(sender as MenuItem)).Tag.ToString());
             if (name == null)
                 return;
             this.sliderType = RemotePage.SliderType.Size;
@@ -1091,39 +1144,27 @@ namespace KinoConsole
         }
 
         private void joystickGyroscope_Click(object sender, RoutedEventArgs e)
-        {
-            this.enableGyroscope = !this.enableGyroscope;
+        { 
+            this.enableGyroscope = !this.enableGyroscope; 
         }
 
-        private void LayoutRoot_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
-        {
-            if (((RoutedEventArgs)e).OriginalSource == this.buttonA 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonB 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonX 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonY 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonLB 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonRB 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonStart 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonBack 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonLT 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonRT 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick2 
-                || ((RoutedEventArgs)e).OriginalSource == this.buttonDpad)
-                this.currentImage = (Image)((RoutedEventArgs)e).OriginalSource;
-            else
-                this.currentImage = (Image)null;
-        }
+        //private void LayoutRoot_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        //{
+        //    if (((RoutedEventArgs)e).OriginalSource == this.buttonA || ((RoutedEventArgs)e).OriginalSource == this.buttonB || ((RoutedEventArgs)e).OriginalSource == this.buttonX || ((RoutedEventArgs)e).OriginalSource == this.buttonY || ((RoutedEventArgs)e).OriginalSource == this.buttonLB || ((RoutedEventArgs)e).OriginalSource == this.buttonRB || ((RoutedEventArgs)e).OriginalSource == this.buttonStart || ((RoutedEventArgs)e).OriginalSource == this.buttonBack || ((RoutedEventArgs)e).OriginalSource == this.buttonLT || ((RoutedEventArgs)e).OriginalSource == this.buttonRT || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick || ((RoutedEventArgs)e).OriginalSource == this.buttonJoystick2 || ((RoutedEventArgs)e).OriginalSource == this.buttonDpad)
+        //        this.currentImage = (Image)((RoutedEventArgs)e).OriginalSource;
+        //    else
+        //        this.currentImage = (Image)null;
+        //}
 
         private void LayoutRoot_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
             if (this.currentImage == null)
                 return;
             Thickness margin = ((FrameworkElement)this.currentImage).Margin;
-            margin.Top += e.DeltaManipulation.Translation.Y;
+            //margin.Top += e.DeltaManipulation.Translation.Y;
             if (margin.Top < 0.0)
                 margin.Top = 0.0;
-            margin.Left += e.DeltaManipulation.Translation.X;
+            //margin.Left += e.DeltaManipulation.Translation.X;
             ((FrameworkElement)this.currentImage).Margin = margin;
             ((FrameworkElement)this.buttonJoystickBack).Margin = ((FrameworkElement)this.buttonJoystick).Margin;
             ((FrameworkElement)this.buttonJoystick2Back).Margin = ((FrameworkElement)this.buttonJoystick2).Margin;
@@ -1134,16 +1175,11 @@ namespace KinoConsole
         {
             if (this.currentImage == null)
                 return;
-            for (int index = 0; 
-                index < ((IEnumerable<RemotePage.Button>)this.buttons).Count<RemotePage.Button>();
-                ++index)
+            for (int index = 0; index < ((IEnumerable<RemotePage.Button>)this.buttons).Count<RemotePage.Button>(); ++index)
             {
                 if (this.buttons[index].name.Equals(((FrameworkElement)this.currentImage).Name))
                 {
-                    this.buttons[index].rect = new Rect(new Point(((FrameworkElement)this.currentImage).Margin.Left, 
-                        ((FrameworkElement)this.currentImage).Margin.Top),
-                        new Size(((FrameworkElement)this.currentImage).Width,
-                        ((FrameworkElement)this.currentImage).Height));
+                    this.buttons[index].rect = new Rect(new Point(((FrameworkElement)this.currentImage).Margin.Left, ((FrameworkElement)this.currentImage).Margin.Top), new Size(((FrameworkElement)this.currentImage).Width, ((FrameworkElement)this.currentImage).Height));
                     this.buttons[index].visible = true;
                     break;
                 }

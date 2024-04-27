@@ -3,8 +3,7 @@
 
 namespace KinoConsole
 {
-    internal class Motion
+    internal class TouchPointCollection
     {
-        internal static bool IsSupported;
     }
 }

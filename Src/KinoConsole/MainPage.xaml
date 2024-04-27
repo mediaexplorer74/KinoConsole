@@ -7,16 +7,29 @@
     xmlns:local="clr-namespace:wp7coverflow"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     >
 
-    <!--Page.AppBar>
-        <AppBar IsVisible="False">
-            <AppBarButton IconUri="/Assets/AppBar/add.png" Text="settings" Click="ApplicationBarIconButton_Click_Settings"/>
-            <AppBarButton IconUri="/Assets/AppBar/questionmark.png" Text="help" Click="ApplicationBarIconButton_Click_Help"/>
-            <AppBarButton IconUri="/Assets/AppBar/buy.png" Text="buy" Click="ApplicationBarIconButton_Click_Buy"/>
-            <AppBarButton IconUri="/Assets/AppBar/about.png" Text="about" Click="ApplicationBarIconButton_Click_About"/>
-        </AppBar>
-    </Page.AppBar-->
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+        <!--AppBar IsVisible="False"-->
+            <AppBarButton Icon="Setting" 
+                          Label="settings" 
+                          Click="ApplicationBarIconButton_Click_Settings"/>
+            <AppBarButton Icon="Help"
+                          Label="help" 
+                          Click="ApplicationBarIconButton_Click_Help"/>
+            <AppBarButton Icon="Document" 
+                          Label="buy" 
+                          Click="ApplicationBarIconButton_Click_Buy"/>
+            <AppBarButton Icon="Character" 
+                          Label="about"
+                          Click="ApplicationBarIconButton_Click_About"/>
+        <!--/AppBar-->
+          </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
     
     <UserControl.Resources>
         <DataTemplate x:Key="DataTemplate1">
@@ -61,7 +74,11 @@
             </Grid>
         </DataTemplate>
         <!--ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
-            <local:CollectionFlowPanel ItemHeight="400" ItemWidth="200" FocusedItemOffset="120" UnfocusedItemOffset="20" ItemVisibility="5" RenderTransformOrigin="0.5,0.5"/>
+            <local:CollectionFlowPanel ItemHeight="400" 
+                                       ItemWidth="200" 
+                                       FocusedItemOffset="120" UnfocusedItemOffset="20" 
+                                       ItemVisibility="5" 
+                                       RenderTransformOrigin="0.5,0.5"/>
         </ItemsPanelTemplate-->
     </UserControl.Resources>
 
@@ -84,27 +101,24 @@
         </StackPanel>
             
         <StackPanel x:Name="searchInfo" Margin="10" VerticalAlignment="Center">
-            <TextBlock x:Name="searchText0" 
-                       TextWrapping="Wrap"
-                       Text="KinoConsole is a remote control application that allows you to play your favorite PC games in your phone." FontSize="22" Margin="0,0,0,50" Visibility="Collapsed" Foreground="#FFFFFFFF"/>
-            <TextBlock x:Name="searchText1" 
-                       TextWrapping="Wrap" 
-                       Text="looking for servers" FontSize="22" 
-                       HorizontalAlignment="Center" 
-                       Foreground="#FFFFFFFF"/>
-            <TextBlock x:Name="searchText2" TextWrapping="Wrap" 
-                       Text="text1" FontSize="22" HorizontalAlignment="Left" 
-                       Visibility="Collapsed" Margin="0,20,0,0" 
-                       Foreground="#FFFFFFFF"/>
-            <ProgressBar Name="searchBar" IsIndeterminate="True" 
-                         Margin="0,21,0,0" Foreground="#FFFFFFFF"/>
+            <TextBlock x:Name="searchText0" TextWrapping="Wrap" Text="KinoConsole is a remote control application that allows you to play your favorite PC games in your phone." 
+            FontSize="22" Margin="0,0,0,50" Visibility="Collapsed" Foreground="#FFFFFFFF"/>
+            <TextBlock x:Name="searchText1" TextWrapping="Wrap" Text="looking for servers" FontSize="22" HorizontalAlignment="Center" Foreground="#FFFFFFFF"/>
+            <TextBlock x:Name="searchText2" TextWrapping="Wrap" Text="text1" FontSize="22" HorizontalAlignment="Left" Visibility="Collapsed" Margin="0,20,0,0" Foreground="#FFFFFFFF"/>
+            <ProgressBar Name="searchBar" IsIndeterminate="True" Margin="0,21,0,0" Foreground="#FFFFFFFF"/>
         </StackPanel>
         <StackPanel x:Name="appInfo" VerticalAlignment="Bottom" Visibility="Collapsed">
             <TextBlock x:Name="appName" Margin="10" TextWrapping="Wrap" FontSize="36" Foreground="#FFFFFFFF"/>
             <TextBlock x:Name="appServer" TextWrapping="Wrap" FontSize="22" Margin="10,0,0,0" Foreground="#FFFFFFFF"/>
             <TextBlock x:Name="appDetail" TextWrapping="Wrap" FontSize="22" Margin="10,0,0,0" Foreground="#FFFFFFFF"/>
+            <!--GoogleAds:AdView x:Name="admob" AdUnitID="ca-app-pub-1676199826219622/4073539995" 
+            Format="Banner" ReceivedAd="AdmobReceived" 
+                              FailedToReceiveAd="AdmobFailed" Visibility="Collapsed" 
+            VerticalAlignment="Bottom"/-->
         </StackPanel>
-        <!--rma:FeedbackOverlay x:Name="FeedbackOverlay" Grid.RowSpan="2" FeedbackTo="support@kinoni.com" ApplicationName="KinoConsole" CompanyName="Kinoni" FirstCount="30" SecondCount="60" CountDays="True"/-->
+        <!--rma:FeedbackOverlay x:Name="FeedbackOverlay" Grid.RowSpan="2" 
+        FeedbackTo="support@kinoni.com" ApplicationName="KinoConsole" 
+        CompanyName="Kinoni" FirstCount="30" SecondCount="60" CountDays="True"/-->
     </Grid>
 
 </Page>

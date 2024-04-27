@@ -43,7 +43,7 @@ namespace wp7coverflow
       this.Orientation = (Orientation) 1;
       CubicEase cubicEase = new CubicEase();
       ((EasingFunctionBase) cubicEase).EasingMode = (EasingMode) 0;
-      this.AnimationFunction = cubicEase; //  (IEasingFunction) 
+      this.AnimationFunction = default;// (IEasingFunction)cubicEase; 
       this.AnimationDuration = TimeSpan.FromSeconds(0.4);
       this.ItemWidth = 100.0;
       this.ItemHeight = 100.0;
@@ -100,61 +100,61 @@ namespace wp7coverflow
         Canvas.SetZIndex((UIElement) child, -(int) num4);
         TranslateTransform renderTransform = (TranslateTransform) ((UIElement) child).RenderTransform;
         DoubleAnimation doubleAnimation1 = new DoubleAnimation();
-        doubleAnimation1.EasingFunction = this.AnimationFunction;
+                doubleAnimation1.EasingFunction = default;//this.AnimationFunction;
         ((Timeline)doubleAnimation1).Duration = this.AnimationDuration;//Duration.op_Implicit(this.AnimationDuration);
         DoubleAnimation doubleAnimation2 = doubleAnimation1;
         Storyboard.SetTarget((Timeline) doubleAnimation2, (DependencyObject) renderTransform);
         
-        if (this.Orientation == null)
-          Storyboard.SetTargetProperty((Timeline) doubleAnimation2, new PropertyPath( TranslateTransform.YProperty.ToString() ) );
-        else
-          Storyboard.SetTargetProperty((Timeline) doubleAnimation2, new PropertyPath( TranslateTransform.XProperty.ToString() ) );
+        //if (this.Orientation == null)
+        //  Storyboard.SetTargetProperty((Timeline) doubleAnimation2, new PropertyPath( TranslateTransform.YProperty.ToString() ) );
+        //else
+        //  Storyboard.SetTargetProperty((Timeline) doubleAnimation2, new PropertyPath( TranslateTransform.XProperty.ToString() ) );
         
         doubleAnimation2.To = new double?(num4 > 1.0 ? (num3 < 0.0 ? -this.FocusedItemOffset : this.FocusedItemOffset) + num3 * this.UnfocusedItemOffset : num3 * this.FocusedItemOffset);
         PlaneProjection projection = (PlaneProjection) ((UIElement) child).Projection;
         DoubleAnimation doubleAnimation3 = new DoubleAnimation();
-        doubleAnimation3.EasingFunction = this.AnimationFunction;
-                ((Timeline)doubleAnimation3).Duration = this.AnimationDuration;//Duration.op_Implicit(this.AnimationDuration);
+                doubleAnimation3.EasingFunction = default;//this.AnimationFunction;
+                ((Timeline)doubleAnimation3).Duration = default;//this.AnimationDuration;//Duration.op_Implicit(this.AnimationDuration);
         DoubleAnimation doubleAnimation4 = doubleAnimation3;
         Storyboard.SetTarget((Timeline) doubleAnimation4, (DependencyObject) projection);
-        Storyboard.SetTargetProperty((Timeline) doubleAnimation4, new PropertyPath((object) PlaneProjection.GlobalOffsetZProperty));
+        //Storyboard.SetTargetProperty((Timeline) doubleAnimation4, new PropertyPath((object) PlaneProjection.GlobalOffsetZProperty));
         DoubleAnimation doubleAnimation5 = new DoubleAnimation();
-        doubleAnimation5.EasingFunction = this.AnimationFunction;
+                doubleAnimation5.EasingFunction = default;//this.AnimationFunction;
         ((Timeline)doubleAnimation5).Duration = this.AnimationDuration;//Duration.op_Implicit(this.AnimationDuration);
         DoubleAnimation doubleAnimation6 = doubleAnimation5;
         Storyboard.SetTarget((Timeline) doubleAnimation6, (DependencyObject) projection);
         if (num3 != 0.0)
         {
           doubleAnimation4.To = new double?(-num4 * this.UnfocusedItemDistance);
-          if (this.Orientation == null)
-            Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationXProperty));
-          else
-            Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationYProperty));
+          //if (this.Orientation == null)
+          //  Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationXProperty));
+          //else
+          //  Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationYProperty));
           doubleAnimation6.To = new double?(num3 < 0.0 ? -this.UnfocusedItemAngle : this.UnfocusedItemAngle);
         }
         else
         {
           doubleAnimation4.To = new double?(this.FocusedItemDistance);
-          if (this.Orientation == null)
-            Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationXProperty));
-          else
-            Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationYProperty));
+          //if (this.Orientation == null)
+          //  Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationXProperty));
+          //else
+          //  Storyboard.SetTargetProperty((Timeline) doubleAnimation6, new PropertyPath((object) PlaneProjection.RotationYProperty));
           doubleAnimation6.To = new double?(this.FocusedItemAngle);
         }
         DoubleAnimation doubleAnimation7 = new DoubleAnimation();
-        doubleAnimation7.EasingFunction = this.AnimationFunction;
-        ((Timeline) doubleAnimation7).Duration = Duration.op_Implicit(this.AnimationDuration);
+        doubleAnimation7.EasingFunction = default;//this.AnimationFunction;
+        ((Timeline) doubleAnimation7).Duration = this.AnimationDuration;
         DoubleAnimation doubleAnimation8 = doubleAnimation7;
         Storyboard.SetTarget((Timeline) doubleAnimation8, (DependencyObject) child);
-        Storyboard.SetTargetProperty((Timeline) doubleAnimation8, new PropertyPath((object) UIElement.OpacityProperty));
+        //Storyboard.SetTargetProperty((Timeline) doubleAnimation8, new PropertyPath((object) UIElement.OpacityProperty));
         doubleAnimation8.To = num4 <= (double) this.ItemVisibility ? new double?(Math.Max(0.0, 1.0 - num4 * this.ItemFading)) : new double?(0.0);
-        ((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation2);
-        ((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation4);
-        ((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation6);
-        ((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation8);
+        //((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation2);
+        //((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation4);
+        //((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation6);
+        //((PresentationFrameworkCollection<Timeline>) storyboard.Children).Add((Timeline) doubleAnimation8);
         storyboard.Begin();
       }
-      return ((FrameworkElement) this).ArrangeOverride(finalSize);
+            return default;//((FrameworkElement) this).ArrangeOverride(finalSize);
     }
 
     [Category("CollectionFlow Panel")]

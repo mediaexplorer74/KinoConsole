@@ -5,20 +5,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Class="KinoConsole.ButtonDialog"
     mc:Ignorable="d"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"    
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
     d:DesignHeight="800" d:DesignWidth="480">
 
     <StackPanel x:Name="LayoutRoot" Background="#FF2D282E" Margin="-60,292,-52,285" Width="600">
         <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled" Name="buttonPicker" >
-            <ListBox.ItemsPanel>
+            <!--ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <!--toolkit:WrapPanel Orientation ="Horizontal" >
-                    </toolkit:WrapPanel-->
+                    <toolkit:WrapPanel Orientation ="Horizontal" >
+                    </toolkit:WrapPanel>
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+            </ListBox.ItemsPanel-->
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
+                    <StackPanel><!--toolkit:TiltEffect.IsTiltEnabled="True"-->
                         <Image Source="{Binding imageUri}" Width="100" Height="100"/>
                     </StackPanel>
                 </DataTemplate>

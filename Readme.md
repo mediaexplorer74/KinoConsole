@@ -15,16 +15,17 @@ Sadly, its W10M developing stopped... No new features. I am interesting in KinoC
 - WP8 -> W10M code "rebase" ("refactor.") - 5 % ready  
 
 ## Result
-- Draft / Damaged
-- I haven't much time... but I'm still trying to complete my strange "KinoConsole reburn" idea
+- Draft / Not ported / Build failed
+- I haven't so much time... but I'm still trying to complete my strange "KinoConsole reburn" idea :)
 
 ## References / License
 - https://www.windowscentral.com/kinoconsole-review KinoConsole review: Stream and play PC games on your Windows Phone :: By Paul Acevedo last updated August 02, 2014
+- https://www.youtube.com/watch?v=pHlhc4QwR8M KinoConsole: Stream and play PC games on Windows Phone (Youtube, WindowsCentral video)
 - MIT
 
 ## ..
 As is. No support. RnD only. DIY
 
 ## .
-[m][e] 2023
+[m][e] 2024
 

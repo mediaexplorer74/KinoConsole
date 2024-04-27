@@ -3,8 +3,8 @@
 
 namespace KinoConsole
 {
-    internal class Motion
+    internal class SensorReadingEventArgs<T>
     {
-        internal static bool IsSupported;
+        internal MotionReading SensorReading;
     }
 }

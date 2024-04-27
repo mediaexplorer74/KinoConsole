@@ -3,8 +3,7 @@
 
 namespace KinoConsole
 {
-    internal class Motion
+    internal class ModifierKeys
     {
-        internal static bool IsSupported;
     }
 }

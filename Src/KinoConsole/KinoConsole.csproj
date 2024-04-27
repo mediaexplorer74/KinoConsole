@@ -125,21 +125,35 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AttitudeReading.cs" />
     <Compile Include="BackDialog.xaml.cs">
       <DependentUpon>BackDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ButtonDialog.xaml.cs">
       <DependentUpon>ButtonDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CNativeLib.cs" />
+    <Compile Include="ConnectedHandler.cs" />
+    <Compile Include="ErrorHandler.cs" />
+    <Compile Include="GameControllerStateHandler.cs" />
+    <Compile Include="GestureEventArgs.cs" />
     <Compile Include="HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="IsolatedStorageSettings.cs" />
+    <Compile Include="Key.cs" />
+    <Compile Include="Keyboard.cs" />
+    <Compile Include="KeyEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ManipulationDeltaEventArgs.cs" />
     <Compile Include="MediaStreamer.cs" />
+    <Compile Include="MediaStreamerFactory.cs" />
+    <Compile Include="MenuItem.cs" />
+    <Compile Include="ModifierKeys.cs" />
     <Compile Include="Motion.cs" />
+    <Compile Include="MotionReading.cs" />
     <Compile Include="PasswordPage.xaml.cs">
       <DependentUpon>PasswordPage.xaml</DependentUpon>
     </Compile>
@@ -152,13 +166,23 @@
       <DependentUpon>RemotePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\AppResources.cs" />
+    <Compile Include="RoutedPropertyChangedEventArgs.cs" />
+    <Compile Include="SensorBase.cs" />
+    <Compile Include="SensorReadingEventArgs.cs" />
     <Compile Include="SplashScreenControl.xaml.cs">
       <DependentUpon>SplashScreenControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StreamResourceInfo.cs" />
+    <Compile Include="Touch.cs" />
+    <Compile Include="TouchFrameEventArgs.cs" />
+    <Compile Include="TouchFrameEventHandler.cs" />
+    <Compile Include="TouchPoint.cs" />
+    <Compile Include="TouchPointCollection.cs" />
     <Compile Include="VideoMediaStreamSource.cs" />
     <Compile Include="VirtualButton.cs" />
     <Compile Include="wp7coverflow\CollectionFlow.cs" />
     <Compile Include="wp7coverflow\CollectionFlowPanel.cs" />
+    <Compile Include="wp7coverflow\IEasingFunction.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -361,14 +385,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlurryWP8SDK\FlurryWP8SDK.csproj">
-      <Project>{d48e1c05-16b8-41ac-a9c7-5bfafbd67edb}</Project>
-      <Name>FlurryWP8SDK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NativeLib\NativeLib.csproj">
-      <Project>{ade94c9a-69aa-41bc-9b40-434c6ecdc586}</Project>
-      <Name>NativeLib</Name>
-    </ProjectReference>
+    <PRIResource Include="Resources.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

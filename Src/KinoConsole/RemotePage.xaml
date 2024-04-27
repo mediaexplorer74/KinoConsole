@@ -2,13 +2,12 @@
     x:Class="KinoConsole.RemotePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:KinoConsole"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    FontFamily="{StaticResource ContentControlThemeFontFamily}"
-    FontSize="{StaticResource AutoSuggestBoxIconFontSize}"
-    Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"
     mc:Ignorable="d"
-    >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+  >
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -20,22 +19,22 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1">
             <MediaElement Name="myMediaElement" Stretch="Fill"/>
-            <Rectangle Name="EditModeRect" Stroke="Red" StrokeThickness="3"
-                       Margin="5" Opacity="0.7" StrokeDashArray="3 2" Visibility="Collapsed"/>
+            
+            <Rectangle Name="EditModeRect" Stroke="Red" StrokeThickness="3" Margin="5" 
+                       Opacity="0.7" StrokeDashArray="3 2" Visibility="Collapsed"/>
+            
             <StackPanel Name="EditModeText" HorizontalAlignment="Left"
-                        VerticalAlignment="Top" Background="WhiteSmoke" Margin="20,0"
-                        Opacity="0.7" Visibility="Collapsed">
-                <TextBlock Text="Editing controls" Height="28" VerticalAlignment="Top"
+                        VerticalAlignment="Top" Background="WhiteSmoke" Margin="20,0" Opacity="0.7" 
+                        Visibility="Collapsed">
+                <TextBlock Text="Editing controls" Height="28" VerticalAlignment="Top" 
                            HorizontalAlignment="Left" Foreground="Red"/>
             </StackPanel>
             
-            
             <StackPanel>
-
-                <!--Hold="button_Hold"-->
-                    <Image x:Name="buttonX" Source="/Assets/Buttons/buttonX.png" Width="100
-                       " Height="100" Margin="580,240,0,0" HorizontalAlignment="Left" 
-                       VerticalAlignment="Top">
+                <Image x:Name="buttonX" Source="/Assets/Buttons/buttonX.png" Width="100" 
+                       Height="100" Margin="580,240,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                       DragOver="button_Hold">
+                    
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonX" Header="hide" Click="ButtonVisibilityClick"/>
@@ -47,10 +46,9 @@
             </StackPanel>
             
             <StackPanel>
-                <Image x:Name="buttonY" Source="/Assets/Buttons/buttonY.png" Width="100"
-                       Height="100" Margin="640,180,0,0" HorizontalAlignment="Left"
-                       VerticalAlignment="Top" RenderTransformOrigin="0.473,-0.338" 
-                       >
+                <Image x:Name="buttonY" Source="/Assets/Buttons/buttonY.png" Width="100" Height="100" 
+                       Margin="640,180,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                       RenderTransformOrigin="0.473,-0.338" DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonY" Header="hide" Click="ButtonVisibilityClick"/>
@@ -64,7 +62,7 @@
             <StackPanel>
                 <Image x:Name="buttonA" Source="/Assets/Buttons/buttonA.png" Width="100" Height="100" 
                        Margin="640,300,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                       >
+                       DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonA" Header="hide" Click="ButtonVisibilityClick"/>
@@ -77,8 +75,8 @@
             
             <StackPanel>
                 <Image x:Name="buttonB" Source="/Assets/Buttons/buttonB.png" Width="100" Height="100" 
-                       Margin="700,240,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                       >
+                       Margin="700,240,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonB" Header="hide" Click="ButtonVisibilityClick"/>
@@ -90,9 +88,9 @@
             </StackPanel>
             
             <StackPanel>
-                <Image x:Name="buttonLB" Source="/Assets/Buttons/buttonLB.png" Width="100" Height="100" 
-                       Margin="40,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                       >
+                <Image x:Name="buttonLB" Source="/Assets/Buttons/buttonLB.png" Width="100" 
+                       Height="100" Margin="40,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonLB" Header="hide" Click="ButtonVisibilityClick"/>
@@ -104,10 +102,9 @@
             </StackPanel>
             
             <StackPanel>
-                <Image x:Name="buttonRB" Source="/Assets/Buttons/buttonRB.png" Width="100" Height="100"
-                       Margin="650,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                       RenderTransformOrigin="0.473,-0.338">
-                    
+                <Image x:Name="buttonRB" Source="/Assets/Buttons/buttonRB.png" Width="100" Height="100" 
+                       Margin="650,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                       RenderTransformOrigin="0.473,-0.338" DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonRB" Header="hide" Click="ButtonVisibilityClick"/>
@@ -119,9 +116,9 @@
             </StackPanel>
             
             <StackPanel>
-                <Image x:Name="buttonStart" Source="/Assets/Buttons/buttonStart.png" 
-                       Width="100" Height="100" Margin="400,20,0,0" HorizontalAlignment="Left"
-                       VerticalAlignment="Top">
+                <Image x:Name="buttonStart" Source="/Assets/Buttons/buttonStart.png" Width="100" Height="100"
+                       Margin="400,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                       DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonStart" Header="hide" Click="ButtonVisibilityClick"/>
@@ -133,8 +130,10 @@
             </StackPanel>
             
             <StackPanel>
-                <Image x:Name="buttonBack" Source="/Assets/Buttons/buttonBack.png" Width="100" Height="100" 
-                       Margin="300,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Image x:Name="buttonBack" Source="/Assets/Buttons/buttonBack.png" 
+                       Width="100" Height="100" Margin="300,20,0,0" 
+                       HorizontalAlignment="Left" VerticalAlignment="Top" 
+                       DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonBack" Header="hide" Click="ButtonVisibilityClick"/>
@@ -146,9 +145,9 @@
             </StackPanel>
             
             <StackPanel>
-                <Image x:Name="buttonLT" Source="/Assets/Buttons/buttonLT.png" Width="100" 
-                       Height="100" Margin="40,0,0,0" HorizontalAlignment="Left"
-                       VerticalAlignment="Top">
+                <Image x:Name="buttonLT" Source="/Assets/Buttons/buttonLT.png" Width="100" Height="100" 
+                       Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                       DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonLT" Header="hide" Click="ButtonVisibilityClick"/>
@@ -162,7 +161,7 @@
             <StackPanel>
                 <Image x:Name="buttonRT" Source="/Assets/Buttons/buttonRT.png" Width="100" 
                        Height="100" Margin="650,0,0,0" HorizontalAlignment="Left" 
-                       VerticalAlignment="Top">
+                       VerticalAlignment="Top" DragOver="button_Hold">
                     <!--toolkit:ContextMenuService.ContextMenu>
                         <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                             <toolkit:MenuItem Tag="buttonRT" Header="hide" Click="ButtonVisibilityClick"/>
@@ -172,24 +171,9 @@
                     </toolkit:ContextMenuService.ContextMenu-->
                 </Image>
             </StackPanel>
-            
-            <Image x:Name="buttonJoystickBack" Source="/Assets/Buttons/joystick_background.png"
-                   Width="200" Height="200" Margin="20,250,0,0" HorizontalAlignment="Left" 
-                   VerticalAlignment="Top">
-                <!--toolkit:ContextMenuService.ContextMenu>
-                    <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
-                        <toolkit:MenuItem Tag="buttonJoystick" Header="enable gyroscope" Click="joystickGyroscope_Click" Loaded="joystickGyroscope_Loaded" />
-                        <toolkit:MenuItem Tag="buttonJoystick" Header="adjust sensivity" Click="joystickSensivity_Click" />
-                        <toolkit:MenuItem Tag="buttonJoystick" Header="hide" Click="ButtonVisibilityClick"/>
-                        <toolkit:MenuItem Tag="buttonJoystick" Header="adjust opacity" Click="ButtonOpacityClick"/>
-                        <toolkit:MenuItem Tag="buttonJoystick" Header="adjust size" Click="ButtonSizeClick"/>
-                    </toolkit:ContextMenu>
-                </toolkit:ContextMenuService.ContextMenu-->
-            </Image>
-            <Image x:Name="buttonJoystick" Source="/Assets/Buttons/joystick_thumb.png" 
-                   Width="150" Height="150" Margin="45,275,0,0" HorizontalAlignment="Left" 
-                   VerticalAlignment="Top">
-                
+            <Image x:Name="buttonJoystickBack" Source="/Assets/Buttons/joystick_background.png" Width="200" 
+                   Height="200" Margin="20,250,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   DragOver="button_Hold">
                 <!--toolkit:ContextMenuService.ContextMenu>
                     <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                         <toolkit:MenuItem Tag="buttonJoystick" Header="enable gyroscope" Click="joystickGyroscope_Click" Loaded="joystickGyroscope_Loaded" />
@@ -201,24 +185,21 @@
                 </toolkit:ContextMenuService.ContextMenu-->
             </Image>
             
-            <Image x:Name="buttonJoystick2Back" Source="/Assets/Buttons/joystick_background.png"
-                   Width="200" Height="200" Margin="390,250,0,0" HorizontalAlignment="Left"
-                   VerticalAlignment="Top">
+            <Image x:Name="buttonJoystick" Source="/Assets/Buttons/joystick_thumb.png" Width="150" Height="150"
+                   Margin="45,275,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" DragOver="button_Hold">
                 <!--toolkit:ContextMenuService.ContextMenu>
                     <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
-                        <toolkit:MenuItem Tag="buttonJoystick2" Header="adjust sensivity" 
-                                          Click="joystickSensivity_Click" />
-                        <toolkit:MenuItem Tag="buttonJoystick2" Header="hide" Click="ButtonVisibilityClick"/>
-                        <toolkit:MenuItem Tag="buttonJoystick2" Header="adjust opacity" Click="ButtonOpacityClick"/>
-                        <toolkit:MenuItem Tag="buttonJoystick2" Header="adjust size" Click="ButtonSizeClick"/>
+                        <toolkit:MenuItem Tag="buttonJoystick" Header="enable gyroscope" Click="joystickGyroscope_Click" Loaded="joystickGyroscope_Loaded" />
+                        <toolkit:MenuItem Tag="buttonJoystick" Header="adjust sensivity" Click="joystickSensivity_Click" />
+                        <toolkit:MenuItem Tag="buttonJoystick" Header="hide" Click="ButtonVisibilityClick"/>
+                        <toolkit:MenuItem Tag="buttonJoystick" Header="adjust opacity" Click="ButtonOpacityClick"/>
+                        <toolkit:MenuItem Tag="buttonJoystick" Header="adjust size" Click="ButtonSizeClick"/>
                     </toolkit:ContextMenu>
                 </toolkit:ContextMenuService.ContextMenu-->
             </Image>
-            
-            <Image x:Name="buttonJoystick2" Source="/Assets/Buttons/joystick_thumb.png" Width="150" 
-                   Height="150" Margin="440,300,0,0" HorizontalAlignment="Left" 
-                   VerticalAlignment="Top">
-                
+            <Image x:Name="buttonJoystick2Back" Source="/Assets/Buttons/joystick_background.png" 
+                   Width="200" Height="200" Margin="390,250,0,0" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" DragOver="button_Hold">
                 <!--toolkit:ContextMenuService.ContextMenu>
                     <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                         <toolkit:MenuItem Tag="buttonJoystick2" Header="adjust sensivity" Click="joystickSensivity_Click" />
@@ -229,10 +210,36 @@
                 </toolkit:ContextMenuService.ContextMenu-->
             </Image>
             
-            <Image x:Name="buttonDpadBack" Source="/Assets/Buttons/buttonDpadBack.png" 
-                   Width="160" Height="160" Margin="230,300,0,0" 
-                   HorizontalAlignment="Left" VerticalAlignment="Top" 
-                   Opacity="0.4">
+            <Image x:Name="buttonJoystick2" Source="/Assets/Buttons/joystick_thumb.png" Width="150" 
+                   Height="150" Margin="440,300,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   DragOver="button_Hold">
+                <!--toolkit:ContextMenuService.ContextMenu>
+                    <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
+                        <toolkit:MenuItem Tag="buttonJoystick2" Header="adjust sensivity" Click="joystickSensivity_Click" />
+                        <toolkit:MenuItem Tag="buttonJoystick2" Header="hide" Click="ButtonVisibilityClick"/>
+                        <toolkit:MenuItem Tag="buttonJoystick2" Header="adjust opacity" Click="ButtonOpacityClick"/>
+                        <toolkit:MenuItem Tag="buttonJoystick2" Header="adjust size" Click="ButtonSizeClick"/>
+                    </toolkit:ContextMenu>
+                </toolkit:ContextMenuService.ContextMenu-->
+            </Image>
+            
+            <Image x:Name="buttonDpadBack" Source="/Assets/Buttons/buttonDpadBack.png" Width="160" 
+                   Height="160" Margin="230,300,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   DragOver="button_Hold" Opacity="0.4">
+                <!--toolkit:ContextMenuService.ContextMenu>
+                    <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
+                        <toolkit:MenuItem Tag="buttonDpad" Header="hide" Click="ButtonVisibilityClick"/>
+                        <toolkit:MenuItem Tag="buttonDpad" Header="adjust opacity" Click="ButtonOpacityClick"/>
+                        <toolkit:MenuItem Tag="buttonDpad" Header="adjust size" Click="ButtonSizeClick"/>
+                    </toolkit:ContextMenu>
+                </toolkit:ContextMenuService.ContextMenu-->
+            </Image>
+            <Image x:Name="buttonDpad" Source="/Assets/Buttons/buttonDpadFront.png" Width="160" 
+                   Height="160" Margin="230,300,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   DragOver="button_Hold">
+                <Image.Projection>
+                    <PlaneProjection RotationX="0" RotationY="0"/>
+                </Image.Projection>
                 <!--toolkit:ContextMenuService.ContextMenu>
                     <toolkit:ContextMenu Opacity="0.8" VerticalAlignment="Top">
                         <toolkit:MenuItem Tag="buttonDpad" Header="hide" Click="ButtonVisibilityClick"/>
@@ -242,49 +249,37 @@
                 </toolkit:ContextMenuService.ContextMenu-->
             </Image>
             
-            <Image x:Name="buttonDpad" Source="/Assets/Buttons/buttonDpadFront.png" Width="160" 
-                   Height="160" Margin="230,300,0,0" HorizontalAlignment="Left"
-                   VerticalAlignment="Top">
-                <Image.Projection>
-                    <PlaneProjection RotationX="0" RotationY="0"/>
-                </Image.Projection>
-                
-                <!--ContextMenuService.ContextMenu>
-                    <ContextMenu Opacity="0.8" VerticalAlignment="Top">
-                        <MenuItem Tag="buttonDpad" Header="hide" Click="ButtonVisibilityClick"/>
-                        <MenuItem Tag="buttonDpad" Header="adjust opacity" Click="ButtonOpacityClick"/>
-                        <MenuItem Tag="buttonDpad" Header="adjust size" Click="ButtonSizeClick"/>
-                    </ContextMenu>
-                </ContextMenuService.ContextMenu-->
-            </Image>
             <StackPanel Name="progressBar" VerticalAlignment="Center">
                 <TextBlock Text="Connecting" HorizontalAlignment="Center" />
                 <ProgressBar IsIndeterminate="True" />
             </StackPanel>
             <StackPanel x:Name="slider" Margin="20,10,20,0" 
-                        Height="119" VerticalAlignment="Top" 
+                        Background="{StaticResource AppBarBackgroundThemeBrush}" 
+                        Height="119" 
+                        VerticalAlignment="Top" 
                         Visibility="Collapsed">
                 <StackPanel Margin="20,10,20,0" VerticalAlignment="Top" Orientation="Horizontal">
-                    <TextBlock x:Name="sliderText" HorizontalAlignment="Left" Margin="0,20,0,0"
+                    <TextBlock x:Name="sliderText" HorizontalAlignment="Left" Margin="0,20,0,0" 
                                Text="sensitivity" Width="616"/>
                 </StackPanel>
-                <Slider x:Name="sliderValue" HorizontalAlignment="Left" Margin="10,10,0,10"
-                        Height="87" Value="3" Foreground="#FF4BC1C7" Width="760"
+                <Slider x:Name="sliderValue" HorizontalAlignment="Left" Margin="10,10,0,10" 
+                        Height="87" Value="3" Foreground="#FF4BC1C7" Width="760" 
                         ValueChanged="sliderValue_ValueChanged"/>
             </StackPanel>
-            <StackPanel Name="PressToAdd" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                        Background="WhiteSmoke" Margin="20,0" Opacity="0.5" Visibility="Collapsed">
-                <TextBlock Text="Long press on free area to add a button" Height="28" 
-                           VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
-            </StackPanel>
-            <StackPanel Name="NoMoreButtons" HorizontalAlignment="Center" 
-                        VerticalAlignment="Center" Background="WhiteSmoke" Margin="20,0" Opacity="0.5"
+            <StackPanel Name="PressToAdd" HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" Background="WhiteSmoke" Margin="20,0" Opacity="0.5" 
                         Visibility="Collapsed">
-                <TextBlock Text="All buttons already visible" Height="28" 
-                           VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+                <TextBlock Text="Long press on free area to add a button" 
+                           Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                           Foreground="Red"/>
             </StackPanel>
-            <TextBox Height="20" HorizontalAlignment="Left" Margin="810,-100,0,0"
-                     Name="textBox1" Text="TextBox" VerticalAlignment="Top" Grid.Row="1" />
+            <StackPanel Name="NoMoreButtons" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        Background="WhiteSmoke" Margin="20,0" Opacity="0.5" Visibility="Collapsed">
+                <TextBlock Text="All buttons already visible" Height="28" VerticalAlignment="Top" 
+                           HorizontalAlignment="Left" Foreground="Red"/>
+            </StackPanel>
+            <TextBox Height="20" HorizontalAlignment="Left" Margin="810,-100,0,0" Name="textBox1" 
+                     Text="TextBox" VerticalAlignment="Top" Grid.Row="1" />
         </Grid>
     </Grid>
 

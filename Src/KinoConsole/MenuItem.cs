@@ -3,8 +3,8 @@
 
 namespace KinoConsole
 {
-    internal class Motion
+    internal class MenuItem
     {
-        internal static bool IsSupported;
+        internal object Header;
     }
 }
