@@ -44,12 +44,14 @@ namespace KinoConsole
             //    PasswordPage.serverUid, this.passwordBox.Password);
 
             //((Page)this).NavigationService.GoBack();
+            Frame.Navigate(typeof(MainPage));
         }
 
         private void Cancel_Clicked(object sender, RoutedEventArgs e)
         {
             //TODO
-           // ((Page)this).NavigationService.GoBack();
+            // ((Page)this).NavigationService.GoBack();
+            Frame.Navigate(typeof(MainPage));
         }
                
     }

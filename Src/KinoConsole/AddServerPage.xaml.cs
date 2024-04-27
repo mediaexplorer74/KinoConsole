@@ -40,16 +40,18 @@ namespace KinoConsole
             //TODO
             //if (!(Application.Current as App).nativeLib.AddServer(this.tbx.Text))
             //{
-                //MessageBox.Show("Invalid address");                
+            //MessageBox.Show("Invalid address");                
             //}
 
             //((Page)this).NavigationService.GoBack();
+            Frame.Navigate(typeof(MainPage));
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             //TODO
             //((Page)this).NavigationService.GoBack();
+            Frame.Navigate(typeof(MainPage));
         }
 
         /*

@@ -1,18 +1,20 @@
-# KinoConsole 
+# KinoConsole v2.0-pre-pre-pre-alpha
+![logo](Images/logo.png)
 
-KinoConsole for WP 8.1 R.E. / RnD
+KinoConsole 1.4 WP 8.1 R.E. / RnD
 
 ## About the original
 KinoConsole is the (a) famous "Video Screen streaming service". 
 Sadly, its W10M developing stopped... No new features. I am interesting in KinoConsole tech. :)
 
-## Screenshot (by Windows Central)
-![](Images/shot01.png)
+## Screenshot
+![](Images/screenshot.png)
 
 ## My 2 cents
 - Appx Decomp.
 - Fast code/architecture research
-- WP8 -> W10M code "rebase" ("refactor.") - 7 % ready  
+- WP8 -> W10M code "rebase" ("refactor.") - 7 % ready 
+- Min. compatible Win SDK version is set to 15063 at now (not at 10240). 
 
 ## Result
 - Draft / Not fully ported to uwp yet... but compile ok.

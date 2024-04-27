@@ -190,13 +190,13 @@ namespace KinoConsole
             {
                 Rotation = 90.0
             };
-            
+
             //((ButtonBase)backDialog.btnKeyboard).Click += (RoutedEventHandler)((s, args) =>
             //{
             //    this.popup.IsOpen = false;
             //    ((Control)this.textBox1).Focus();
             //});
-           
+
             //((ButtonBase)backDialog.btnEdit).Click += (RoutedEventHandler)((s, args) =>
             //{
             //    this.mEditMode = true;
@@ -223,7 +223,10 @@ namespace KinoConsole
             //        this.interstitialAd.ShowAd();
             //    }
             //    else
+            //{
             //        ((Page)this).NavigationService.GoBack();
+            //Frame.Navigate.GoBack();
+            //}
             //});
 
             this.myMediaElement.MediaOpened += new RoutedEventHandler(this.myMediaElement_MediaOpened);
@@ -256,10 +259,10 @@ namespace KinoConsole
             //this.adRequest = new AdRequest();
         }
 
-        /*
-        protected virtual void OnBackKeyPress(CancelEventArgs e)
+        
+        protected /*virtual*/ void OnBackKeyPress(CancelEventArgs e)
         {
-            base.OnBackKeyPress(e);
+            //base.OnBackKeyPress(e);
             e.Cancel = true;
             if (this.mEditMode)
             {
@@ -270,22 +273,29 @@ namespace KinoConsole
                 }
                 this.mEditMode = false;
                 ((UIElement)this.EditModeText).Visibility = ((UIElement)this.EditModeRect).Visibility = (Visibility)1;
-                ((UIElement)this.LayoutRoot).ManipulationStarted -= new EventHandler<ManipulationStartedEventArgs>(this.LayoutRoot_ManipulationStarted);
-                ((UIElement)this.LayoutRoot).ManipulationDelta -= new EventHandler<ManipulationDeltaEventArgs>(this.LayoutRoot_ManipulationDelta);
-                ((UIElement)this.LayoutRoot).ManipulationCompleted -= new EventHandler<ManipulationCompletedEventArgs>(this.LayoutRoot_ManipulationCompleted);
-                ((UIElement)this.myMediaElement).Hold -= new EventHandler<GestureEventArgs>(this.myMediaElement_Hold);
-                ((UIElement)this.myMediaElement).Tap -= new EventHandler<GestureEventArgs>(this.myMediaElement_Tap);
+                //((UIElement)this.LayoutRoot).ManipulationStarted -= this.LayoutRoot_ManipulationStarted;//new EventHandler<ManipulationStartedEventArgs>(this.LayoutRoot_ManipulationStarted);
+                //((UIElement)this.LayoutRoot).ManipulationDelta -= this.LayoutRoot_ManipulationDelta;//new EventHandler<ManipulationDeltaEventArgs>(this.LayoutRoot_ManipulationDelta);
+                //((UIElement)this.LayoutRoot).ManipulationCompleted -= new EventHandler<ManipulationCompletedEventArgs>(this.LayoutRoot_ManipulationCompleted);
+                //((UIElement)this.myMediaElement).Hold -= new EventHandler<GestureEventArgs>(this.myMediaElement_Hold);
+                //((UIElement)this.myMediaElement).Tap -= new EventHandler<GestureEventArgs>(this.myMediaElement_Tap);
             }
             else
                 this.popup.IsOpen = !this.popup.IsOpen;
         }
-        */
+
+        private void LayoutRoot_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         private void OnTestTimerTick(object sender, EventArgs args)
         {
             this.testTimer.Stop();
             this.popup.IsOpen = false;
+            
+            //TODO
             //((Page)this).NavigationService.GoBack();
+            Frame.Navigate(typeof(MainPage));
         }
 
         private void nativeLib_Connected()
@@ -296,16 +306,17 @@ namespace KinoConsole
 
         private void nativeLib_Error(int error)
         {
-          /*  ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() =>
-          {
-            if (error == 1)
+            /*  ((DependencyObject)Deployment.Current).Dispatcher.BeginInvoke((Action)(() =>
             {
-                MessageBox.Show("Connection failed");
-                Debug.WriteLine("Connection failed");
-            }
+              if (error == 1)
+              {
+                  MessageBox.Show("Connection failed");
+                  Debug.WriteLine("Connection failed");
+              }
 
-            //((Page)this).NavigationService.GoBack();
-          }));*/
+              //((Page)this).NavigationService.GoBack();
+            }));*/
+            Frame.Navigate(typeof(MainPage));
         }
 
         private void myMediaElement_MediaEnded(object sender, RoutedEventArgs e)
@@ -321,10 +332,12 @@ namespace KinoConsole
 
         private void myMediaElement_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
+            //
         }
 
         private void myMediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
+            //
         }
 
         private void myMediaElement_Tap(object sender, GestureEventArgs e)
@@ -421,6 +434,7 @@ namespace KinoConsole
                 this.enableGyroscope))
             {
                 //((Page)this).NavigationService.GoBack();
+                Frame.Navigate(typeof(MainPage));
             }
             else
             {
@@ -500,7 +514,7 @@ namespace KinoConsole
                     xdocument = new XDocument();
                     xdocument.Add((object)new XElement((XName)"kinoconsole"));
                 }
-                storageFileStream1?.Close();
+                storageFileStream1?.Dispose();//.Close();
                 XElement xelement1 = xdocument.Element((XName)"kinoconsole");
                 XElement content1 = new XElement((XName)"app");
                 content1.Add((object)new XElement((XName)"name", (object)RemotePage.appName));
@@ -545,7 +559,7 @@ namespace KinoConsole
                     "appconfig.xml", FileMode.Create, storeForApplication);
 
                 xdocument.Save((Stream)storageFileStream2);
-                storageFileStream2.Close();
+                storageFileStream2.Dispose();//.Close();
             }
             catch (Exception ex)
             {
@@ -641,7 +655,7 @@ namespace KinoConsole
                             break;
                     }
                 }
-                storageFileStream.Close();
+                storageFileStream.Dispose();//.Close();
             }
             catch (Exception ex)
             {
@@ -1025,34 +1039,7 @@ namespace KinoConsole
             ((UIElement)this.buttonDpad).Projection = (Projection)projection;
         }
 
-        /*
-        private void OnAdTimerTick(object sender, EventArgs args)
-        {
-            this.adTimer.Stop();
-            this.interstitialAd.LoadAd(this.adRequest);
-        }
-
-        private void OnCloseTimerTick(object sender, EventArgs e)
-        {
-            this.closeTimer.Stop();
-            ((Page)this).NavigationService.GoBack();
-        }
-
-        private void OnAdReceived(object sender, AdEventArgs e) => this.mAdAvailable = true;
-
-        private void OnDismissingOverlay(object sender, AdEventArgs e)
-        {
-            this.closeTimer.Interval = TimeSpan.FromMilliseconds(500.0);
-            this.closeTimer.Tick += new EventHandler(this.OnCloseTimerTick);
-            this.closeTimer.Start();
-        }
-
-        private void OnFailedToReceiveAd(object sender, AdErrorEventArgs errorCode)
-        {
-        }
-        */
-
-      
+            
 
         private void ButtonVisibilityClick(object sender, RoutedEventArgs e)
         {

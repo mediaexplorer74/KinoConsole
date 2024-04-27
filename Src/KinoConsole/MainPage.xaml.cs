@@ -174,6 +174,7 @@ namespace KinoConsole
                 //this.settings["mShowHelp"] = (object)false;
                 //this.settings.Save();
                 //((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative));
+                Frame.Navigate(typeof(HelpPage));
             }
             else
                 this.UpdateUI();
@@ -191,6 +192,7 @@ namespace KinoConsole
             RemotePage.appPath = this.appList[index].appPath;
             RemotePage.appName = this.appList[index].appName;
             //((Page)this).NavigationService.Navigate(new Uri("/RemotePage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(RemotePage));
         }
 
         private void FeedbackOverlay_VisibilityChanged(object sender, EventArgs e)
@@ -338,7 +340,7 @@ namespace KinoConsole
                                     {
                                         using (BinaryWriter binaryWriter = new BinaryWriter((Stream)file))
                                             binaryWriter.Write(listAppIcon.ToArray());
-                                        file.Close();
+                                        file.Dispose();//.Close();
                                     }
                                 }
                             }
@@ -427,6 +429,7 @@ namespace KinoConsole
                 {
                     PasswordPage.serverUid = this.appList[this.ImageList.SelectedItemIndex].serverUid;
                     //((Page)this).NavigationService.Navigate(new Uri("/PasswordPage.xaml", UriKind.Relative));
+                    Frame.Navigate(typeof(PasswordPage));
                 }
                 else
                 {
@@ -460,6 +463,7 @@ namespace KinoConsole
                     RemotePage.appPath = this.appList[this.ImageList.SelectedItemIndex].appPath;
                     RemotePage.appName = this.appList[this.ImageList.SelectedItemIndex].appName;
                     //((Page)this).NavigationService.Navigate(new Uri("/RemotePage.xaml", UriKind.Relative));
+                    Frame.Navigate(typeof(RemotePage));
                 }
             }
         }
@@ -468,21 +472,25 @@ namespace KinoConsole
         private void ApplicationBarIconButton_Click_Settings(object sender, RoutedEventArgs e)
         {
             //((Page)this).NavigationService.Navigate(new Uri("/AddServerPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(AddServerPage));
         }
 
         private void ApplicationBarIconButton_Click_Help(object sender, RoutedEventArgs e)
-        { 
+        {
             //((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative)); 
+            Frame.Navigate(typeof(HelpPage));
         }
 
-        private void ApplicationBarIconButton_Click_Buy(object sender, RoutedEventArgs e)
+        private void ApplicationBarIconButton_Click_Pro(object sender, RoutedEventArgs e)
         {
             //((Page)this).NavigationService.Navigate(new Uri("/ProPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(ProPage));
         }
 
         private void ApplicationBarIconButton_Click_About(object sender, RoutedEventArgs e)
         {
             //((Page)this).NavigationService.Navigate(new Uri("/AboutPage.xaml", UriKind.Relative));
+            Frame.Navigate(typeof(AboutPage));
         }
 
         private async void UpdateProInfo()
@@ -615,7 +623,7 @@ namespace KinoConsole
                     //writeableBitmap1.Render((UIElement)image, (Transform)null);
                     writeableBitmap1.Invalidate();
                     //Extensions.SaveJpeg(writeableBitmap1, (Stream)file, width, width, 0, 85);
-                    file.Close();
+                    file.Dispose();//.Close();
                 }
             }
         }
@@ -630,16 +638,16 @@ namespace KinoConsole
                 StreamResourceInfo resourceStream = default;
                 //Application.GetResourceStream(new Uri("Assets/appconfig.xml", UriKind.Relative));
 
-                using (BinaryReader binaryReader = new BinaryReader(resourceStream.Stream))
+                /*using (BinaryReader binaryReader = new BinaryReader(resourceStream.Stream))
                 {
                     byte[] buffer = binaryReader.ReadBytes((int)resourceStream.Stream.Length);
                     using (BinaryWriter binaryWriter = 
                         new BinaryWriter((Stream)storeForApplication.CreateFile("appconfig.xml")))
                     {
                         binaryWriter.Write(buffer);
-                        binaryWriter.Close();
+                        binaryWriter.Dispose();//.Close();
                     }
-                }
+                }*/
             }
             catch (Exception ex)
             {
@@ -666,30 +674,7 @@ namespace KinoConsole
         }
         */
 
-        /*
-        [DebuggerNonUserCode]
-        public void InitializeComponent()
-        {
-            if (this._contentLoaded)
-                return;
-            this._contentLoaded = true;
-            Application.LoadComponent((object)this, new Uri("/KinoConsole;component/MainPage.xaml", UriKind.Relative));
-            this.LayoutRoot = (Grid)((FrameworkElement)this).FindName("LayoutRoot");
-            this.gamesLibrary = (TextBlock)((FrameworkElement)this).FindName("gamesLibrary");
-            this.collection = (StackPanel)((FrameworkElement)this).FindName("collection");
-            this.ImageList = (CollectionFlow)((FrameworkElement)this).FindName("ImageList");
-            this.searchInfo = (StackPanel)((FrameworkElement)this).FindName("searchInfo");
-            this.searchText0 = (TextBlock)((FrameworkElement)this).FindName("searchText0");
-            this.searchText1 = (TextBlock)((FrameworkElement)this).FindName("searchText1");
-            this.searchText2 = (TextBlock)((FrameworkElement)this).FindName("searchText2");
-            this.searchBar = (ProgressBar)((FrameworkElement)this).FindName("searchBar");
-            this.appInfo = (StackPanel)((FrameworkElement)this).FindName("appInfo");
-            this.appName = (TextBlock)((FrameworkElement)this).FindName("appName");
-            this.appServer = (TextBlock)((FrameworkElement)this).FindName("appServer");
-            this.appDetail = (TextBlock)((FrameworkElement)this).FindName("appDetail");
-            this.admob = (AdView)((FrameworkElement)this).FindName("admob");
-        }
-        */
+     
 
         private class AppInfo
         {
@@ -726,20 +711,5 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
-
-namespace KinoConsole
-{
-    /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
-    /// </summary>
-    public sealed partial class MainPage : Page
-    {
-        public MainPage()
-        {
-            this.InitializeComponent();
-        }
-    }
-}
+...
 */

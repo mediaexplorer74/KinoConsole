@@ -1,8 +1,5 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: KinoConsole.HelpPage
+﻿// Type: KinoConsole.HelpPage
 // Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 3AA39D0A-B391-4615-B21E-9EAE1E0B1581
-// Assembly location: C:\Users\Admin\Desktop\re\KC\KinoConsole.dll
 
 //using Microsoft.Phone.Controls;
 using System;
@@ -85,7 +82,7 @@ namespace KinoConsole
                 (Stream)storeForApplication.CreateFile(fileName)))
             {
                 binaryWriter.Write(data);
-                binaryWriter.Close();
+                binaryWriter.Dispose();//.Close();
             }
         }
 

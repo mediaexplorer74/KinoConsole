@@ -20,10 +20,10 @@
             <AppBarButton Icon="Help"
                           Label="help" 
                           Click="ApplicationBarIconButton_Click_Help"/>
-            <AppBarButton Icon="Document" 
-                          Label="buy" 
-                          Click="ApplicationBarIconButton_Click_Buy"/>
-            <AppBarButton Icon="Character" 
+            <AppBarButton Icon="Switch" 
+                          Label="pro" 
+                          Click="ApplicationBarIconButton_Click_Pro"/>
+            <AppBarButton Icon="ContactInfo" 
                           Label="about"
                           Click="ApplicationBarIconButton_Click_About"/>
         <!--/AppBar-->
