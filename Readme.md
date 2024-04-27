@@ -4,8 +4,8 @@
 KinoConsole 1.4 WP 8.1 R.E. / RnD
 
 ## About the original
-KinoConsole is the (a) famous "Video Screen streaming service". 
-Sadly, its W10M developing stopped... No new features. I am interesting in KinoConsole tech. :)
+KinoConsole is the (a) famous "Video Screen streaming service" for WindowsPhone 8(.1). 
+Sadly, Kinoni, makers of the KinoniConsole 1.4, cancelled its KinoConsole UWP app. So, its WindowsPhone project stopped. No new features. No bug fixes such as save/restore settings problem. I'm interesting in KinoConsole tech... And I still dreaming on some KinoConsole "reborn"... but idk how to realize it at "single-person-mode". :)
 
 ## Screenshots
 ![Main screen, or MainPage](Images/screenshot01.png)
