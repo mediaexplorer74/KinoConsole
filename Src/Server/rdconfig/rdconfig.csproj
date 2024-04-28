@@ -365,7 +365,9 @@
   <ItemGroup>
     <EmbeddedResource Include="BrightIdeasSoftware\ColumnSelectionForm.resx" />
     <EmbeddedResource Include="ConfigDialogForm\AlertForm.resx" />
-    <EmbeddedResource Include="ConfigDialogForm\Form1.resx" />
+    <EmbeddedResource Include="ConfigDialogForm\Form1.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConfigDialogForm\Properties\Resources.resx" />
     <EmbeddedResource Include="ConfigDialogForm\Updateform.resx" />
   </ItemGroup>

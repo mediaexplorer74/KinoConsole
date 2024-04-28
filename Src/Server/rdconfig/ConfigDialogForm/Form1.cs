@@ -330,9 +330,14 @@ namespace ConfigDialogForm
     private void SaveAppConfig()
     {
       XmlDocument xmlDocument = new XmlDocument();
+
       XmlNode xmlDeclaration = (XmlNode) xmlDocument.CreateXmlDeclaration("1.0", (string) null, (string) null);
+
       xmlDocument.AppendChild(xmlDeclaration);
-      XmlElement xmlElement = (XmlElement) xmlDocument.AppendChild((XmlNode) xmlDocument.CreateElement("KinoConsole"));
+
+      XmlElement xmlElement = 
+                (XmlElement) xmlDocument.AppendChild((XmlNode) xmlDocument.CreateElement("KinoConsole"));
+
       xmlElement.SetAttribute("version", "1");
       string path1 = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Kinoni";
       string path2 = path1 + "\\RemoteDesktop";
@@ -477,11 +482,15 @@ namespace ConfigDialogForm
       {
         if (cmdlinearg.Equals("--scansteam"))
           this.autoscansteam = true;
+
         if (cmdlinearg.Equals("--kinoconsole"))
           this.kinoconsole = true;
-        Console.WriteLine(cmdlinearg);
+
+        Debug.WriteLine("[i] cmdlinearg :" + cmdlinearg);
       }
+
       this.InitializeComponent();
+      
       this.iconList = new ImageList();
       this.largeIconList = new ImageList();
       this.TitleFont = new Font("Segoe UI", 12f, FontStyle.Regular);
@@ -505,9 +514,11 @@ namespace ConfigDialogForm
         this.largeIconList.ImageSize = new Size(256, 256);
         this.largeIconList.ColorDepth = ColorDepth.Depth32Bit;
         this.updateAppButton.Visible = false;
+
         this.LoadDialogConfig();
         this.googleLoginStatus = this.GetGoogleStatus();
         this.googleWantedStatus = this.googleLoginStatus == 1 ? 1 : 0;
+
         if (this.googleLoginStatus == 1)
         {
           this.googleStatusLabel.Text = "Status: Logged in";
@@ -524,8 +535,14 @@ namespace ConfigDialogForm
         {
           LinkData = (object) "http://www.microsoft.com/hardware/en-us/d/xbox-360-controller-for-windows"
         });
-        this.linkLabel1.LinkClicked += (LinkLabelLinkClickedEventHandler) ((sender, e) => Process.Start(e.Link.LinkData as string));
-        new ToolTip().SetToolTip((Control) this.linkLabel1, "Installing Xbox 360 drivers allows using joystick to play games");
+
+        this.linkLabel1.LinkClicked += (LinkLabelLinkClickedEventHandler) ((sender, e) =>
+        {
+            Process.Start(e.Link.LinkData as string);
+        });
+
+        new ToolTip().SetToolTip((Control) this.linkLabel1,
+            "Installing Xbox 360 drivers allows using joystick to play games");
         this.linkLabel1.Visible = false;
 
         int si = -1;
@@ -540,6 +557,7 @@ namespace ConfigDialogForm
         {
            Debug.WriteLine("[ex] Registry.GetValue - rdxbox - error: " + ex.Message);
         }
+
         this.XBoxCombo.SelectedIndex = si;
         int num = Form1.AudioDeviceCount();
         for (int idx = 0; idx < num; ++idx)
@@ -576,6 +594,7 @@ namespace ConfigDialogForm
       {
         UseLightbox = true
       });
+
       this.objectListView1.FullRowSelect = true;
       this.objectListView1.MultiSelect = true;
       this.objectListView1.ShowGroups = false;
@@ -591,6 +610,7 @@ namespace ConfigDialogForm
         CanDropOnBackground = true,
         FeedbackColor = System.Drawing.Color.Green
       };
+
       this.objectListView1.CanDrop += (EventHandler<OlvDropEventArgs>) ((sender, e) =>
       {
         if (e.DropTargetItem != null)
@@ -616,6 +636,7 @@ namespace ConfigDialogForm
           e.Effect = DragDropEffects.None;
         }
       });
+
       this.objectListView1.Dropped += (EventHandler<OlvDropEventArgs>) ((sender, e) =>
       {
         string[] data = (string[]) e.DragEventArgs.Data.GetData(DataFormats.FileDrop);
@@ -644,6 +665,7 @@ namespace ConfigDialogForm
             this.AddEntry(path);
         }
       });
+
       this.objectListView1.SelectedIndexChanged += (EventHandler) ((sender, e) =>
       {
         this.selectedIndices = this.objectListView1.SelectedIndices;
@@ -673,7 +695,9 @@ namespace ConfigDialogForm
           return;
         args.Canceled = true;
       });
-      string str = (string) Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Steam\\Shell\\Open\\Command", (string) null, (object) null);
+
+      string str = (string) Registry.GetValue(
+          "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Steam\\Shell\\Open\\Command", (string) null, (object) null);
       if (str == null)
         this.steamScanButton.Visible = false;
       if (this.kinoconsole)
@@ -683,16 +707,20 @@ namespace ConfigDialogForm
       }
       else
         this.tabControl1.Controls.Remove((Control) this.tabPage1);
+
       if (this.autoscansteam && str != null)
         this.steamScanButton_Click((object) null, (EventArgs) null);
+
       this.scanBw = new BackgroundWorker();
       this.scanBw.WorkerSupportsCancellation = true;
       this.scanBw.WorkerReportsProgress = true;
       this.scanBw.DoWork += new DoWorkEventHandler(this.bw_DoWork);
       this.scanBw.ProgressChanged += new ProgressChangedEventHandler(this.bw_ProgressChanged);
       this.scanBw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(this.bw_RunWorkerCompleted);
+
       if (this.kinoconsole)
         this.applistBw.RunWorkerAsync();
+
       this.ipBw.RunWorkerAsync();
     }
 
@@ -726,17 +754,23 @@ namespace ConfigDialogForm
         Application.Exit();
     }
 
+
+    // googleLoginButton_Click
     private void googleLoginButton_Click(object sender, EventArgs e)
     {
       this.googleLoginButton.Enabled = false;
       this.googleStatusLabel.Visible = false;
+
       if (this.googleWantedStatus == 1 && this.googleLoginStatus == 1)
         this.googleWantedStatus = 0;
       else if (this.googleWantedStatus == 0 && this.googleLoginStatus == 2)
         this.googleWantedStatus = 1;
+      
       this.SaveDialogConfig();
       this.StopServer();
+
       SynchronizationContext syncContext = SynchronizationContext.Current;
+
       new System.Timers.Timer()
       {
         Interval = 2000.0,
@@ -745,6 +779,7 @@ namespace ConfigDialogForm
       }.Elapsed += (ElapsedEventHandler) ((param0, param1) =>
       {
         this.googleLoginStatus = this.GetGoogleStatus();
+
         syncContext.Send((SendOrPostCallback) (state =>
         {
           if (this.googleLoginStatus == 1)
@@ -771,9 +806,11 @@ namespace ConfigDialogForm
             this.googleStatusLabel.ForeColor = System.Drawing.Color.Red;
             this.googleLoginButton.Text = "Log in";
           }
+
           this.googleLoginButton.Enabled = true;
           this.googleStatusLabel.Visible = true;
-        }), (object) null);
+        }), 
+        (object) null);
       });
     }
 
@@ -781,16 +818,21 @@ namespace ConfigDialogForm
     {
       try
       {
-        EventWaitHandle eventWaitHandle = EventWaitHandle.OpenExisting("Global\\KinoniRDEvent", EventWaitHandleRights.Modify | EventWaitHandleRights.Synchronize);
+        EventWaitHandle eventWaitHandle = EventWaitHandle.OpenExisting("Global\\KinoniRDEvent", 
+            EventWaitHandleRights.Modify | EventWaitHandleRights.Synchronize);
         eventWaitHandle.Set();
         eventWaitHandle.Close();
       }
       catch (Exception ex)
       {
+         Debug.WriteLine("[ex] StopServer error: " + ex.Message);
       }
     }
 
-    private void CancelButton_Click(object sender, EventArgs e) => Application.Exit();
+    private void CancelButton_Click(object sender, EventArgs e)
+    {
+        Application.Exit();
+    }
 
     private Icon ExtractIcon(string iconPath)
     {
@@ -807,12 +849,17 @@ namespace ConfigDialogForm
       }
       catch (Exception ex1)
       {
+        Debug.WriteLine("[i] " + ex1.Message);
         try
         {
           Shell shell = (Shell) new ShellClass();
           string fullPath = Path.GetFullPath(iconPath);
           string pbs;
-          ((IShellLinkDual2) ((IShellDispatch6) shell).NameSpace((object) Path.GetDirectoryName(fullPath)).Items().Item((object) Path.GetFileName(fullPath)).GetLink).GetIconLocation(out pbs);
+
+          ((IShellLinkDual2) ((IShellDispatch6) shell).NameSpace(
+              (object) Path.GetDirectoryName(fullPath)).Items().Item(
+              (object) Path.GetFileName(fullPath)).GetLink).GetIconLocation(out pbs);
+
           string str = "file://";
           string fileName = Uri.UnescapeDataString(pbs);
           if (fileName.IndexOf(str) == 0)
@@ -827,6 +874,7 @@ namespace ConfigDialogForm
         }
         catch (Exception ex2)
         {
+           Debug.WriteLine("[i] " + ex2.Message);
         }
       }
       return icon1;
@@ -842,7 +890,10 @@ namespace ConfigDialogForm
       }
       string str = path;
       string appName;
-      if (versionInfo.FileDescription != null && !string.IsNullOrEmpty(versionInfo.FileDescription) && !string.Equals(versionInfo.FileDescription, " "))
+
+      if (versionInfo.FileDescription != null
+                && !string.IsNullOrEmpty(versionInfo.FileDescription)
+                && !string.Equals(versionInfo.FileDescription, " "))
       {
         appName = versionInfo.FileDescription;
       }
@@ -964,7 +1015,9 @@ namespace ConfigDialogForm
 
     private bool AddBlizzardGame(string gameTitle)
     {
-      string keyName = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" + gameTitle;
+      string keyName = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" 
+                + gameTitle;
+
       string file = (string) Registry.GetValue(keyName, "DisplayIcon", (object) null);
       if (file != null)
       {
@@ -1020,18 +1073,22 @@ namespace ConfigDialogForm
       string name = "Software";
       RegistryKey parentKey = Registry.LocalMachine.OpenSubKey(name);
       int num = 0;
-      using (RegistryKey registryKey1 = Form1._openHKLMSubKey(parentKey, "Software\\Microsoft\\Windows\\CurrentVersion\\GameUX\\Games"))
+      using (RegistryKey registryKey1 = Form1._openHKLMSubKey(parentKey,
+          "Software\\Microsoft\\Windows\\CurrentVersion\\GameUX\\Games"))
       {
         foreach (string subKeyName1 in registryKey1.GetSubKeyNames())
         {
           bool flag1 = false;
-          string subKeyName2 = "Software\\Microsoft\\Windows\\CurrentVersion\\GameUX\\Games\\" + subKeyName1;
+
+          string subKeyName2 = "Software\\Microsoft\\Windows\\CurrentVersion\\GameUX\\Games\\" 
+                        + subKeyName1;
           RegistryKey registryKey2 = Form1._openHKLMSubKey(parentKey, subKeyName2);
           string str = Convert.ToString(registryKey2.GetValue("AppExePath"));
           string b = Convert.ToString(registryKey2.GetValue("ConfigApplicationPath"));
           foreach (string steampath in steampaths)
           {
-            if (!string.IsNullOrEmpty(steampath) && string.Equals(steampath, b, StringComparison.CurrentCultureIgnoreCase))
+            if (!string.IsNullOrEmpty(steampath) && string.Equals(steampath, b, 
+                StringComparison.CurrentCultureIgnoreCase))
             {
               Console.WriteLine(steampath);
               flag1 = true;
@@ -1078,19 +1135,23 @@ namespace ConfigDialogForm
     private static RegistryKey _openHKLMSubKey(RegistryKey parentKey, string subKeyName)
     {
       int phkResult;
-      return Form1.RegOpenKeyEx((UIntPtr) 2147483650U, subKeyName, 0, 131353, out phkResult) != 0 ? (RegistryKey) null : Form1._pointerToRegistryKey((IntPtr) phkResult, false, false);
+      return Form1.RegOpenKeyEx((UIntPtr) 2147483650U, subKeyName, 0, 131353, out phkResult) != 0 
+                ? (RegistryKey) null : Form1._pointerToRegistryKey((IntPtr) phkResult, false, false);
     }
 
     private static RegistryKey _pointerToRegistryKey(IntPtr hKey, bool writable, bool ownsHandle)
     {
       BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.NonPublic;
-      System.Type type1 = typeof (SafeHandleZeroOrMinusOneIsInvalid).Assembly.GetType("Microsoft.Win32.SafeHandles.SafeRegistryHandle");
+      System.Type type1 = typeof (SafeHandleZeroOrMinusOneIsInvalid).Assembly.GetType(
+          "Microsoft.Win32.SafeHandles.SafeRegistryHandle");
       System.Type[] types1 = new System.Type[2]
       {
         typeof (IntPtr),
         typeof (bool)
       };
-      object obj = type1.GetConstructor(bindingAttr, (Binder) null, types1, (ParameterModifier[]) null).Invoke(new object[2]
+
+      object obj = type1.GetConstructor(bindingAttr, (Binder) null, types1, 
+          (ParameterModifier[]) null).Invoke(new object[2]
       {
         (object) hKey,
         (object) ownsHandle
@@ -1101,7 +1162,8 @@ namespace ConfigDialogForm
         type1,
         typeof (bool)
       };
-      return (RegistryKey) type2.GetConstructor(bindingAttr, (Binder) null, types2, (ParameterModifier[]) null).Invoke(new object[2]
+      return (RegistryKey) type2.GetConstructor(bindingAttr, (Binder) null, types2,
+          (ParameterModifier[]) null).Invoke(new object[2]
       {
         obj,
         (object) writable
@@ -1152,10 +1214,10 @@ namespace ConfigDialogForm
       else
         this.externalIPlabel.Text = "N/A";
       this.updateAppButton.Visible = true;
-      if (Form1.UpdateAvailable(this.recentVersion) == 0)
+      //if (Form1.UpdateAvailable(this.recentVersion) == 0)
         return;
-      this.updateAppButton.Enabled = true;
-      this.updateAppButton.Text = "Update available";
+      //this.updateAppButton.Enabled = true;
+      //this.updateAppButton.Text = "Update available";
     }
 
     private void ipbw_DoWork(object sender, DoWorkEventArgs e)
@@ -1241,7 +1303,9 @@ namespace ConfigDialogForm
       this.AddOriginGames(steampaths);
       this.newSteamApps = num2;
       Icon icon1 = (Icon) null;
-      string str = (string) Registry.GetValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam", "SteamExe", (object) null);
+
+      string str = (string) Registry.GetValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam", 
+          "SteamExe", (object) null);
       if (str != null)
       {
         foreach (Icon icon2 in IconHelper.SplitGroupIcon(IconHelper.ExtractIcon(str, 0)))
@@ -1252,7 +1316,9 @@ namespace ConfigDialogForm
         this.iconList.Images.Add(icon1);
         this.largeIconList.Images.Add(icon1);
         int iconListIndex = this.iconList.Images.Count - 1;
-        Form1.AppInfo appInfo = new Form1.AppInfo("Steam Big Picture Mode", "steam://open/bigpicture", str, str, true, iconListIndex, false);
+
+        Form1.AppInfo appInfo = new Form1.AppInfo("Steam Big Picture Mode", 
+            "steam://open/bigpicture", str, str, true, iconListIndex, false);
         bool flag = false;
         for (int index = 0; index < this.apps.Count; ++index)
         {
@@ -1445,16 +1511,21 @@ namespace ConfigDialogForm
       this.googleLoginButton.Click += new EventHandler(this.googleLoginButton_Click);
       this.googleStatusLabel.AutoSize = true;
       this.googleStatusLabel.Location = new Point(614, 54);
+
       this.googleStatusLabel.Name = "googleStatusLabel";
       this.googleStatusLabel.Size = new Size(112, 19);
       this.googleStatusLabel.TabIndex = 9;
-      this.googleStatusLabel.Text = "status: lgged out";
+      this.googleStatusLabel.Text = "status: logged out";
+      
       this.label7.AutoSize = true;
       this.label7.Location = new Point(47, 20);
       this.label7.Name = "label7";
       this.label7.Size = new Size(642, 19);
       this.label7.TabIndex = 8;
-      this.label7.Text = "Servers can also be found via Google account. Use the same Google id in both the server and the client.";
+
+      this.label7.Text = "Servers can also be found via Google account. " +
+                "Use the same Google id in both the server and the client.";
+
       this.googlePasswordTextBox.Location = new Point(313, 99);
       this.googlePasswordTextBox.Name = "googlePasswordTextBox";
       this.googlePasswordTextBox.PasswordChar = '•';
@@ -1561,7 +1632,11 @@ namespace ConfigDialogForm
       this.label2.Name = "label2";
       this.label2.Size = new Size(687, 64);
       this.label2.TabIndex = 0;
-      this.label2.Text = "Set password to protect your computer from unauthorized access. It is recommended to use at least 8 alphanumeric characters. Maximum password length is 32 characters.";
+
+      this.label2.Text = "Set password to protect your computer from unauthorized access. " +
+                "It is recommended to use at least 8 alphanumeric characters. " +
+                "Maximum password length is 32 characters.";
+      
       this.groupBox1.Controls.Add((Control) this.pictureBox1);
       this.groupBox1.Controls.Add((Control) this.updateAppButton);
       this.groupBox1.Controls.Add((Control) this.label11);
@@ -1571,33 +1646,38 @@ namespace ConfigDialogForm
       this.groupBox1.Size = new Size(755, 83);
       this.groupBox1.TabIndex = 1;
       this.groupBox1.TabStop = false;
-      this.pictureBox1.BackgroundImage = (Image) componentResourceManager.GetObject("pictureBox1.BackgroundImage");
+      this.pictureBox1.BackgroundImage = (Image) componentResourceManager.GetObject(
+          "pictureBox1.BackgroundImage");
       this.pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
       this.pictureBox1.Location = new Point(169, 15);
       this.pictureBox1.Name = "pictureBox1";
       this.pictureBox1.Size = new Size(68, 65);
       this.pictureBox1.TabIndex = 3;
       this.pictureBox1.TabStop = false;
+
       this.updateAppButton.Enabled = false;
+      
       this.updateAppButton.Location = new Point(536, 28);
       this.updateAppButton.Name = "updateAppButton";
-      this.updateAppButton.Size = new Size(194, 35);
+      //this.updateAppButton.UseVisualStyleBackColor = true;
+      this.updateAppButton.Size = new Size(/*194*/0, /*35*/0); // HIDE THIS BUTTON (NOT NEEDED)       
       this.updateAppButton.TabIndex = 2;
-      this.updateAppButton.Text = "Application is up to date";
-      this.updateAppButton.UseVisualStyleBackColor = true;
+      this.updateAppButton.Text = /*"Application is up to date"*/"";
+      
       this.updateAppButton.Click += new EventHandler(this.updateAppButton_Click);
+      
       this.label11.AutoSize = true;
       this.label11.Location = new Point(332, 23);
       this.label11.Name = "label11";
       this.label11.Size = new Size(129, 19);
       this.label11.TabIndex = 1;
-      this.label11.Text = "Version 1.34";
+      this.label11.Text = /*"Version 1.34"*/"Version 2.00-alpha";
       this.label1.AutoSize = true;
       this.label1.Location = new Point(332, 51);
       this.label1.Name = "label1";
       this.label1.Size = new Size(169, 19);
       this.label1.TabIndex = 0;
-      this.label1.Text = "Copyright (C) 2015 Kinoni";
+      this.label1.Text = /*"Copyright (C) 2015 Kinoni"*/ "Kinoni Remote Desktop Config :: 2024";
       this.tabPage1.Controls.Add((Control) this.linkLabel1);
       this.tabPage1.Controls.Add((Control) this.steamScanButton);
       this.tabPage1.Controls.Add((Control) this.deleteButton);
@@ -1713,7 +1793,8 @@ namespace ConfigDialogForm
       this.objectListView1.UseCellFormatEvents = true;
       this.objectListView1.UseCompatibleStateImageBehavior = false;
       this.objectListView1.View = View.Details;
-      this.objectListView1.FormatCell += new EventHandler<FormatCellEventArgs>(this.objectListView1_FormatCell);
+      this.objectListView1.FormatCell += new EventHandler<FormatCellEventArgs>(
+          this.objectListView1_FormatCell);
       this.iconColumn.AspectName = "";
       this.iconColumn.CellPadding = new Rectangle?();
       this.iconColumn.MaximumWidth = 48;
