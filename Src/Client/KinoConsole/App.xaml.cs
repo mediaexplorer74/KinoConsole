@@ -114,7 +114,7 @@ namespace KinoConsole
 
         // *On App launching*
         //Api.StartSession(this.FlurryKey);
-        this.nativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/default);
+        CNativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/true);
       }
     }//OnLaunched
 
@@ -159,23 +159,27 @@ namespace KinoConsole
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             //Api.StartSession(this.FlurryKey);
-            this.nativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/default);
+
+            //this.nativeLib.Start(true);
+            CNativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/true);
         }
 
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             //Api.StartSession(this.FlurryKey);
-            this.nativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/default);
+
+            //this.nativeLib.Start(true);
+            CNativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/true);
         }
 
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         { 
-            this.nativeLib.Stop();
+            CNativeLib.Stop();
         }
 
         private void Application_Closing(object sender, ClosingEventArgs e)
         { 
-            this.nativeLib.Stop(); 
+            CNativeLib.Stop(); 
         }
 
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)

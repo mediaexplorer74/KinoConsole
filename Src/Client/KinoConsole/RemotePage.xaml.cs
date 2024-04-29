@@ -1,7 +1,7 @@
 ﻿// Type: KinoConsole.RemotePage
 
 
-//using NativeLib;
+using NativeLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -219,14 +219,14 @@ namespace KinoConsole
             this.myMediaElement.MediaEnded += new RoutedEventHandler(this.myMediaElement_MediaEnded);
             this.myMediaElement.CurrentStateChanged += new RoutedEventHandler(this.myMediaElement_CurrentStateChanged);
             //this.myMediaElement.MediaFailed += new EventHandler<ExceptionRoutedEventArgs>(this.myMediaElement_MediaFailed);
-            CNativeLib nativeLib1 = (Application.Current as App).nativeLib;
+            //CNativeLib nativeLib1 = (Application.Current as App).nativeLib;
 
             //WindowsRuntimeMarshal.AddEventHandler<ConnectedHandler>(
             //    new Func<ConnectedHandler, EventRegistrationToken>(nativeLib1.add_Connected), 
             //    new Action<EventRegistrationToken>(nativeLib1.remove_Connected), 
             //    new ConnectedHandler(this.nativeLib_Connected));
 
-            CNativeLib nativeLib2 = (Application.Current as App).nativeLib;
+            //CNativeLib nativeLib2 = (Application.Current as App).nativeLib;
             //WindowsRuntimeMarshal.AddEventHandler<ErrorHandler>(
             //    new Func<ErrorHandler, EventRegistrationToken>(nativeLib2.add_Error), 
             //    new Action<EventRegistrationToken>(nativeLib2.remove_Error), new ErrorHandler(this.nativeLib_Error));
@@ -415,9 +415,10 @@ namespace KinoConsole
 
             //if (this.settings.Contains("proVersion"))
                 this.proVersion = true;
-            
-            if (!(Application.Current as App).nativeLib.Connect(RemotePage.serverUid, RemotePage.appPath,
-                this.enableGyroscope))
+
+            //if (!(Application.Current as App).nativeLib.Connect(RemotePage.serverUid, RemotePage.appPath,
+              if (!CNativeLib.Connect(RemotePage.serverUid, RemotePage.appPath,
+              this.enableGyroscope))
             {
                 //((Page)this).NavigationService.GoBack();
                 Frame.Navigate(typeof(MainPage));
@@ -438,7 +439,9 @@ namespace KinoConsole
                 }
 
                 //Touch.FrameReported += new TouchFrameEventHandler(this.Touch_FrameReported);
-                CNativeLib nativeLib = (Application.Current as App).nativeLib;
+
+                //CNativeLib nativeLib = (Application.Current as App).nativeLib;
+                
                 //WindowsRuntimeMarshal.AddEventHandler<GameControllerStateHandler>(
                 //    new Func<GameControllerStateHandler, EventRegistrationToken>(
                 //        nativeLib.add_GameControllerState), 
@@ -466,10 +469,14 @@ namespace KinoConsole
             //nativeLib.GameControllerState -= new GameControllerStateHandler(this.nativeLib_GameControllerState);
 
             //Touch.FrameReported -= new TouchFrameEventHandler(this.Touch_FrameReported);
+
             this.adTimer.Stop();
             this.closeTimer.Stop();
             this.testTimer.Stop();
-            (Application.Current as App).nativeLib.Disconnect();
+
+            //(Application.Current as App).nativeLib.Disconnect();
+            CNativeLib.Disconnect();
+
             this.myMediaElement.Stop();
             if (this.mediaStreamSource != null)
             {
@@ -552,6 +559,7 @@ namespace KinoConsole
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[ex] RemotePage - SaveGameControls error: " + ex.Message);
             }
         }
 
@@ -651,7 +659,7 @@ namespace KinoConsole
                 Debug.WriteLine("[ex]" + ex.Message);
             }
 
-            if ((Application.Current as App).nativeLib.GetGameControllerState())
+            if (CNativeLib.GetGameControllerState())
             {
                 foreach (RemotePage.Button button in this.buttons)
                 {
@@ -751,7 +759,7 @@ namespace KinoConsole
                 y = -y;
                 z = -z;
             }
-          (Application.Current as App).nativeLib.SetRotation(x, y, z);
+            CNativeLib.SetRotation(x, y, z);
         }
 
         private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
@@ -760,8 +768,8 @@ namespace KinoConsole
                 return;
             char c = this.textBox1.Text.ElementAt<char>(0);
             this.textBox1.Text = "";
-            (Application.Current as App).nativeLib.KeyboardEvent(true, (int)c);
-            (Application.Current as App).nativeLib.KeyboardEvent(false, (int)c);
+            CNativeLib.KeyboardEvent(true, (int)c);
+            CNativeLib.KeyboardEvent(false, (int)c);
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -776,15 +784,15 @@ namespace KinoConsole
             Key key1 = e.Key;
             if (e.Key == (Key)1)
             {
-                (Application.Current as App).nativeLib.KeyboardEvent(true, 8);
-                (Application.Current as App).nativeLib.KeyboardEvent(false, 8);
+                CNativeLib.KeyboardEvent(true, 8);
+                CNativeLib.KeyboardEvent(false, 8);
             }
             else if (e.Key == (Key)3)
             {
-                (Application.Current as App).nativeLib.KeyboardEvent(true, 13);
-                (Application.Current as App).nativeLib.KeyboardEvent(false, 13);
-                (Application.Current as App).nativeLib.KeyboardEvent(true, 10);
-                (Application.Current as App).nativeLib.KeyboardEvent(false, 10);
+                CNativeLib.KeyboardEvent(true, 13);
+                CNativeLib.KeyboardEvent(false, 13);
+                CNativeLib.KeyboardEvent(true, 10);
+                CNativeLib.KeyboardEvent(false, 10);
             }
             else
             {
@@ -836,8 +844,10 @@ namespace KinoConsole
                         {
                             this.buttons[index2].touchId = touchPoint.TouchDevice.Id;
                             flag = true;
+
                             if (this.buttons[index2].keyCode != 0)
-                                (Application.Current as App).nativeLib.KeyboardEvent(true, this.buttons[index2].keyCode);
+                                CNativeLib.KeyboardEvent(true, this.buttons[index2].keyCode);
+
                             else if (this.buttons[index2].joystickEvent == 9)
                                 this.JoystickTouch(touchPoint.Position);
                             else if (this.buttons[index2].joystickEvent == 11)
@@ -845,7 +855,7 @@ namespace KinoConsole
                             else if (this.buttons[index2].joystickEvent == 57352)
                                 this.DpadTouch(touchPoint.Position);
                             else if (this.buttons[index2].joystickEvent != 0)
-                                (Application.Current as App).nativeLib.JoystickEvent(this.buttons[index2].joystickEvent, 1f);
+                                CNativeLib.JoystickEvent(this.buttons[index2].joystickEvent, 1f);
                         }
                     }
                 }
@@ -874,29 +884,29 @@ namespace KinoConsole
                             this.buttons[index4].touchId = -1;
                             flag = true;
                             if (this.buttons[index4].keyCode != 0)
-                                (Application.Current as App).nativeLib.KeyboardEvent(false, this.buttons[index4].keyCode);
+                                CNativeLib.KeyboardEvent(false, this.buttons[index4].keyCode);
                             else if (this.buttons[index4].joystickEvent == 9)
                             {
-                                (Application.Current as App).nativeLib.JoystickEvent(9, 0.0f);
-                                (Application.Current as App).nativeLib.JoystickEvent(10, 0.0f);
+                                CNativeLib.JoystickEvent(9, 0.0f);
+                                CNativeLib.JoystickEvent(10, 0.0f);
                                 ((FrameworkElement)this.buttonJoystick).Margin = ((FrameworkElement)this.buttonJoystickBack).Margin;
                             }
                             else if (this.buttons[index4].joystickEvent == 11)
                             {
-                                (Application.Current as App).nativeLib.JoystickEvent(11, 0.0f);
-                                (Application.Current as App).nativeLib.JoystickEvent(12, 0.0f);
+                                CNativeLib.JoystickEvent(11, 0.0f);
+                                CNativeLib.JoystickEvent(12, 0.0f);
                                 ((FrameworkElement)this.buttonJoystick2).Margin = ((FrameworkElement)this.buttonJoystick2Back).Margin;
                             }
                             else if (this.buttons[index4].joystickEvent == 57352)
                             {
                                 if (this.currentDpadUp)
-                                    (Application.Current as App).nativeLib.KeyboardEvent(false, 57352);
+                                    CNativeLib.KeyboardEvent(false, 57352);
                                 if (this.currentDpadDown)
-                                    (Application.Current as App).nativeLib.KeyboardEvent(false, 57353);
+                                    CNativeLib.KeyboardEvent(false, 57353);
                                 if (this.currentDpadLeft)
-                                    (Application.Current as App).nativeLib.KeyboardEvent(false, 57354);
+                                    CNativeLib.KeyboardEvent(false, 57354);
                                 if (this.currentDpadRight)
-                                    (Application.Current as App).nativeLib.KeyboardEvent(false, 57355);
+                                    CNativeLib.KeyboardEvent(false, 57355);
                                 this.currentDpadUp = this.currentDpadDown = this.currentDpadLeft = this.currentDpadRight = false;
                                 PlaneProjection projection = (PlaneProjection)((UIElement)this.buttonDpad).Projection;
                                 projection.RotationX = 0.0;
@@ -904,75 +914,110 @@ namespace KinoConsole
                                 ((UIElement)this.buttonDpad).Projection = (Projection)projection;
                             }
                             else if (this.buttons[index4].joystickEvent != 0)
-                                (Application.Current as App).nativeLib.JoystickEvent(this.buttons[index4].joystickEvent, 0.0f);
+                                CNativeLib.JoystickEvent(this.buttons[index4].joystickEvent, 0.0f);
                         }
                     }
                 }
                 if (!flag)
-                    this.UpdateTouchTbl(touchPoint.TouchDevice.Id, touchPoint.Position.X, touchPoint.Position.Y, touchPoint.Action == 1 || touchPoint.Action == 2 ? 1 : 0);
+                    this.UpdateTouchTbl(touchPoint.TouchDevice.Id, 
+                        touchPoint.Position.X, touchPoint.Position.Y, 
+                        touchPoint.Action == 1 || touchPoint.Action == 2 ? 1 : 0);
             }
             if (this.touchTbl[0].down == 1 || this.touchTbl[0].down == 0 && this.touch0Pressed)
-                (Application.Current as App).nativeLib.PointerEvent(0, this.touchTbl[0].down == 1, this.touchTbl[0].x, this.touchTbl[0].y);
+                CNativeLib.PointerEvent(0, this.touchTbl[0].down == 1, this.touchTbl[0].x, this.touchTbl[0].y);
             this.touch0Pressed = this.touchTbl[0].down == 1;
             if (this.touchTbl[1].down == 1 || this.touchTbl[1].down == 0 && this.touch1Pressed)
-                (Application.Current as App).nativeLib.PointerEvent(1, this.touchTbl[1].down == 1, this.touchTbl[1].x, this.touchTbl[1].y);
+                CNativeLib.PointerEvent(1, this.touchTbl[1].down == 1, this.touchTbl[1].x, this.touchTbl[1].y);
             this.touch1Pressed = this.touchTbl[1].down == 1;
         }
 
         private void JoystickTouch(Point point)
         {
-            double num1 = point.X - (((FrameworkElement)this.buttonJoystickBack).Margin.Left + ((FrameworkElement)this.buttonJoystickBack).Width / 2.0);
+            double num1 = point.X - (((FrameworkElement)this.buttonJoystickBack).Margin.Left 
+                + ((FrameworkElement)this.buttonJoystickBack).Width / 2.0);
+
             if (num1 < -((FrameworkElement)this.buttonJoystickBack).Width / 2.0)
                 num1 = -((FrameworkElement)this.buttonJoystickBack).Width / 2.0;
+
             else if (num1 > ((FrameworkElement)this.buttonJoystickBack).Width / 2.0)
                 num1 = ((FrameworkElement)this.buttonJoystickBack).Width / 2.0;
-            double num2 = point.Y - (((FrameworkElement)this.buttonJoystickBack).Margin.Top + ((FrameworkElement)this.buttonJoystickBack).Height / 2.0);
+
+            double num2 = point.Y - (((FrameworkElement)this.buttonJoystickBack).Margin.Top 
+                + ((FrameworkElement)this.buttonJoystickBack).Height / 2.0);
+
             if (num2 < -((FrameworkElement)this.buttonJoystickBack).Width / 2.0)
                 num2 = -((FrameworkElement)this.buttonJoystickBack).Width / 2.0;
+
             else if (num2 > ((FrameworkElement)this.buttonJoystickBack).Width / 2.0)
                 num2 = ((FrameworkElement)this.buttonJoystickBack).Width / 2.0;
-            float data = (float)(num1 / (((FrameworkElement)this.buttonJoystickBack).Width / 2.0) * this.joystickSensitivity);
+
+            float data = (float)(num1 / (((FrameworkElement)this.buttonJoystickBack).Width / 2.0) 
+                * this.joystickSensitivity);
+
             if ((double)data < -1.0)
                 data = -1f;
             if ((double)data > 1.0)
                 data = 1f;
-            float num3 = (float)(num2 / (((FrameworkElement)this.buttonJoystickBack).Height / 2.0) * this.joystickSensitivity);
+
+            float num3 = (float)(num2 / (((FrameworkElement)this.buttonJoystickBack).Height / 2.0)
+                * this.joystickSensitivity);
             if ((double)num3 < -1.0)
                 num3 = -1f;
             if ((double)num3 > 1.0)
                 num3 = 1f;
-            (Application.Current as App).nativeLib.JoystickEvent(9, data);
-            (Application.Current as App).nativeLib.JoystickEvent(10, -num3);
+
+            CNativeLib.JoystickEvent(9, data);
+            CNativeLib.JoystickEvent(10, -num3);
+
             Thickness margin = ((FrameworkElement)this.buttonJoystick).Margin;
-            margin.Top = ((FrameworkElement)this.buttonJoystickBack).Margin.Top + ((FrameworkElement)this.buttonJoystickBack).Width / 2.0 + num2 - ((FrameworkElement)this.buttonJoystick).Width / 2.0;
-            margin.Left = ((FrameworkElement)this.buttonJoystickBack).Margin.Left + ((FrameworkElement)this.buttonJoystickBack).Width / 2.0 + num1 - ((FrameworkElement)this.buttonJoystick).Width / 2.0;
+
+            margin.Top = ((FrameworkElement)this.buttonJoystickBack).Margin.Top 
+                + ((FrameworkElement)this.buttonJoystickBack).Width / 2.0 + num2 
+                - ((FrameworkElement)this.buttonJoystick).Width / 2.0;
+
+            margin.Left = ((FrameworkElement)this.buttonJoystickBack).Margin.Left
+                + ((FrameworkElement)this.buttonJoystickBack).Width / 2.0 + num1 
+                - ((FrameworkElement)this.buttonJoystick).Width / 2.0;
+
             ((FrameworkElement)this.buttonJoystick).Margin = margin;
         }
 
         private void JoystickTouch2(Point point)
         {
-            double num1 = point.X - (((FrameworkElement)this.buttonJoystick2Back).Margin.Left + ((FrameworkElement)this.buttonJoystick2Back).Width / 2.0);
+            double num1 = point.X - (((FrameworkElement)this.buttonJoystick2Back).Margin.Left
+                + ((FrameworkElement)this.buttonJoystick2Back).Width / 2.0);
+
             if (num1 < -((FrameworkElement)this.buttonJoystick2Back).Width / 2.0)
                 num1 = -((FrameworkElement)this.buttonJoystick2Back).Width / 2.0;
+
             else if (num1 > ((FrameworkElement)this.buttonJoystick2Back).Width / 2.0)
                 num1 = ((FrameworkElement)this.buttonJoystick2Back).Width / 2.0;
-            double num2 = point.Y - (((FrameworkElement)this.buttonJoystick2Back).Margin.Top + ((FrameworkElement)this.buttonJoystick2Back).Height / 2.0);
+
+            double num2 = point.Y - (((FrameworkElement)this.buttonJoystick2Back).Margin.Top 
+                + ((FrameworkElement)this.buttonJoystick2Back).Height / 2.0);
+
             if (num2 < -((FrameworkElement)this.buttonJoystick2Back).Width / 2.0)
                 num2 = -((FrameworkElement)this.buttonJoystick2Back).Width / 2.0;
+
             else if (num2 > ((FrameworkElement)this.buttonJoystick2Back).Width / 2.0)
                 num2 = ((FrameworkElement)this.buttonJoystick2Back).Width / 2.0;
-            float data = (float)(num1 / (((FrameworkElement)this.buttonJoystick2Back).Width / 2.0) * this.joystickSensitivity);
+
+            float data = (float)(num1 / (((FrameworkElement)this.buttonJoystick2Back).Width / 2.0)
+                * this.joystickSensitivity);
             if ((double)data < -1.0)
                 data = -1f;
             if ((double)data > 1.0)
                 data = 1f;
-            float num3 = (float)(num2 / (((FrameworkElement)this.buttonJoystick2Back).Height / 2.0) * this.joystickSensitivity);
+            float num3 = (float)(num2 / (((FrameworkElement)this.buttonJoystick2Back).Height / 2.0) 
+                * this.joystickSensitivity);
+
             if ((double)num3 < -1.0)
                 num3 = -1f;
             if ((double)num3 > 1.0)
                 num3 = 1f;
-            (Application.Current as App).nativeLib.JoystickEvent(11, data);
-            (Application.Current as App).nativeLib.JoystickEvent(12, -num3);
+
+            CNativeLib.JoystickEvent(11, data);
+            CNativeLib.JoystickEvent(12, -num3);
             Thickness margin = ((FrameworkElement)this.buttonJoystick2Back).Margin;
             margin.Top += num2;
             margin.Left += num1;
@@ -981,8 +1026,11 @@ namespace KinoConsole
 
         private void DpadTouch(Point point)
         {
-            double num1 = point.X - (((FrameworkElement)this.buttonDpad).Margin.Left + ((FrameworkElement)this.buttonDpad).Width / 2.0);
-            double num2 = point.Y - (((FrameworkElement)this.buttonDpad).Margin.Top + ((FrameworkElement)this.buttonDpad).Height / 2.0);
+            double num1 = point.X - (((FrameworkElement)this.buttonDpad).Margin.Left 
+                + ((FrameworkElement)this.buttonDpad).Width / 2.0);
+            double num2 = point.Y - (((FrameworkElement)this.buttonDpad).Margin.Top
+                + ((FrameworkElement)this.buttonDpad).Height / 2.0);
+
             double num3 = ((FrameworkElement)this.buttonDpad).Width / 6.0;
             bool pressed1 = false;
             bool pressed2 = false;
@@ -1010,18 +1058,21 @@ namespace KinoConsole
                 pressed1 = true;
                 num4 = -30.0;
             }
+
             if (pressed1 != this.currentDpadUp)
-                (Application.Current as App).nativeLib.KeyboardEvent(pressed1, 57352);
+               CNativeLib.KeyboardEvent(pressed1, 57352);
             if (pressed2 != this.currentDpadDown)
-                (Application.Current as App).nativeLib.KeyboardEvent(pressed2, 57353);
+               CNativeLib.KeyboardEvent(pressed2, 57353);
             if (pressed3 != this.currentDpadLeft)
-                (Application.Current as App).nativeLib.KeyboardEvent(pressed3, 57354);
+               CNativeLib.KeyboardEvent(pressed3, 57354);
             if (pressed4 != this.currentDpadRight)
-                (Application.Current as App).nativeLib.KeyboardEvent(pressed4, 57355);
+               CNativeLib.KeyboardEvent(pressed4, 57355);
+
             this.currentDpadUp = pressed1;
             this.currentDpadDown = pressed2;
             this.currentDpadLeft = pressed3;
             this.currentDpadRight = pressed4;
+
             PlaneProjection projection = (PlaneProjection)((UIElement)this.buttonDpad).Projection;
             projection.RotationX = num4;
             projection.RotationY = num5;

@@ -1,7 +1,7 @@
 ﻿// Type: KinoConsole.VideoMediaStreamSource
 // Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
 
-//using NativeLib;
+using NativeLib;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -36,7 +36,7 @@ namespace KinoConsole
       this.shutdownEvent = new ManualResetEvent(false);
       this._sampleQueue = new Queue<VideoMediaStreamSource.VideoSample>(30);
       this._outstandingGetVideoSampleCount = 0;
-      CNativeLib nativeLib = default;//(Application.Current as App).nativeLib;
+      //CNativeLib nativeLib = default;//(Application.Current as App).nativeLib;
 
             //nativeLib.VideoData += new VideoDataHandler(null, null, null); 
       //WindowsRuntimeMarshal.AddEventHandler<VideoDataHandler>(
@@ -64,7 +64,8 @@ namespace KinoConsole
       {
         if (this._outstandingGetVideoSampleCount <= 0)
           return;
-        this.ReportGetSampleCompleted(new MediaStreamSample(this._videoDesc, (Stream) null, 0L, 0L, 0L, 0L, (IDictionary<MediaSampleAttributeKeys, string>) this._emptySampleDict));
+        this.ReportGetSampleCompleted(new MediaStreamSample(this._videoDesc, (Stream) null,
+            0L, 0L, 0L, 0L, (IDictionary<MediaSampleAttributeKeys, string>) this._emptySampleDict));
         this._outstandingGetVideoSampleCount = 0;
       }
     }
@@ -87,11 +88,15 @@ namespace KinoConsole
 
     private void SendSamples()
     {
-      for (; this._sampleQueue.Count<VideoMediaStreamSource.VideoSample>() > 0 && this._outstandingGetVideoSampleCount > 0 && !this.shutdownEvent.WaitOne(0); --this._outstandingGetVideoSampleCount)
+      for (; this._sampleQueue.Count<VideoMediaStreamSource.VideoSample>() > 0 
+                && this._outstandingGetVideoSampleCount > 0
+                && !this.shutdownEvent.WaitOne(0);
+                --this._outstandingGetVideoSampleCount)
       {
         VideoMediaStreamSource.VideoSample videoSample = this._sampleQueue.Dequeue();
         Stream stream = videoSample.buffer.AsStream();
-        this.ReportGetSampleCompleted(new MediaStreamSample(this._videoDesc, stream, 0L, stream.Length, videoSample.hnsPresentationTime, (IDictionary<MediaSampleAttributeKeys, string>) this._emptySampleDict));
+        this.ReportGetSampleCompleted(new MediaStreamSample(this._videoDesc, stream, 0L, stream.Length, 
+            videoSample.hnsPresentationTime, (IDictionary<MediaSampleAttributeKeys, string>) this._emptySampleDict));
       }
     }
 
@@ -115,17 +120,22 @@ namespace KinoConsole
       List<MediaStreamDescription> streamDescriptionList = new List<MediaStreamDescription>();
       this.PrepareVideo();
       streamDescriptionList.Add(this._videoDesc);
-      dictionary[(MediaSourceAttributesKeys) 1] = TimeSpan.FromSeconds(0.0).Ticks.ToString((IFormatProvider) CultureInfo.InvariantCulture);
+      dictionary[(MediaSourceAttributesKeys) 1]
+                = TimeSpan.FromSeconds(0.0).Ticks.ToString((IFormatProvider) CultureInfo.InvariantCulture);
+
       dictionary[(MediaSourceAttributesKeys) 0] = false.ToString();
-      this.ReportOpenMediaCompleted((IDictionary<MediaSourceAttributesKeys, string>) dictionary, (IEnumerable<MediaStreamDescription>) streamDescriptionList);
+
+      this.ReportOpenMediaCompleted((IDictionary<MediaSourceAttributesKeys, string>) dictionary, 
+          (IEnumerable<MediaStreamDescription>) streamDescriptionList);
     }
 
-    private void ReportOpenMediaCompleted(IDictionary<MediaSourceAttributesKeys, string> dictionary, IEnumerable<MediaStreamDescription> streamDescriptionList)
+    private void ReportOpenMediaCompleted(IDictionary<MediaSourceAttributesKeys, string> dictionary,
+        IEnumerable<MediaStreamDescription> streamDescriptionList)
     {
         throw new NotImplementedException();
     }
 
-    public /*virtual*/ void GetSampleAsync(MediaStreamType mediaStreamType)
+        public /*virtual / override*/ void GetSampleAsync(MediaStreamType mediaStreamType)
     {
       //if (mediaStreamType != (MediaStreamType)1)
       //  return;
@@ -140,27 +150,27 @@ namespace KinoConsole
     {
     }
 
-        protected virtual void GetDiagnosticAsync(MediaStreamSourceDiagnosticKind diagnosticKind)
-        {
-            throw new NotImplementedException();
-        }
+    protected virtual void GetDiagnosticAsync(MediaStreamSourceDiagnosticKind diagnosticKind)
+    {
+        throw new NotImplementedException();
+    }
 
-        protected virtual void SwitchMediaStreamAsync(MediaStreamDescription mediaStreamDescription)
-        {
-            throw new NotImplementedException();
-        }
+    protected virtual void SwitchMediaStreamAsync(MediaStreamDescription mediaStreamDescription)
+    {
+        throw new NotImplementedException();
+    }
 
-        protected virtual void SeekAsync(long seekToTime)
-        {
-            this.ReportSeekCompleted(seekToTime);
-        }
+    protected virtual void SeekAsync(long seekToTime)
+    {
+        this.ReportSeekCompleted(seekToTime);
+    }
 
-        private void ReportSeekCompleted(long seekToTime)
-        {
-            throw new NotImplementedException();
-        }
+    private void ReportSeekCompleted(long seekToTime)
+    {
+        throw new NotImplementedException();
+    }
 
-        public class VideoSample
+    public class VideoSample
     {
       public IBuffer buffer;
       public long hnsPresentationTime;

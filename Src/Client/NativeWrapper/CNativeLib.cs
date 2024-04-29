@@ -1,20 +1,14 @@
 ﻿// Type: NativeLib.CNativeLib
 // Assembly: NativeLib, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime
 
-/*
- 
+/* 
 // Broken code: 
-[DllImport(@"C:\path\Name.dll",
-            CallingConvention = CallingConvention.Cdecl,
-            CharSet = CharSet.Ansi, EntryPoint = "Function")]
-public static extern void Function([In, Out] StringBuilder output,
-                            [In, MarshalAs(UnmanagedType.SysUInt)] UIntPtr size);
+[DllImport(@"C:\path\Name.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "Function")]
+public static extern void Function([In, Out] StringBuilder output, [In, MarshalAs(UnmanagedType.SysUInt)] UIntPtr size);
 
 // How to fix? For example,
-[DllImport(@"Name", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, 
-EntryPoint = "Function")] 
-public static extern void Function([In, Out] StringBuilder output,
-                            [In, MarshalAs(UnmanagedType.SysUInt)] UIntPtr size);
+[DllImport(@"Name", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Function")] 
+public static extern void Function([In, Out] StringBuilder output, [In, MarshalAs(UnmanagedType.SysUInt)] UIntPtr size);
 
  */
 using System.Runtime.CompilerServices;
@@ -28,16 +22,18 @@ namespace NativeLib
  //[Version(1)]
  //[Threading]
  //[MarshalingBehavior]
- [Activatable(1)]
-  public class CNativeLib : /*IClosable, ICNativeLibPublicNonVirtuals,*/ ICNativeLibProtectedNonVirtuals
+ //[Activatable(1)]
+  public class CNativeLib //: / *IClosable, ICNativeLibPublicNonVirtuals,* / ICNativeLibProtectedNonVirtuals
   {
     //[Overload("CreateInstance1")]
     //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "CreateInstance1")]
     static extern void CreateInstance1([MarshalAs(UnmanagedType.Interface)] out ICNativeLibPublicNonVirtuals output);
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Start")]
+    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
+    [DllImport("NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Start")]
     public static extern void Start([In] bool fullVersion);
+
 
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Stop")]
     public static extern void Stop();
@@ -45,94 +41,72 @@ namespace NativeLib
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "RemoteSessionStart")]
     public static extern void RemoteSessionStart();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "RemoteSessionStop")]
     public static extern void RemoteSessionStop();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "AudioWrite")]
     public static extern void AudioWrite(out ushort pcm, [In] int pcmSize);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetRotation")]
     public static extern void SetRotation([In] float x, [In] float y, [In] float z);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Rotation")]
     public static extern float Rotation();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "StartSearch")]
     public static extern void StartSearch();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "StopSearch")]
     public static extern void StopSearch();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetScreenSize")]
     public static extern void SetScreenSize([In] int width, [In] int height, [In] int dpi);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Connect")]
     public static extern bool Connect([In] IBuffer serverUid, [In] IBuffer path, [In] bool reportRotation);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Disconnect")]
     public static extern void Disconnect();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "KeyboardEvent")]
     public static extern void KeyboardEvent([In] bool pressed, [In] int c);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "JoystickEvent")]
     public static extern void JoystickEvent([In] int id, [In] float data);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "PointerEvent")]
     public static extern void PointerEvent([In] int pointerId, [In] bool down, [In] int x, [In] int y);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetPassword")]
     public static extern void SetPassword([In] IBuffer serverUid, [In] string password);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "AddServer")]
     public static extern bool AddServer([In] string address);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetGameControllerState")]
     public static extern bool GetGameControllerState();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetMouseMode")]
     public static extern bool SetMouseMode([In] bool mouseMode);
 
-    // [MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListServerUid")]
     public static extern IBuffer GetListServerUid([In] int idx);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListServerName")]
     public static extern string GetListServerName([In] int idx);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListStatus")]
     public static extern int GetListStatus([In] int idx);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListAppName")]
     public static extern string GetListAppName([In] int idx);
 
-
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListAppPath")]
     public static extern IBuffer GetListAppPath([In] int idx);
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListAppIcon")]
     public static extern IBuffer GetListAppIcon([In] int idx);
+
 
     public extern event ListUpdatedHandler ListUpdated;
 
@@ -150,7 +124,6 @@ namespace NativeLib
 
     public extern event FlurryErrorHandler FlurryError;
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Close")]
     public static extern void Close();
   }

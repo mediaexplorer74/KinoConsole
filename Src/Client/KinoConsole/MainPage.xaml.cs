@@ -9,7 +9,7 @@
 //using Microsoft.Phone.Net.NetworkInformation;
 //using Microsoft.Phone.Shell;
 //using Windows.ApplicationModel.Store;
-//using NativeLib;
+using NativeLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -148,7 +148,7 @@ namespace KinoConsole
             //((Page)this).OnNavigatedTo(e);
             this.UpdateProInfo();
             this.mSSID = "SSIDTEST";//this.GetSSIDName();
-            CNativeLib nativeLib = (Application.Current as App).nativeLib;
+            //CNativeLib nativeLib = (Application.Current as App).nativeLib;
 
             //WindowsRuntimeMarshal.AddEventHandler<ListUpdatedHandler>(
             //    new Func<ListUpdatedHandler, EventRegistrationToken>(nativeLib.add_ListUpdated), 
@@ -161,7 +161,8 @@ namespace KinoConsole
             }
             else
             {
-                (Application.Current as App).nativeLib.StartSearch();
+                //(Application.Current as App).nativeLib.StartSearch();
+                CNativeLib.StartSearch();
                 this.searchTimer.Start();
             }
 
@@ -183,8 +184,9 @@ namespace KinoConsole
             //((UIElement)this.ImageList).ManipulationStarted -= new EventHandler<ManipulationStartedEventArgs>(this.ImageList_ManipulationStarted);
             //((UIElement)this.ImageList).ManipulationDelta -= new EventHandler<ManipulationDeltaEventArgs>(this.ImageList_ManipulationDelta);
             this.searchTimer.Stop();
-            this.timer.Stop(); 
-            (Application.Current as App).nativeLib.StopSearch();
+            this.timer.Stop();
+            //(Application.Current as App).nativeLib.StopSearch();
+            CNativeLib.StopSearch();
             
             //WindowsRuntimeMarshal.RemoveEventHandler<ListUpdatedHandler>(
             //    new Action<EventRegistrationToken>((Application.Current as App).nativeLib.remove_ListUpdated), 
@@ -333,17 +335,17 @@ namespace KinoConsole
                 for (int idx = 0; idx < 1000; ++idx)
                 {
                     MainPage.AppInfo appInfo = new MainPage.AppInfo();
-                    IBuffer listServerUid = (Application.Current as App).nativeLib.GetListServerUid(idx);
+                    IBuffer listServerUid = CNativeLib.GetListServerUid(idx);
                     if (listServerUid != null)
                     {
                         appInfo.serverUid = listServerUid;
-                        appInfo.serverName = (Application.Current as App).nativeLib.GetListServerName(idx);
-                        appInfo.appPath = (Application.Current as App).nativeLib.GetListAppPath(idx);
-                        appInfo.appName = (Application.Current as App).nativeLib.GetListAppName(idx);
+                        appInfo.serverName = CNativeLib.GetListServerName(idx);
+                        appInfo.appPath = CNativeLib.GetListAppPath(idx);
+                        appInfo.appName = CNativeLib.GetListAppName(idx);
                         appInfo.status = default;
-                           // (MainPage.AppInfo.Status)(Application.Current as App).nativeLib.GetListStatus(idx);
+                           
 
-                        IBuffer listAppIcon = (Application.Current as App).nativeLib.GetListAppIcon(idx);
+                        IBuffer listAppIcon = CNativeLib.GetListAppIcon(idx);
                         if (listAppIcon != null)
                         {
                             string path = ApplicationData.Current.LocalFolder.Path + "\\CoverFile" 
