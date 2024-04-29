@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -182,6 +182,7 @@
     <Compile Include="RefactorIt\LocalizedStrings.cs" />
     <Compile Include="RefactorIt\Status.cs" />
     <Compile Include="RefactorIt\VideoDataHandler.cs" />
+    <Compile Include="RefactorIt\VideoDataHandler1.cs" />
     <Compile Include="RemotePage.xaml.cs">
       <DependentUpon>RemotePage.xaml</DependentUpon>
     </Compile>
@@ -370,7 +371,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <Content Include="NativeLib.dll" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -378,7 +378,6 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <None Include="NativeLib.winmd" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -445,13 +444,9 @@
     <None Include="KinoConsole_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Moga.Windows.Phone\Moga.Windows.Phone.csproj">
-      <Project>{641ad8d7-8114-4fb3-b363-3b8e6185da06}</Project>
-      <Name>Moga.Windows.Phone</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NativeLib\NativeLib.csproj">
-      <Project>{ec37ea5b-85b4-4737-83cc-47e3aad56965}</Project>
-      <Name>NativeLib</Name>
+    <ProjectReference Include="..\NativeWrapper\NativeWrapper.csproj">
+      <Project>{f7a2ac3e-bd96-46c9-82fc-9f66ebd6ae88}</Project>
+      <Name>NativeWrapper</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

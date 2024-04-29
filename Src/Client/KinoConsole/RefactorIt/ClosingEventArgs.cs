@@ -1,5 +1,5 @@
-﻿//using FlurryWP8SDK;
-//using FlurryWP8SDK.Models;
+﻿// Type: KinoConsole.ClosingEventArgs
+
 namespace KinoConsole
 {
     internal class ClosingEventArgs

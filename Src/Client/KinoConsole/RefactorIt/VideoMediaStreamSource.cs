@@ -2,7 +2,6 @@
 // Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
 
 //using NativeLib;
-using NativeLib;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +10,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Windows;
-//using System.Windows.Media;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 

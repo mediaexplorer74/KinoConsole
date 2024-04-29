@@ -17,11 +17,21 @@ namespace Moga.Windows.Phone
   public sealed class StateEvent : IStateEventPublicNonVirtuals
   {
     //[Overload("CreateInstance1")]
-    [MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
+    [DllImport(@"Moga.Windows.Phone", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "CreateInstance1")]
+    static extern void CreateInstance1([MarshalAs(UnmanagedType.Interface)] out IControllerManagerPublicNonVirtuals output);
+    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
     public extern StateEvent([In] ControllerState stateKey, [In] ControllerResult stateValue);
 
-    public extern ControllerState StateKey { [MethodImpl(MethodCodeType = MethodCodeType.Runtime)] get; }
+    public extern ControllerState StateKey 
+    { 
+            //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)] 
+            get; 
+    }
 
-    public extern ControllerResult StateValue { [MethodImpl(MethodCodeType = MethodCodeType.Runtime)] get; }
+    public extern ControllerResult StateValue
+    { 
+            //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
+            get; 
+    }
   }
 }

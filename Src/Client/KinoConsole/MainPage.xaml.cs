@@ -1,8 +1,15 @@
 ﻿// Type: KinoConsole.MainPage
-// Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
 
-
-using NativeLib;
+//using FlurryWP8SDK;
+//using FlurryWP8SDK.Models;
+//using GoogleAds;
+//using Microsoft.Advertising.Mobile.UI;
+//using Microsoft.Devices;
+//using Microsoft.Phone.Controls;
+//using Microsoft.Phone.Net.NetworkInformation;
+//using Microsoft.Phone.Shell;
+//using Windows.ApplicationModel.Store;
+//using NativeLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,15 +20,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows;
 using Windows.ApplicationModel.Store;
-
-//using FlurryWP8SDK;
-//using FlurryWP8SDK.Models;
-//using GoogleAds;
-//using Microsoft.Advertising.Mobile.UI;
-//using Microsoft.Devices;
-//using Microsoft.Phone.Controls;
-//using Microsoft.Phone.Net.NetworkInformation;
-//using Microsoft.Phone.Shell;using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;

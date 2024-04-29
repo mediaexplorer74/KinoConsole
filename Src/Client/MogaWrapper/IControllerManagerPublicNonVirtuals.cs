@@ -13,7 +13,7 @@ namespace Moga.Windows.Phone
   [Guid(2541015034, 8037, 16299, 136, 246, 0, 36, 80, 44, 38, 81)]
   [Version(1)]
   [ExclusiveTo(typeof (ControllerManager))]
-  internal interface IControllerManagerPublicNonVirtuals
+  public interface IControllerManagerPublicNonVirtuals
   {
     void Connect();
 

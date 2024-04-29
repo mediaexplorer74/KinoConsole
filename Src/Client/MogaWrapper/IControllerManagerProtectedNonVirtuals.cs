@@ -11,7 +11,7 @@ namespace Moga.Windows.Phone
   [Version(1)]
   [Guid(3525990459, 4015, 15334, 144, 87, 155, 10, 70, 104, 72, 121)]
   [ExclusiveTo(typeof (ControllerManager))]
-  internal interface IControllerManagerProtectedNonVirtuals
+  public interface IControllerManagerProtectedNonVirtuals
   {
   }
 }

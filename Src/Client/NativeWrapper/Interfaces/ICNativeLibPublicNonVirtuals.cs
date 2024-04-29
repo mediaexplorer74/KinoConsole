@@ -1,5 +1,4 @@
 ﻿// Type: NativeLib.__ICNativeLibPublicNonVirtuals
-// Assembly: NativeLib, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime
 
 using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
@@ -11,7 +10,7 @@ namespace NativeLib
   [Version(1)]
   [ExclusiveTo(typeof (CNativeLib))]
   [Guid(4156959502, 62164, 15672, 160, 218, 90, 181, 104, 77, 111, 97)]
-  internal interface ICNativeLibPublicNonVirtuals
+  public interface ICNativeLibPublicNonVirtuals
   {
     void Start([In] bool fullVersion);
 

@@ -111,7 +111,11 @@ namespace KinoConsole
         }
         // Обеспечение активности текущего окна
         Window.Current.Activate();
-        }
+
+        // *On App launching*
+        //Api.StartSession(this.FlurryKey);
+        this.nativeLib.Start(/*IsolatedStorageSettings.ApplicationSettings.Contains("proVersion")*/default);
+      }
     }//OnLaunched
 
         

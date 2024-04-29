@@ -1,14 +1,7 @@
 ﻿// Type: KinoConsole.RemotePage
-// Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
 
-//using FlurryWP8SDK;
-//using GoogleAds;
-//using Microsoft.Devices.Sensors;
-//using Microsoft.Phone.Controls;
-//using Microsoft.Phone.Info;
-//using Microsoft.Phone.Media;
+
 //using NativeLib;
-using NativeLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,14 +12,6 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Controls.Primitives;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Navigation;
-//using System.Windows.Shapes;
-//using System.Windows.Threading;
 using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Media.Core;
