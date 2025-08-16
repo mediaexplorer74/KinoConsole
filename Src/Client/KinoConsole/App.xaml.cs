@@ -1,13 +1,11 @@
-﻿// Type: KinoConsole.App
+// Type: KinoConsole.App
 // Assembly: KinoConsole, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -17,32 +15,39 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using KinoConsole.Resources;
-using NativeLib;
-using System.Diagnostics;
-using System.IO.IsolatedStorage;
-using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Controls.Primitives;
-//using System.Windows.Markup;
-//using System.Windows.Navigation;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.Storage;
+using Windows.ApplicationModel.Resources;
+using System.Threading.Tasks;
 
+using System.Runtime.InteropServices;
+using KinoConsole.Services;
+using Windows.UI.Popups;
+using System.Threading;
+using NativeLib;
+using KinoConsole.Resources;
 
 namespace KinoConsole
 {
+    public delegate void UnhandledExceptionDelegate(object sender, Exception ex);
     public partial class App : Application
     {
+        public static event UnhandledExceptionDelegate UnhandledExceptionOccurred;
+        private bool _isInitialized = false;
         public Popup splashPopup = new Popup();
         public CNativeLib nativeLib;
-        private string FlurryKey = "BTH69V8X5HNPW8BM7K9P";
+        // private string FlurryKey = "BTH69V8X5HNPW8BM7K9P"; // removed unused field
         private bool phoneApplicationInitialized;
   
         public static Frame RootFrame { get; private set; }
 
         public App()
         {
-            //this.UnhandledException += new EventHandler<ApplicationUnhandledExceptionEventArgs>(
-            //    this.Application_UnhandledException);
+            // Initialize error handling first
+            InitializeErrorHandling();
+            
             this.InitializeComponent();
             //this.InitializePhoneApplication();
             //this.InitializeLanguage();
@@ -52,28 +57,26 @@ namespace KinoConsole
             this.splashPopup = new Popup();
             this.splashPopup.Child = (UIElement)splashScreenControl;
             this.splashPopup.IsOpen = true;
-            this.nativeLib = new CNativeLib();
-            
-            CNativeLib nativeLib1 = this.nativeLib;
-            //WindowsRuntimeMarshal.AddEventHandler<FlurryEventHandler>(
-            //new Func<FlurryEventHandler, EventRegistrationToken>(nativeLib1.add_FlurryEvent),
-            //new Action<EventRegistrationToken>(nativeLib1.remove_FlurryEvent),
-            //new FlurryEventHandler(this.nativeLib_FlurryEvent));
-            CNativeLib nativeLib2 = this.nativeLib;
-            //WindowsRuntimeMarshal.AddEventHandler<FlurryEventWithParamHandler>(
-            //new Func<FlurryEventWithParamHandler, EventRegistrationToken>(nativeLib2.add_FlurryEventWithParam),
-            //new Action<EventRegistrationToken>(nativeLib2.remove_FlurryEventWithParam),
-            //new FlurryEventWithParamHandler(this.nativeLib_FlurryEventWithParam));
-            CNativeLib nativeLib3 = this.nativeLib;
-            //WindowsRuntimeMarshal.AddEventHandler<FlurryErrorHandler>(
-            //new Func<FlurryErrorHandler, EventRegistrationToken>(nativeLib3.add_FlurryError),
-            //new Action<EventRegistrationToken>(nativeLib3.remove_FlurryError), new FlurryErrorHandler(this.nativeLib_FlurryError));
-          
-            //if (!Debugger.IsAttached)
-            //    return;
 
-            //Application.Current.Host.Settings.EnableFrameRateCounter = false;
-            //PhoneApplicationService.Current.UserIdleDetectionMode = (IdleDetectionMode)1;
+            try
+            {
+                // Plan A: try to create/load native lib...
+                this.nativeLib = new CNativeLib();
+            }
+            catch (Exception ex)
+            {
+                // Plan B 
+                Debug.WriteLine("[ex] CNativeLib class creation critical error:  " + ex.Message);
+               
+                ErrorHandlingService.Instance.LogAsync("Unhandled AppDomain exception", LogLevel.Critical, ex);
+                ErrorHandlingService.Instance.ShowErrorDialogAsync(  "Critical Error",
+                "An unexpected error occurred. The application may become unstable.",
+                ex,
+                true);
+
+                // Plan B is Exit the application
+                //App.Current.Exit();
+            }           
        }
 
 
@@ -189,14 +192,64 @@ namespace KinoConsole
             Debugger.Break();
         }
 
-        private void Application_UnhandledException(
-          object sender,
-          ApplicationUnhandledExceptionEventArgs e)
+        private async void InitializeErrorHandling()
         {
-            if (!Debugger.IsAttached)
-                return;
-            Debugger.Break();
+            if (_isInitialized) return;
+            
+            // Initialize the error handling service
+            await ErrorHandlingService.Instance.InitializeAsync();
+
+            // Handle unhandled exceptions
+            Application.Current.UnhandledException += async (s, e) =>
+            {
+                if (e.Exception is Exception ex)
+                {
+                    await ErrorHandlingService.Instance.LogAsync("Unhandled AppDomain exception", LogLevel.Critical, ex);
+                    await ErrorHandlingService.Instance.ShowErrorDialogAsync(
+                        "Critical Error",
+                        "An unexpected error occurred. The application may become unstable.",
+                        ex,
+                        true);
+                }
+            };
+
+            // Handle unobserved task exceptions
+            TaskScheduler.UnobservedTaskException += async (s, e) =>
+            {
+                e.SetObserved();
+                await ErrorHandlingService.Instance.LogAsync("Unobserved task exception", LogLevel.Error, e.Exception);
+                await ErrorHandlingService.Instance.ShowErrorDialogAsync(
+                    "Task Error", 
+                    "An error occurred in a background task.", 
+                    e.Exception);
+            };
+
+            // Handle UI thread exceptions
+            this.UnhandledException += async (s, e) =>
+            {
+                e.Handled = true; // Prevent app from crashing
+                await ErrorHandlingService.Instance.LogAsync("Unhandled UI exception", LogLevel.Error, e.Exception);
+                UnhandledExceptionOccurred?.Invoke(this, e.Exception);
+                
+                // Show error dialog
+                await ErrorHandlingService.Instance.ShowErrorDialogAsync(
+                    "Application Error", 
+                    "An unexpected error occurred. Please try again.", 
+                    e.Exception);
+            };
+
+            _isInitialized = true;
         }
+
+        /*private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
+        {
+            // This will be handled by our global handler above
+            this.UnhandledException += async (s, e) =>
+            {
+                e.Handled = true; // Prevent app from crashing
+                                  // ...
+            };
+        }*/
 
         private void InitializePhoneApplication()
         {

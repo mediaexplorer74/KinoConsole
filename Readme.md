@@ -1,28 +1,29 @@
-# KinoConsole v2.0-pre-pre-pre-alpha
+# KinoConsole v2.0.100-alpha - dev branch
 ![logo](Images/logo.png)
 
-KinoConsole 1.4 WP 8.1 R.E. / RnD
+KinoConsole 1.4 WP R.E. & KinoConsole 2.0 *UWP edition* slow dev
 
-## About the original
-KinoConsole is the (a) famous "Video Screen streaming service" for WindowsPhone 8(.1). 
-Sadly, Kinoni, makers of the KinoniConsole 1.4, cancelled its KinoConsole UWP app. So, its WindowsPhone project stopped. No new features. No bug fixes such as save/restore settings problem. I'm interesting in KinoConsole tech... And I still dreaming on some KinoConsole "reborn"... but idk how to realize it at "single-person-mode". :)
+## About
+KinoConsole 1.4 was the a famous "Video Screen streaming service" from some desktop PC to WindowsPhone 8. 
+Sadly, Kinoni, makers of the KinoniConsole 1.4 cancelled KinoConsole UWP app dev.  No new features. No bug fixes. At now it's only frozen project. As retro-man, I'm interestied in KinoConsole clent-server tech... So, I'm still dreaming on some KinoConsole "reborn".
+Only 1 big question: idk how to realize it at "single-person-mode". I have not any dev command. At 2025, I decide to try some AI for co-pilod "wibe codding"... And who knows... maybe one day my dream will come true :)
 
 ## Screenshots
-![Main screen, or MainPage](Images/screenshot01.png)
-![Settings, or AddServer page](Images/screenshot02.png)
-![Remote screen, or Remote page](Images/screenshot03.png)
-![rdconfig, or Kinoni Remote Desktop config](Images/screenshot04.png)
+![](Images/sshot01.png)
+![](Images/sshot02.png)
+![](Images/sshot03.png)
 
 ## My 2 cents
-- KinoConsole Client & RDConfig Server RnD 
+- KinoConsole 2.0 Client & RDConfig Server dev 
 - Fast kinoconsole/rdconfig code/architecture research
-- WP8 -> W10M code "rebase" ("refactor.") - 20 % ready 
-- Min. compatible Win SDK version is set to 16299 at now (not at 10240 or 15063 yet).
-- RDConfig Server: .NET 4.8 Compatibility added (for Modern Win 10 / Win 11 without .NET 2/ .NET 3)  
+- WP8 -> W10M code "rebase" ("refactor.") - 25 % ready 
+- Client: Min. compatible Win SDK version is set to 15063 at now (not to 10240, so, no Astoria compatibility at now).
+- Server: .NET 4.8 Compatibility added (for Modern Win 10 / Win 11 without .NET 2/ .NET 3)  
 
-## Result
-- Draft / CLient part not fully ported to uwp at now.
-- I haven't so much time... but I'm still trying to complete my strange "KinoConsole reburn" idea :)
+## Status
+- Draft CLient (partially ported to uwp, not operatable).
+- My chat fragments (with AI) added to Wiki section
+
 
 ## TODO
 - Reconstruct NativeLib (UWP C++?)
@@ -37,5 +38,5 @@ Sadly, Kinoni, makers of the KinoniConsole 1.4, cancelled its KinoConsole UWP ap
 As is. No support. RnD only. DIY
 
 ## .
-[m][e] 2024
+[m][e] 2024--2025
 

@@ -13,12 +13,13 @@ namespace KinoConsole
     {
         IEnumerator<NetworkInterfaceInfo> IEnumerable<NetworkInterfaceInfo>.GetEnumerator()
         {
-            return default;
+            // Возвращаем пустой перечислитель, чтобы убрать предупреждения и NRE
+            return (new List<NetworkInterfaceInfo>()).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return default;
+            return (new List<NetworkInterfaceInfo>()).GetEnumerator();
         }
     }
 }

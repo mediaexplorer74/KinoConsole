@@ -4,7 +4,6 @@ using Windows.Storage.Streams;
 
 namespace KinoConsole
 {
-    /*
     public class VideoDataHandler
     {
         private Action<IBuffer, uint> nativeLib_VideoData;
@@ -14,5 +13,4 @@ namespace KinoConsole
             this.nativeLib_VideoData = nativeLib_VideoData;
         }
     }
-    */
 }

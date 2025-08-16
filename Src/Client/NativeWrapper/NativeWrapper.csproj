@@ -144,6 +144,8 @@
       <Version>4.5.0</Version>
     </PackageReference>
   </ItemGroup>
+ 
+  
   <ItemGroup>
     <ProjectReference Include="..\MogaWrapper\MogaWrapper.csproj">
       <Project>{86cd5acc-11d9-4279-94ea-571548a59307}</Project>
@@ -151,10 +153,39 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NativeLib.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Reference Include="NativeLib">
+      <HintPath>Lib\NativeLib.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  
+  <ItemGroup Condition=" '$(Platform)' == 'ARM' ">
+    <Content Include="Lib\ARM\NativeLib.dll" Condition="Exists('Lib\\ARM\\NativeLib.dll')">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\NativeLib.winmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <!-- TEMP -->
+  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
+    <Content Include="Lib\ARM\NativeLib.dll" Condition="Exists('Lib\\x86\\NativeLib.dll')">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <Content Include="Lib\ARM\NativeLib.dll" Condition="Exists('Lib\\x64\\NativeLib.dll')">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'ARM64' ">
+    <Content Include="Lib\ARM\NativeLib.dll" Condition="Exists('Lib\\ARM64\\NativeLib.dll')">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

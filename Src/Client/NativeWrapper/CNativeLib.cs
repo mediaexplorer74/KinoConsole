@@ -1,130 +1,279 @@
-﻿// Type: NativeLib.CNativeLib
-// Assembly: NativeLib, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime
+﻿// Managed adapter wrapper for NativeLib WinRT component
+// Provides compatibility with existing P/Invoke-based CNativeLib API
 
-/* 
-// Broken code: 
-[DllImport(@"C:\path\Name.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "Function")]
-public static extern void Function([In, Out] StringBuilder output, [In, MarshalAs(UnmanagedType.SysUInt)] UIntPtr size);
-
-// How to fix? For example,
-[DllImport(@"Name", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Function")] 
-public static extern void Function([In, Out] StringBuilder output, [In, MarshalAs(UnmanagedType.SysUInt)] UIntPtr size);
-
- */
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.Storage.Streams;
 
 namespace NativeLib
 {
- //[Version(1)]
- //[Threading]
- //[MarshalingBehavior]
- //[Activatable(1)]
-  public class CNativeLib //: / *IClosable, ICNativeLibPublicNonVirtuals,* / ICNativeLibProtectedNonVirtuals
+  /// <summary>
+  /// Managed adapter that wraps NativeLib WinRT component
+  /// Maintains compatibility with existing P/Invoke-based API
+  /// </summary>
+  public class CNativeLib
   {
-    //[Overload("CreateInstance1")]
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "CreateInstance1")]
-    static extern void CreateInstance1([MarshalAs(UnmanagedType.Interface)] out ICNativeLibPublicNonVirtuals output);
+    private static ICNativeLibPublicNonVirtuals _nativeInstance;
+    private static readonly object _lockObject = new object();
 
-    //[MethodImpl(MethodCodeType = MethodCodeType.Runtime)]
-    [DllImport("NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Start")]
-    public static extern void Start([In] bool fullVersion);
+    static CNativeLib()
+    {
+      InitializeNativeInstance();
+    }
 
+    private static void InitializeNativeInstance()
+    {
+      lock (_lockObject)
+      {
+        if (_nativeInstance == null)
+        {
+          // Activate WinRT class NativeLib.CNativeLib from NativeLib.winmd (WindowsRuntime component)
+          Type rtType = null;
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Stop")]
-    public static extern void Stop();
+          try
+          {
+                rtType = Type.GetType("NativeLib.CNativeLib, NativeLib, ContentType=WindowsRuntime");
+          }
+          catch (Exception ex)
+          {
+                Debug.WriteLine($"Error loading type 'NativeLib.CNativeLib': {ex.Message}");
+          }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "RemoteSessionStart")]
-    public static extern void RemoteSessionStart();
+          if (rtType == null)
+          {
+            Debug.WriteLine("Cannot resolve WinRT type 'NativeLib.CNativeLib' from 'NativeLib.winmd'.");
+          }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "RemoteSessionStop")]
-    public static extern void RemoteSessionStop();
+            IActivationFactory factoryObj = default;
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "AudioWrite")]
-    public static extern void AudioWrite(out ushort pcm, [In] int pcmSize);
+            try
+            {
+                factoryObj = WindowsRuntimeMarshal.GetActivationFactory(rtType);
+            }
+            catch { }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetRotation")]
-    public static extern void SetRotation([In] float x, [In] float y, [In] float z);
+            IActivationFactory factory = default;
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Rotation")]
-    public static extern float Rotation();
+            try
+            {
+                factory = factoryObj as IActivationFactory;
+            }
+            catch { }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "StartSearch")]
-    public static extern void StartSearch();
+          if (factory == null)
+          {
+            Debug.WriteLine("Activation factory for 'NativeLib.CNativeLib' is not available.");
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "StopSearch")]
-    public static extern void StopSearch();
+            return;
+          }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetScreenSize")]
-    public static extern void SetScreenSize([In] int width, [In] int height, [In] int dpi);
+          object instance = factory.ActivateInstance();
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Connect")]
-    public static extern bool Connect([In] IBuffer serverUid, [In] IBuffer path, [In] bool reportRotation);
+          _nativeInstance = instance as ICNativeLibPublicNonVirtuals;
+          if (_nativeInstance == null)
+          {
+            throw new InvalidCastException("Activated instance does not implement ICNativeLibPublicNonVirtuals.");
+          }
+        }
+      }
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Disconnect")]
-    public static extern void Disconnect();
+    // Methods
+    public static void Start(bool fullVersion)
+    {
+      _nativeInstance?.Start(fullVersion);
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "KeyboardEvent")]
-    public static extern void KeyboardEvent([In] bool pressed, [In] int c);
+    public static void Stop()
+    {
+      _nativeInstance?.Stop();
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "JoystickEvent")]
-    public static extern void JoystickEvent([In] int id, [In] float data);
+    public static void RemoteSessionStart()
+    {
+      _nativeInstance?.RemoteSessionStart();
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "PointerEvent")]
-    public static extern void PointerEvent([In] int pointerId, [In] bool down, [In] int x, [In] int y);
+    public static void RemoteSessionStop()
+    {
+      _nativeInstance?.RemoteSessionStop();
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetPassword")]
-    public static extern void SetPassword([In] IBuffer serverUid, [In] string password);
+    public static void AudioWrite(out ushort pcm, int pcmSize)
+    {
+      ushort temp = 0;
+      var inst = _nativeInstance;
+      if (inst != null)
+      {
+        inst.AudioWrite(out temp, pcmSize);
+      }
+      pcm = temp;
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "AddServer")]
-    public static extern bool AddServer([In] string address);
+    public static void SetRotation(float x, float y, float z)
+    {
+      _nativeInstance?.SetRotation(x, y, z);
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetGameControllerState")]
-    public static extern bool GetGameControllerState();
+    public static float Rotation()
+    {
+      return _nativeInstance?.Rotation() ?? 0.0f;
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "SetMouseMode")]
-    public static extern bool SetMouseMode([In] bool mouseMode);
+    public static void StartSearch()
+    {    
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListServerUid")]
-    public static extern IBuffer GetListServerUid([In] int idx);
+        try
+        {
+            _nativeInstance?.StartSearch();
+        }
+        catch //(Exception ex)
+        {
+            // Log or handle initialization error
+            Debug.WriteLine($"[ex] Critical error in _nativeInstance?.StartSearch() ");// : {ex.Message}");           
+        }
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListServerName")]
-    public static extern string GetListServerName([In] int idx);
+    public static void StopSearch()
+    {
+      _nativeInstance?.StopSearch();
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListStatus")]
-    public static extern int GetListStatus([In] int idx);
+    public static void SetScreenSize(int width, int height, int dpi)
+    {
+      _nativeInstance?.SetScreenSize(width, height, dpi);
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListAppName")]
-    public static extern string GetListAppName([In] int idx);
+    public static bool Connect(IBuffer serverUid, IBuffer path, bool reportRotation)
+    {
+      return _nativeInstance?.Connect(serverUid, path, reportRotation) ?? false;
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListAppPath")]
-    public static extern IBuffer GetListAppPath([In] int idx);
+    public static void Disconnect()
+    {
+      _nativeInstance?.Disconnect();
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "GetListAppIcon")]
-    public static extern IBuffer GetListAppIcon([In] int idx);
+    public static void KeyboardEvent(bool pressed, int c)
+    {
+      _nativeInstance?.KeyboardEvent(pressed, c);
+    }
 
+    public static void JoystickEvent(int id, float data)
+    {
+      _nativeInstance?.JoystickEvent(id, data);
+    }
 
-    public extern event ListUpdatedHandler ListUpdated;
+    public static void PointerEvent(int pointerId, bool down, int x, int y)
+    {
+      _nativeInstance?.PointerEvent(pointerId, down, x, y);
+    }
 
-    public extern event VideoDataHandler VideoData;
+    public static void SetPassword(IBuffer serverUid, string password)
+    {
+      _nativeInstance?.SetPassword(serverUid, password);
+    }
 
-    public extern event ConnectedHandler Connected;
+    public static bool AddServer(string address)
+    {
+      return _nativeInstance?.AddServer(address) ?? false;
+    }
 
-    public extern event ErrorHandler Error;
+    public static bool GetGameControllerState()
+    {
+      return _nativeInstance?.GetGameControllerState() ?? false;
+    }
 
-    public extern event GameControllerStateHandler GameControllerState;
+    public static bool SetMouseMode(bool mouseMode)
+    {
+      return _nativeInstance?.SetMouseMode(mouseMode) ?? false;
+    }
 
-    public extern event FlurryEventHandler FlurryEvent;
+    public static IBuffer GetListServerUid(int idx)
+    {
+      return _nativeInstance?.GetListServerUid(idx);
+    }
 
-    public extern event FlurryEventWithParamHandler FlurryEventWithParam;
+    public static string GetListServerName(int idx)
+    {
+      return _nativeInstance?.GetListServerName(idx);
+    }
 
-    public extern event FlurryErrorHandler FlurryError;
+    public static int GetListStatus(int idx)
+    {
+      return _nativeInstance?.GetListStatus(idx) ?? 0;
+    }
 
-    [DllImport(@"NativeLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, EntryPoint = "Close")]
-    public static extern void Close();
+    public static string GetListAppName(int idx)
+    {
+      return _nativeInstance?.GetListAppName(idx);
+    }
+
+    public static IBuffer GetListAppPath(int idx)
+    {
+      return _nativeInstance?.GetListAppPath(idx);
+    }
+
+    public static IBuffer GetListAppIcon(int idx)
+    {
+      return _nativeInstance?.GetListAppIcon(idx);
+    }
+
+    public static void Close()
+    {
+      // Интерфейс WinRT не содержит Close, используем Stop как безопасный аналог
+      Stop();
+    }
+
+    // Events - forwarded from WinRT instance
+    public static event ListUpdatedHandler ListUpdated
+    {
+      add { if (_nativeInstance != null) _nativeInstance.ListUpdated += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.ListUpdated -= value; }
+    }
+
+    public static event VideoDataHandler VideoData
+    {
+      add { if (_nativeInstance != null) _nativeInstance.VideoData += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.VideoData -= value; }
+    }
+
+    public static event ConnectedHandler Connected
+    {
+      add { if (_nativeInstance != null) _nativeInstance.Connected += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.Connected -= value; }
+    }
+
+    public static event ErrorHandler Error
+    {
+      add { if (_nativeInstance != null) _nativeInstance.Error += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.Error -= value; }
+    }
+
+    public static event GameControllerStateHandler GameControllerState
+    {
+      add { if (_nativeInstance != null) _nativeInstance.GameControllerState += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.GameControllerState -= value; }
+    }
+
+    public static event FlurryEventHandler FlurryEvent
+    {
+      add { if (_nativeInstance != null) _nativeInstance.FlurryEvent += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.FlurryEvent -= value; }
+    }
+
+    public static event FlurryEventWithParamHandler FlurryEventWithParam
+    {
+      add { if (_nativeInstance != null) _nativeInstance.FlurryEventWithParam += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.FlurryEventWithParam -= value; }
+    }
+
+    public static event FlurryErrorHandler FlurryError
+    {
+      add { if (_nativeInstance != null) _nativeInstance.FlurryError += value; }
+      remove { if (_nativeInstance != null) _nativeInstance.FlurryError -= value; }
+    }
   }
 }

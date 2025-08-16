@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -18,9 +18,16 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>50FFBE5076E43CACAC2BA1036D1CBA0B9CC8CC89</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>KinoConsole_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <LangVersion>latest</LangVersion>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
@@ -32,6 +39,8 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -55,6 +64,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>  
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -118,61 +128,64 @@
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RefactorIt\ActivatedEventArgs.cs" />
+    <Compile Include="Core\ActivatedEventArgs.cs" />
     <Compile Include="AddServerPage.xaml.cs">
       <DependentUpon>AddServerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestErrorPage.xaml.cs">
+      <DependentUpon>TestErrorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ApplicationUnhandledExceptionEventArgs.cs" />
-    <Compile Include="RefactorIt\ClosingEventArgs.cs" />
-    <Compile Include="RefactorIt\DeactivatedEventArgs.cs" />
-    <Compile Include="RefactorIt\LaunchingEventArgs.cs" />
-    <Compile Include="RefactorIt\ListUpdatedHandler.cs" />
-    <Compile Include="RefactorIt\NetworkInterfaceInfo.cs" />
-    <Compile Include="RefactorIt\NetworkInterfaceList.cs" />
-    <Compile Include="RefactorIt\Parameter.cs" />
-    <Compile Include="RefactorIt\AttitudeReading.cs" />
+    <Compile Include="Core\ClosingEventArgs.cs" />
+    <Compile Include="Core\DeactivatedEventArgs.cs" />
+    <Compile Include="Core\LaunchingEventArgs.cs" />
+    <Compile Include="Core\NetworkInterfaceInfo.cs" />
+    <Compile Include="Core\NetworkInterfaceList.cs" />
+    <Compile Include="Core\Parameter.cs" />
+    <Compile Include="Core\AttitudeReading.cs" />
     <Compile Include="BackDialog.xaml.cs">
       <DependentUpon>BackDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ButtonDialog.xaml.cs">
       <DependentUpon>ButtonDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RefactorIt\ConnectedHandler.cs" />
-    <Compile Include="RefactorIt\ErrorHandler.cs" />
-    <Compile Include="RefactorIt\GameControllerStateHandler.cs" />
-    <Compile Include="RefactorIt\GestureEventArgs.cs" />
+    <Compile Include="Core\GestureEventArgs.cs" />
     <Compile Include="HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RefactorIt\IsolatedStorageSettings.cs" />
-    <Compile Include="RefactorIt\Key.cs" />
-    <Compile Include="RefactorIt\Keyboard.cs" />
-    <Compile Include="RefactorIt\KeyEventArgs.cs" />
+    <Compile Include="Core\IsolatedStorageSettings.cs" />
+    <Compile Include="Core\Key.cs" />
+    <Compile Include="Core\Keyboard.cs" />
+    <Compile Include="Core\KeyEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RefactorIt\ManipulationDeltaEventArgs.cs" />
-    <Compile Include="RefactorIt\MediaSampleAttributeKeys.cs" />
-    <Compile Include="RefactorIt\MediaSourceAttributesKeys.cs" />
-    <Compile Include="RefactorIt\MediaStreamAttributeKeys.cs" />
-    <Compile Include="RefactorIt\MediaStreamDescription.cs" />
-    <Compile Include="RefactorIt\MediaStreamer.cs" />
-    <Compile Include="RefactorIt\MediaStreamerFactory.cs" />
-    <Compile Include="RefactorIt\MediaStreamSample.cs" />
-    <Compile Include="RefactorIt\MediaStreamSource.cs" />
-    <Compile Include="RefactorIt\MediaStreamSourceDiagnosticKind.cs" />
-    <Compile Include="RefactorIt\MediaStreamType.cs" />
-    <Compile Include="RefactorIt\MenuItem.cs" />
-    <Compile Include="RefactorIt\ModifierKeys.cs" />
-    <Compile Include="RefactorIt\Motion.cs" />
-    <Compile Include="RefactorIt\MotionReading.cs" />
+    <Compile Include="Core\ManipulationDeltaEventArgs.cs" />
+    <Compile Include="Core\MediaSampleAttributeKeys.cs" />
+    <Compile Include="Core\MediaSourceAttributesKeys.cs" />
+    <Compile Include="Core\MediaStreamAttributeKeys.cs" />
+    <Compile Include="Core\MediaStreamDescription.cs" />
+    <Compile Include="Core\MediaStreamer.cs" />
+    <Compile Include="Core\MediaStreamerFactory.cs" />
+    <Compile Include="Core\MediaStreamSample.cs" />
+    <Compile Include="Core\MediaStreamSource.cs" />
+    <Compile Include="Core\MediaStreamSourceDiagnosticKind.cs" />
+    <Compile Include="Core\MediaStreamType.cs" />
+    <Compile Include="Core\MenuItem.cs" />
+    <Compile Include="Core\ModifierKeys.cs" />
+    <Compile Include="Core\Motion.cs" />
+    <Compile Include="Core\MotionReading.cs" />
     <Compile Include="PasswordPage.xaml.cs">
       <DependentUpon>PasswordPage.xaml</DependentUpon>
     </Compile>
@@ -180,31 +193,32 @@
       <DependentUpon>ProPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RefactorIt\LocalizedStrings.cs" />
-    <Compile Include="RefactorIt\Status.cs" />
-    <Compile Include="RefactorIt\VideoDataHandler.cs" />
-    <Compile Include="RefactorIt\VideoDataHandler1.cs" />
+    <Compile Include="Core\LocalizedStrings.cs" />
+    <Compile Include="Core\Status.cs" />
+    <Compile Include="Core\VideoDataHandler.cs" Condition="false" />
+    <!-- Removed duplicate file after merge: RefactorIt\VideoDataHandler1.cs -->
     <Compile Include="RemotePage.xaml.cs">
       <DependentUpon>RemotePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\AppResources.cs" />
-    <Compile Include="RefactorIt\RoutedPropertyChangedEventArgs.cs" />
-    <Compile Include="RefactorIt\SensorBase.cs" />
-    <Compile Include="RefactorIt\SensorReadingEventArgs.cs" />
+    <Compile Include="Core\RoutedPropertyChangedEventArgs.cs" />
+    <Compile Include="Core\SensorBase.cs" />
+    <Compile Include="Core\SensorReadingEventArgs.cs" />
     <Compile Include="Controls\SplashScreenControl.xaml.cs">
       <DependentUpon>SplashScreenControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RefactorIt\StreamResourceInfo.cs" />
-    <Compile Include="RefactorIt\Touch.cs" />
-    <Compile Include="RefactorIt\TouchFrameEventArgs.cs" />
-    <Compile Include="RefactorIt\TouchFrameEventHandler.cs" />
-    <Compile Include="RefactorIt\TouchPoint.cs" />
-    <Compile Include="RefactorIt\TouchPointCollection.cs" />
-    <Compile Include="RefactorIt\VideoMediaStreamSource.cs" />
-    <Compile Include="RefactorIt\VirtualButton.cs" />
+    <Compile Include="Core\StreamResourceInfo.cs" />
+    <Compile Include="Core\Touch.cs" />
+    <Compile Include="Core\TouchFrameEventArgs.cs" />
+    <Compile Include="Core\TouchFrameEventHandler.cs" />
+    <Compile Include="Core\TouchPoint.cs" />
+    <Compile Include="Core\TouchPointCollection.cs" />
+    <Compile Include="Core\VideoMediaStreamSource.cs" />
+    <Compile Include="Core\VirtualButton.cs" />
     <Compile Include="wp7coverflow\CollectionFlow.cs" />
     <Compile Include="wp7coverflow\CollectionFlowPanel.cs" />
     <Compile Include="wp7coverflow\IEasingFunction.cs" />
+    <Compile Include="Services\ErrorHandlingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -428,6 +442,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TestErrorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

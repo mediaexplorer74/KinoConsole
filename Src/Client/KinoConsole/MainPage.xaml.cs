@@ -1,4 +1,4 @@
-﻿// Type: KinoConsole.MainPage
+// Type: KinoConsole.MainPage
 
 //using FlurryWP8SDK;
 //using FlurryWP8SDK.Models;
@@ -488,28 +488,30 @@ namespace KinoConsole
         }
 
 
+      
         private void ApplicationBarIconButton_Click_Settings(object sender, RoutedEventArgs e)
         {
-            //((Page)this).NavigationService.Navigate(new Uri("/AddServerPage.xaml", UriKind.Relative));
             Frame.Navigate(typeof(AddServerPage));
         }
 
         private void ApplicationBarIconButton_Click_Help(object sender, RoutedEventArgs e)
         {
-            //((Page)this).NavigationService.Navigate(new Uri("/HelpPage.xaml", UriKind.Relative)); 
             Frame.Navigate(typeof(HelpPage));
         }
 
         private void ApplicationBarIconButton_Click_Pro(object sender, RoutedEventArgs e)
         {
-            //((Page)this).NavigationService.Navigate(new Uri("/ProPage.xaml", UriKind.Relative));
             Frame.Navigate(typeof(ProPage));
         }
 
         private void ApplicationBarIconButton_Click_About(object sender, RoutedEventArgs e)
         {
-            //((Page)this).NavigationService.Navigate(new Uri("/AboutPage.xaml", UriKind.Relative));
             Frame.Navigate(typeof(AboutPage));
+        }
+
+        private void ApplicationBarIconButton_Click_TestErrors(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(TestErrorPage));
         }
 
         private async void UpdateProInfo()

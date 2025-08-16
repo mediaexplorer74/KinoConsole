@@ -84,7 +84,6 @@ namespace KinoConsole
         private DispatcherTimer editModeTimer = new DispatcherTimer();
         private DispatcherTimer holdTimer = new DispatcherTimer();
         private DispatcherTimer testTimer = new DispatcherTimer();
-        private bool mAdAvailable;
         private Motion motion;
         private bool mEditMode;
         private RemotePage.SliderType sliderType;
@@ -425,7 +424,7 @@ namespace KinoConsole
             }
             else
             {
-                this.mAdAvailable = false;
+                // this.mAdAvailable = false; // removed unused field
 
                 if (!this.proVersion)
                 {

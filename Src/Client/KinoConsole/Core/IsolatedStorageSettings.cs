@@ -8,6 +8,7 @@ namespace KinoConsole
 {
     internal class IsolatedStorageSettings
     {
-        internal static IsolatedStorageSettings ApplicationSettings;
+        // Инициализируем статическое поле, чтобы убрать предупреждение о неинициализированном значении
+        internal static IsolatedStorageSettings ApplicationSettings = new IsolatedStorageSettings();
     }
 }
